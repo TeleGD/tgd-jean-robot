@@ -2,14 +2,14 @@ package fr.util;
 
 //import fr.character.Ennemy1;
 import fr.character.Player;
-import fr.decor.Platforms;
+import fr.decor.Platform;
 
 public class collisions {
 
 	private static int margev = 0;
 	private static double valint1, valint2, valint3;
 
-	public static boolean isCollisionplayer1plateform(Player player1, Platforms plat, int delta) {
+	public static boolean isCollisionplayer1plateform(Player player1, Platform plat, int delta) {
 
 		if (player1.getspeedY() < 0) {
 			return false;

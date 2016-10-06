@@ -13,14 +13,14 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import fr.character.Player;
 import fr.character.enemies.Enemy;
-import fr.decor.Platforms;
+import fr.decor.Platform;
 
 
 public class World extends BasicGameState {
 
 	public static int ID=0;
 	private static Player player;
-	private static ArrayList<Platforms> platforms = null;
+	private static ArrayList<Platform> platforms = null;
 	private static ArrayList<Enemy> ennemies = null;
 	public static StateBasedGame game;
 	
@@ -52,7 +52,7 @@ public class World extends BasicGameState {
 		return ennemies;
 	}
 	
-	public static ArrayList<Platforms> getPlatforms() {
+	public static ArrayList<Platform> getPlatforms() {
 		return platforms;
 	}
 

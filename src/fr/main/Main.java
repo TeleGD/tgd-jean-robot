@@ -27,7 +27,7 @@ public class Main extends StateBasedGame {
 		app.start();
 	}
 
-
+	
 
 
 
@@ -35,7 +35,7 @@ public class Main extends StateBasedGame {
 		super("blabla");
 		}
 
-
+		
 
 		@Override
 		public void initStatesList(GameContainer container) throws SlickException {

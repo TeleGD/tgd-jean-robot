@@ -11,7 +11,7 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 public class MenuFinPartie extends BasicGameState {
 	
-	public static int ID=3;
+	public static int ID=4;
 	GameContainer container;
 	StateBasedGame game;
 	

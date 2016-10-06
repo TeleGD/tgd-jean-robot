@@ -44,6 +44,16 @@ public class Player extends Movable implements Rectangle {
 		this.timeOfDeath = -3000;
 		this.life=3;
 	}
+	public Player(int x, int y,int width,int height) {
+		this(x,y);
+		this.width=width;
+		this.height=height;
+	}
+	
+	public Player(int x, int y) {
+		this.x=x;
+		this.y=y;
+	}
 
 	@Override
 	public double getWidth() {

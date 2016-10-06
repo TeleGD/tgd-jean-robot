@@ -29,8 +29,9 @@ public class Platform {
 	public Color color;
 	
 	//constructor
-	public Platform(){
-		
+	public Platform(int x, int y){
+		this.x=x;
+		this.y=y;
 	}
 	
 	//render method

@@ -10,7 +10,7 @@
 	<classpathentry kind="lib" path="bin/lib/lwjgl_util.jar"/>
 	<classpathentry kind="lib" path="bin/lib/lwjgl.jar"/>
 	<classpathentry kind="lib" path="bin/lib/natives-linux.jar"/>
-	<classpathentry kind="lib" path="bin/lib/natives-mac.jar"/>
+	<classpathentry exported="true" kind="lib" path="bin/lib/natives-mac.jar"/>
 	<classpathentry kind="lib" path="bin/lib/natives-windows.jar"/>
 	<classpathentry kind="lib" path="bin/lib/slick-examples.jar"/>
 	<classpathentry kind="lib" path="bin/lib/slick.jar"/>
@@ -24,10 +24,10 @@
 	<classpathentry kind="lib" path="lib/lwjgl_util.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl.jar"/>
 	<classpathentry kind="lib" path="lib/natives-linux.jar"/>
-	<classpathentry kind="lib" path="lib/natives-mac.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/natives-mac.jar"/>
 	<classpathentry kind="lib" path="lib/natives-windows.jar"/>
 	<classpathentry kind="lib" path="lib/slick-examples.jar"/>
-	<classpathentry kind="lib" path="lib/slick.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/slick.jar"/>
 	<classpathentry kind="lib" path="lib/tinylinepp.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="out/production/ouep"/>

@@ -20,7 +20,7 @@ public class Main extends StateBasedGame {
 	public static void main(String[] args) throws SlickException {
 		
 		System.setProperty("org.lwjgl.librarypath", new File("natives").getAbsolutePath());
-		AppGameContainer app = new AppGameContainer(new Main(),1280,720,true);
+		AppGameContainer app = new AppGameContainer(new Main(),1280,720,false);
 		app.setTargetFrameRate(60);
 		app.setVSync(true);
 		app.setShowFPS(true);

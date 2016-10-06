@@ -17,15 +17,21 @@ import fr.main.World;
 import fr.testjeje.Editor;
 
 public class Mainmenu extends BasicGameState {
+
+	public static int ID = 2;
+
+	static TrueTypeFont font1;
+	
+	public static final int temps_clignote=400;
+	public static final Color couleur_clignote=Color.red;
 	
 	private int selection=0;
-	static TrueTypeFont font1;
-	public static int ID = 2;
-	private String nom = "Menu Principal";
+	private String nom = "Menu Principal - TELE ARCADE DESIGN";
 	private String[] items = { "Jouer","Editeur", "Quitter" };
 
 	public int nbrOption = items.length;
-	
+
+	private long time;
 	GameContainer container;
 	StateBasedGame game;
 
@@ -33,26 +39,43 @@ public class Mainmenu extends BasicGameState {
 		return this.items;
 	}
 	
+	public Mainmenu(){
+		Font titre1Font = new Font("Kalinga", Font.BOLD, 12);
+		font1 = new TrueTypeFont(titre1Font, false);
+		time=System.currentTimeMillis();
+	}
+	
 	public void init(GameContainer container, StateBasedGame game)throws SlickException {
 		this.container = container;
 		container.setShowFPS(true);
 		this.game = game;
 
-		Font titre1Font = new Font("Kalinga", Font.BOLD, 12);
-		font1 = new TrueTypeFont(titre1Font, false);
 
 	}
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics g) throws SlickException {
-		g.drawString(this.nom, 550, 320);
-
 		g.setColor(Color.white);
+		g.drawString(this.nom, 550, 320);
+		
 
 		for (int i = 0; i < nbrOption; i++) {
+			g.setFont(font1);
 			g.drawString(this.items[i], 560, 360 + 30 * i);
 		}
-		g.drawString(">>", 540, 360 + 30 * selection);
+
+		if((System.currentTimeMillis()-time)%(2*temps_clignote)<=temps_clignote)g.setColor(Color.white);
+		else g.setColor(couleur_clignote);
+		
+		g.drawString(">> ", 535, 360 + 30 * selection);
+		if(font1!=null)g.drawString(" <<", 565+font1.getWidth(items[selection]), 360 + 30 * selection);
+		
+		
+		if((System.currentTimeMillis()-time)>10*temps_clignote){
+			
+			g.drawString("#### PRESS ENTER ####", 660, 360 + 30 * selection);
+		}
+		
 	}
 
 	@Override
@@ -67,14 +90,15 @@ public class Mainmenu extends BasicGameState {
 	
 	@Override
 	public void keyPressed(int key, char c) {
+		time=System.currentTimeMillis();
 		switch (key) {
-		case Input.KEY_S:
+		case Input.KEY_DOWN:
 			if (selection < nbrOption - 1)
 				selection++;
 			else
 				selection = 0;
 			break;
-		case Input.KEY_Z:
+		case Input.KEY_UP:
 			if (selection > 0)
 				selection--;
 			else

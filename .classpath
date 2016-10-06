@@ -2,13 +2,13 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="bin/lib/ibxm.jar"/>
-	<classpathentry kind="lib" path="bin/lib/jinput.jar"/>
+	<classpathentry exported="true" kind="lib" path="bin/lib/jinput.jar"/>
 	<classpathentry kind="lib" path="bin/lib/jnlp.jar"/>
 	<classpathentry kind="lib" path="bin/lib/jogg-0.0.7.jar"/>
 	<classpathentry kind="lib" path="bin/lib/jorbis-0.0.15.jar"/>
 	<classpathentry kind="lib" path="bin/lib/lwjgl_util_applet.jar"/>
-	<classpathentry kind="lib" path="bin/lib/lwjgl_util.jar"/>
-	<classpathentry kind="lib" path="bin/lib/lwjgl.jar"/>
+	<classpathentry exported="true" kind="lib" path="bin/lib/lwjgl_util.jar"/>
+	<classpathentry exported="true" kind="lib" path="bin/lib/lwjgl.jar"/>
 	<classpathentry kind="lib" path="bin/lib/natives-linux.jar"/>
 	<classpathentry exported="true" kind="lib" path="bin/lib/natives-mac.jar"/>
 	<classpathentry kind="lib" path="bin/lib/natives-windows.jar"/>
@@ -16,19 +16,23 @@
 	<classpathentry kind="lib" path="bin/lib/slick.jar"/>
 	<classpathentry kind="lib" path="bin/lib/tinylinepp.jar"/>
 	<classpathentry kind="lib" path="lib/ibxm.jar"/>
-	<classpathentry kind="lib" path="lib/jinput.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jinput.jar"/>
 	<classpathentry kind="lib" path="lib/jnlp.jar"/>
 	<classpathentry kind="lib" path="lib/jogg-0.0.7.jar"/>
 	<classpathentry kind="lib" path="lib/jorbis-0.0.15.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl_util_applet.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl_util.jar"/>
-	<classpathentry kind="lib" path="lib/lwjgl.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/lwjgl.jar"/>
 	<classpathentry kind="lib" path="lib/natives-linux.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/natives-mac.jar"/>
 	<classpathentry kind="lib" path="lib/natives-windows.jar"/>
 	<classpathentry kind="lib" path="lib/slick-examples.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/slick.jar"/>
 	<classpathentry kind="lib" path="lib/tinylinepp.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="TGD 2016 1er/natives"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="out/production/ouep"/>
 </classpath>

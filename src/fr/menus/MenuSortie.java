@@ -14,7 +14,7 @@ public class MenuSortie extends BasicGameState{
 	GameContainer container;
 	StateBasedGame game;
 	private Image image;
-	public static int ID = 1;
+	public static int ID = 2;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)

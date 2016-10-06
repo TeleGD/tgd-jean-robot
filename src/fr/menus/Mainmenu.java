@@ -14,6 +14,7 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import fr.main.World;
+import fr.testjeje.Editor;
 
 public class Mainmenu extends BasicGameState {
 	
@@ -21,7 +22,7 @@ public class Mainmenu extends BasicGameState {
 	static TrueTypeFont font1;
 	public static int ID = 2;
 	private String nom = "Menu Principal";
-	private String[] items = { "Jouer", "Quitter" };
+	private String[] items = { "Jouer","Editeur", "Quitter" };
 
 	public int nbrOption = items.length;
 	
@@ -104,8 +105,11 @@ public class Mainmenu extends BasicGameState {
 			game.enterState(World.ID, new FadeOutTransition(),
 					new FadeInTransition());
 			break;
-
 		case 1:
+			game.enterState(Editor.ID, new FadeOutTransition(),
+					new FadeInTransition());
+			break;
+		case 2:
 			game.enterState(MenuSortie.ID, new FadeOutTransition(),
 					new FadeInTransition());
 			break;

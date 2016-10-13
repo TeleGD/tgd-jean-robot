@@ -91,11 +91,13 @@ public class Editor extends BasicGameState{
 	
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-		
-		
-		
+
 		World.getPlayer().render(container, game, g);
 		if(gridEnabled)renderGrid(container,game,g);
+
+		for(int i=0;i<plateforms.size();i++){
+			plateforms.get(i).render(container, game, g);
+		}
 		
 		renderMenu(container,game,g);
 		
@@ -125,6 +127,7 @@ public class Editor extends BasicGameState{
 
 	public void renderMenu(GameContainer container, StateBasedGame game, Graphics g) throws SlickException 
 	{
+		
 		g.setColor(Color.white);
 		g.drawRect(0, yMenu, Game.longueur-1, 5);
 		g.setColor(Color.darkGray);
@@ -136,7 +139,11 @@ public class Editor extends BasicGameState{
 		//decreaseAmmoMenu.render(container, game, g);
 		
 		
-		if(plateformEnCours!=null)plateformEnCours.render(container, game, g);
+		if(plateformEnCours!=null){
+			plateformEnCours.render(container, game, g);
+			g.setColor(Color.red);
+			g.drawString("SELECTED",(int)(plateformEnCours.getX()+plateformEnCours.getWidth()/2-40), (int)(plateformEnCours.getY()+plateformEnCours.getHeight()/2-10));
+		}
 		renderOptions(container,game,g);
 	}
 	
@@ -172,10 +179,29 @@ public class Editor extends BasicGameState{
 			
 		}else if(key==Input.KEY_G){
 			gridEnabled=!gridEnabled;
+		
 		}else if(key==Input.KEY_ESCAPE){
 			game.enterState(Mainmenu.ID, new FadeOutTransition(),
 					new FadeInTransition());
+		}else if(key==Input.KEY_K ){
+			if(plateformEnCours!=null){
+				plateformEnCours.setWidth(Game.DENSITE_X*((int)(plateformEnCours.getWidth()/Game.DENSITE_X)+1));
+			}
+		}else if(key==Input.KEY_H ){
+			if(plateformEnCours!=null){
+				plateformEnCours.setWidth(Game.DENSITE_X*((int)(plateformEnCours.getWidth()/Game.DENSITE_X)-1));
+			}
+		}else if(key==Input.KEY_U ){
+			if(plateformEnCours!=null ){
+				plateformEnCours.setHeight(Game.DENSITE_Y*((int)(plateformEnCours.getHeight()/Game.DENSITE_Y)+1));
+			}
+		}else if(key==Input.KEY_J ){
+			if(plateformEnCours!=null){
+				plateformEnCours.setHeight(Game.DENSITE_Y*((int)(plateformEnCours.getHeight()/Game.DENSITE_Y)-1));
+			}
 		}
+		
+	    
 	}
 
 	@Override
@@ -200,6 +226,10 @@ public class Editor extends BasicGameState{
 				ouvrirMenu=false;
 				menuRentre=false;
 			}
+		}
+		
+		for(int i=0;i<plateforms.size();i++){
+			plateforms.get(i).update(container, game, delta);
 		}
 		plateformMenu.setY(yMenu+50);
 		plateformMenu.update(container, game, delta);
@@ -229,19 +259,17 @@ public class Editor extends BasicGameState{
 		}
 		if(plateformEnCours!=null){
 			plateformEnCours.setPosition((int)((newx-plateformEnCours.getWidth()/2)/Game.DENSITE_X),(int) ((newy-plateformEnCours.getHeight()/2)/Game.DENSITE_Y));
-		
 		}
 		
 		
 	}
 	public void mouseReleased(int button, int x,int y){
-		//System.out.println("x="+x+"  y="+y);
-		//System.out.println("(x,y)="+plateformMenu.getX()+","+plateformMenu.getY()+")");
-		//System.out.println("(w,h)="+plateformMenu.getWidth()+","+plateformMenu.getHeight()+")");
+		//c'est quoi
 		if(plateformMenu.containsPoint(x, y)){
-			//System.out.println("salut");
 			plateformEnCours=new Plateform(plateformMenu);
+		}else if(plateformEnCours!=null){
 			plateforms.add(plateformEnCours);
+			plateformEnCours=new Plateform(plateformMenu);
 		}
 	}
 	public void mousePressed(int button, int oldx,int oldy){
@@ -262,6 +290,9 @@ public class Editor extends BasicGameState{
 	public int getID() {
 		// TODO Auto-generated method stub
 		return ID;
+	}
+	public void enregistrer(String nom){
+	
 	}
 
 }

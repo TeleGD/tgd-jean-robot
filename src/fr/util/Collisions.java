@@ -8,29 +8,40 @@ public class Collisions {
 
 	private static double delta=5; //delta par defaut, valeur de penetration.
 	
-	private static boolean altCollisionY(Entity h1, Entity h2){
+	public static boolean altCollisionY(Entity h1, Entity h2){
+		//Dans l'idee, on renvoie faux s'il n'y a PAS de collision, et vrai sinon.
+		
 		// produit scalaire negatif OU h1 au dessus de h2 OU h2 au dessus de h1
-		if( (h1.getSpeedy()*h2.getSpeedy() < 0) || (h1.getY()+h1.getHeight()-h2.getY()> 0) || (h2.getY()+h2.getHeight()-h1.getY() > 0) ){
+		System.out.println("State : sc = "+(h1.getSpeedy()*h2.getSpeedy())+"; Super1 = "+h1.getY()+"+"+h1.getHeight()+">"+h2.getY()+" : "+(h1.getY()+h1.getHeight()>h2.getY())+"; Super2 = "+(h2.getY()+h2.getHeight()>h1.getY()));
+		if( (h1.getSpeedy()*h2.getSpeedy() < 0) || (h1.getY()+h1.getHeight()<h2.getY()) || (h2.getY()+h2.getHeight()<h1.getY()) ){
 			return false;
 		}
 		return true;
 	}
 	
-	private static boolean altCollisionX(Entity h1, Entity h2){
+	public static boolean altCollisionX(Entity h1, Entity h2){
+		//Pareil que altCOllisionY, mais sur l'axe X.
+		
 		// produit scalaire negatif OU h1 a gauche de h2 OU h2 a gauche de h1
-		if( (h1.getSpeedx()*h2.getSpeedx() < 0) || (h1.getX()+h1.getWidth()-h2.getX()> 0) || (h2.getX()+h2.getWidth()-h1.getX() > 0) ){
+		if( (h1.getSpeedx()*h2.getSpeedx() <= 0) || (h1.getX()+h1.getWidth()<h2.getX()) || (h2.getX()+h2.getWidth()<h1.getX()) ){
 			return false;
 		}
 		return true;
 	}
 	
+	
+	// Coucou PA, ici Arthur. Cette fois ci je ne me trompe pas de personne. Ahah (cf Player.java).
+	// C'est tres la rigolance ici, mais j'arrive pas à faire marcher tes collisions (explique moi quand tu pourras, s'il te plait.), 
+	// donc j'ai implemente des collisions plus rigides, mais qui marchent facilement (elles sont juste au dessus).
+	// P.S. : Par pitie, pas d'accents dans le code ou les commentaires : ca fout le merdier chez moi 
+	// (mon PC est un paysan qui encode tout en ANSI au lieu de faire de l'UTF-8, donc j'ai du japonais partout...).
 	
 	//verifie qu'il existe une collision entre la Entity 1 et Entity2 sur l'axe Y
 	//retourne :
 	//0 -> aucune collision
 	//-1 -> collision par le haut
 	//1 -> collision par le bas
-	//note : on peut utiliser la valeur retourner pour modifier la vitesse suite a la collision ! merci bibi (Par pitie, pas d'accents dans le code ou les commentaires : ca fout le merdier chez moi)
+	//note : on peut utiliser la valeur retourner pour modifier la vitesse suite a la collision ! merci bibi 
 	public static int isCollisionY(Entity h1,Entity h2, double delta){
 		
 		//si la Entity tombe et va plus bas que le haut de l'autre Entity

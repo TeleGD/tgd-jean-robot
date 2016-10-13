@@ -63,44 +63,47 @@ public class Player extends Movable implements Rectangle {
 		
 		this.posjump = this.updatePosJump(); //verifie la possibilitÃ© de sauter
 		
-		horizontalMove();
-		moveX(delta);
 		this.newx = x + speedX * delta;
 		this.newy = y + speedY * delta;
 		this.speedY += accelY;
+		horizontalMove();
+		moveX(delta);
 		verticalMove();
 		moveY(delta);
+		
 		this.colplat = this.vertcolthis;
 	}
 
-	// Mouvemnts************************************************************************
-	private void horizontalMove() {
-		speedX = 0;
-		if ((leftPress && !rightPress) || (leftPress && rightPress && !droitegauche)) {
-			speedX = 0;
-			for (int i = 0; i < fr.game.World.getPlateforms().size(); i++) {
-				if(Collisions.isCollisionX(this, fr.game.World.getPlateforms().get(i)) != -1){
-					speedX = -0.5;
-				}
-			}	
-		}
-		if ((!leftPress && rightPress) || (leftPress && rightPress && droitegauche)) {
-			speedX = 0;
-			for (int i = 0; i < fr.game.World.getPlateforms().size(); i++) {
-				if(Collisions.isCollisionX(this, fr.game.World.getPlateforms().get(i)) != 1){
-					speedX = 0.5;
-				}
-			}	
-		}
-		
+	// Mouvements************************************************************************
+
+	private boolean updatePosJump() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
-	public void verticalMove() {
-		// verticolthis et posjump sont actualisÃ©s dans updatePosJump qui est appelÃ© dans update
-		// collisionx(a,b), -1 -> a Ã  gauche de b, 0 rien, 1 : a Ã  droite de b
-		//collisiony(a,b) , -1 -> a au dessus de b , 0 rien, 1 -> a en dessous de b
-		
-		
+
+	private void horizontalMove() {
+		//Collision en allant vers la gauche
+		if ((leftPress && !rightPress) || (leftPress && rightPress && !droitegauche)){
+			for (int i = 0; i < fr.game.World.getPlateforms().size(); i++){
+				if(Collisions.altCollisionX(this, fr.game.World.getPlateforms().get(i))){
+					speedX = 0;
+				}
+			}
+		}
+		// Collision en allant vers la droite
+		if ((!leftPress && rightPress) || (leftPress && rightPress && droitegauche)){
+			for (int i = 0; i < fr.game.World.getPlateforms().size(); i++){
+				if(Collisions.altCollisionX(this, fr.game.World.getPlateforms().get(i))){
+					speedX = 0;
+				}
+			}
+		}
+	}
+
+
+	private void verticalMove() {
+
 		if (isTooLow()) {
 			//le personnage meurt
 			fr.game.World.game.enterState(MenuFinPartie.ID);//d, new FadeOutTransition(),new FadeInTransition());
@@ -110,38 +113,84 @@ public class Player extends Movable implements Rectangle {
 			jump();
 		}
 		
-		if (!vertcolthis) {	//si le personnage est en l'air, on accÃ©lÃ¨re sa chute
-			this.accelY = gravity;
-		}
-		
-		this.speedY += this.accelY;
-		
-		if(vertcolthis){
-			System.out.println("bouh");
-		}
-	}
-	
-	public boolean updatePosJump(){ //renvoie true si le personnage Ã  la possibilitÃ© de sauter
-		boolean mem = false;
-		this.vertcolthis = false;
-		for (int i = 0; i < fr.game.World.getPlateforms().size(); i++) {
-			if ((Collisions.isCollisionY(this, fr.game.World.getPlateforms().get(i)) == 1)) {
-				//si une plateforme au dessus : on saute pas
-				this.accelY = 0;
-				this.speedY = 0;
-				return false;
+		for (int i = 0; i < fr.game.World.getPlateforms().size(); i++){
+			if(Collisions.altCollisionY(this, fr.game.World.getPlateforms().get(i))){
+				speedY = 0;
 			}
-			
-			if ((Collisions.isCollisionY(this, fr.game.World.getPlateforms().get(i)) == -1)) {
-				//si plateforme en dessous : mem = true
-				this.accelY = 0;
-				this.speedY = 0;
-				this.vertcolthis = true;
-				mem = true;
-			} 
 		}
-		return mem;
-	}
+	}	
+
+//  Coucou PA, ici Arthur. On me dit dans l'oreille que tu n'es pas PA, mais Aurelien. Desole pour l'accent (et pour l'erreur).
+//	Je comprenais pas ton code (vu que les collisions de PA sont au dela de ma simple condition d'humain), alors je l'ai commente. Bisous.
+//	private void horizontalMove() {
+//		speedX = 0;
+//		if ((leftPress && !rightPress) || (leftPress && rightPress && !droitegauche)) {
+//			speedX = 0;
+//			for (int i = 0; i < fr.game.World.getPlateforms().size(); i++) {
+//				if(Collisions.isCollisionX(this, fr.game.World.getPlateforms().get(i)) != -1){
+//					speedX = -0.5;
+//				}
+//			}	
+//		}
+//		if ((!leftPress && rightPress) || (leftPress && rightPress && droitegauche)) {
+//			speedX = 0;
+//			for (int i = 0; i < fr.game.World.getPlateforms().size(); i++) {
+//				if(Collisions.isCollisionX(this, fr.game.World.getPlateforms().get(i)) != 1){
+//					speedX = 0.5;
+//				}
+//			}	
+//		}
+//		
+//	}
+//
+//	public void verticalMove() {
+//		// verticolthis et posjump sont actualisÃ©s dans updatePosJump qui est appelÃ© dans update
+//		// collisionx(a,b), -1 -> a a gauche de b, 0 rien, 1 : a A droite de b
+//		// collisiony(a,b) , -1 -> a au dessus de b , 0 rien, 1 -> a en dessous de b
+//		
+//		
+//		if (isTooLow()) {
+//			//le personnage meurt
+//			fr.game.World.game.enterState(MenuFinPartie.ID);//d, new FadeOutTransition(),new FadeInTransition());
+//		}
+//		
+//		if (this.posjump && upPress) {
+//			jump();
+//		}
+//		
+//		if (!vertcolthis) {	//si le personnage est en l'air, on accelere sa chute
+//			this.accelY = gravity;
+//		}
+//		
+//		this.speedY += this.accelY;
+//		
+//		if(vertcolthis){
+//			System.out.println("bouh");
+//		}
+//	}
+//	
+//	public boolean updatePosJump(){ //renvoie true si le personnage a la possibilite de sauter
+//		boolean mem = false;
+//		this.vertcolthis = false;
+//		for (int i = 0; i < fr.game.World.getPlateforms().size(); i++) {
+//			this.vertcolthis = Collisions.altCollisionY(this, fr.game.World.getPlateforms().get(i)) || Collisions.altCollisionX(this, fr.game.World.getPlateforms().get(i)) || this.vertcolthis;
+//			
+//			if ((Collisions.isCollisionY(this, fr.game.World.getPlateforms().get(i)) == 1)) {
+//				//si une plateforme au dessus : on saute pas
+//				this.accelY = 0;
+//				this.speedY = 0;
+//				return false;
+//			}
+//			
+//			if ((Collisions.isCollisionY(this, fr.game.World.getPlateforms().get(i)) == -1)) {
+//				//si plateforme en dessous : mem = true
+//				this.accelY = 0;
+//				this.speedY = 0;
+//				mem = true;
+//			} 
+//		}
+//		return mem;
+//	}
 
 	public double getnewY() {
 		return newy;
@@ -257,13 +306,13 @@ public class Player extends Movable implements Rectangle {
 	@Override
 	public double getWidth() {
 		// TODO Auto-generated method stub
-		return 0;
+		return width;
 	}
 
 
 	@Override
 	public double getHeight() {
 		// TODO Auto-generated method stub
-		return 0;
+		return height;
 	}
 }

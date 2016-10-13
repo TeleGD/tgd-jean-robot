@@ -30,9 +30,20 @@ public class Plateform extends Entity implements Rectangle {
 	// Constructeur***********************************************
 	public Plateform(int indexX, int indexY, int sizeX, int sizeY) {
 		this.x = indexX*Game.DENSITE_X;
+		this.newx = this.x;
+		this.newy = this.y;
 		this.y = indexY*Game.DENSITE_Y;
 		this.width = sizeX*Game.DENSITE_X;
 		this.height = sizeY*Game.DENSITE_Y;
+	}
+	
+	public Plateform(Plateform p){
+		this.x = p.x;
+		this.y = p.y;
+		this.newx = p.newx;
+		this.newy = p.newy;
+		this.width = p.width;
+		this.height = p.height;
 	}
 
 	// Fonction de jeu*********************************************
@@ -46,6 +57,8 @@ public class Plateform extends Entity implements Rectangle {
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		// TODO
+		this.newx = this.x;
+		this.newy = this.y;
 	}
 	
 

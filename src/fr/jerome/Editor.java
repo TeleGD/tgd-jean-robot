@@ -46,7 +46,7 @@ public class Editor extends BasicGameState{
 	private InverseControl inverseControlMenu=new InverseControl();
 	private InvisibleTrap invisibleTrapMenu=new InvisibleTrap();
 	private InvisibleEnnemy invisibleEnnemyMenu=new InvisibleEnnemy();
-	private PopEnemyAround poppEnnemyArroundMenu=new PoppEnnemyArround();
+	private PopEnemyAround poppEnnemyArroundMenu=new PopEnemyAround();
 	private InvisiblePlayer invisiblePlayerMenu=new InvisiblePlayer();
 	private TeleportBonusLevel teleportBonusLevelMenu=new TeleportBonusLevel();
 	private Paralyse paralyseMenu=new Paralyse();

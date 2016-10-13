@@ -108,6 +108,10 @@ public abstract class Entity {
 	public void setLife(int life) {
 		this.life = life;
 	}
+	
+	public boolean containsPoint(int x,int y){
+		return getX()<x && getX()+getWidth() >x && getY()<y && getY()+getHeight()>y;
+	}
 
 	
 

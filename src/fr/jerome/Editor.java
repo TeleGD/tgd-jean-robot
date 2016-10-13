@@ -31,12 +31,21 @@ public class Editor extends BasicGameState{
 	
 	public static final int ID = 1;
 	private ArrayList<Bonus> bonus=new ArrayList<Bonus>();
-	private ArrayList<Plateform> Plateforms=new ArrayList<Plateform>();
+	private ArrayList<Plateform> plateforms=new ArrayList<Plateform>();
 	private ArrayList<Enemy> enemys=new ArrayList<Enemy>();
 	//private Player player=new Player((int)(Game.longueur*0.15f),(int)(Game.hauteur*0.7f));
 	
+
+	private static boolean ouvrirMenu;
+	private static boolean fermerMenu;
+	private boolean menuRentre;
+
+	private static boolean menuLocked;
+	private static int tailleMenu=(int) (Game.hauteur*0.2f);
+	private static int yMenu=Game.hauteur-tailleMenu;
+	
 	//Faudra voir pour le constructeur des plateformes (Nico)
-	//private Plateform plateformMenu=new Plateform(Game.longueur/20,(int) (Game.hauteur*0.85f));
+	private Plateform plateformMenu=new Plateform(3,1,5,-1);
 	private Enemy enemyMenu=new Enemy();
 	private AddMunition addMunitionMenu=new AddMunition();
 	private DecreaseAmmo decreaseAmmoMenu=new DecreaseAmmo();
@@ -46,7 +55,6 @@ public class Editor extends BasicGameState{
 	private InverseControl inverseControlMenu=new InverseControl();
 	private InvisibleTrap invisibleTrapMenu=new InvisibleTrap();
 	private InvisibleEnnemy invisibleEnnemyMenu=new InvisibleEnnemy();
-	private PopEnemyAround poppEnnemyArroundMenu=new PopEnemyAround();
 	private InvisiblePlayer invisiblePlayerMenu=new InvisiblePlayer();
 	private TeleportBonusLevel teleportBonusLevelMenu=new TeleportBonusLevel();
 	private Paralyse paralyseMenu=new Paralyse();
@@ -55,13 +63,6 @@ public class Editor extends BasicGameState{
 	private static StateBasedGame game;
 	private static long time;
 
-	private static boolean ouvrirMenu;
-	private static boolean fermerMenu;
-	private boolean menuRentre;
-
-	private static boolean menuLocked;
-	private static int tailleMenu=(int) (Game.hauteur*0.2f);
-	private static int yMenu=Game.hauteur-tailleMenu;
 
 	private static boolean gridEnabled;
 	
@@ -70,7 +71,7 @@ public class Editor extends BasicGameState{
 	//pour le titre de l'editeur
 	private static boolean showTitle=true;
 	private TrueTypeFont fontTitle;
-	private String title="MENU EDITOR";
+	private String title="LEVEL EDITOR";
 
 	public Editor(){
 		Font titreFont;
@@ -84,7 +85,8 @@ public class Editor extends BasicGameState{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		plateformMenu.setY(yMenu+30);
+		plateformMenu.setX(Game.longueur*0.2);
 	}
 	
 	@Override
@@ -128,10 +130,10 @@ public class Editor extends BasicGameState{
 		g.setColor(Color.darkGray);
 		g.fillRect(0, yMenu+6, Game.longueur,(Game.hauteur-yMenu)-5);
 		
-		//plateformMenu.render(container, game, g);
-		enemyMenu.render(container, game, g);
-		addMunitionMenu.render(container, game, g);
-		decreaseAmmoMenu.render(container, game, g);
+		plateformMenu.render(container, game, g);
+		//enemyMenu.render(container, game, g);
+		//addMunitionMenu.render(container, game, g);
+		//decreaseAmmoMenu.render(container, game, g);
 		
 		renderOptions(container,game,g);
 	}
@@ -197,6 +199,7 @@ public class Editor extends BasicGameState{
 				menuRentre=false;
 			}
 		}
+		plateformMenu.setY(yMenu+30);
 	}
 
 	@Override
@@ -225,7 +228,10 @@ public class Editor extends BasicGameState{
 		
 	}
 	public void mousePressed(int button, int oldx,int oldy){
-		
+		if(plateformMenu.containsPoint(oldx, oldy)){
+			plateforms.add(plateformMenu);
+			
+		}
 	}
 	
 	public static void reset(){

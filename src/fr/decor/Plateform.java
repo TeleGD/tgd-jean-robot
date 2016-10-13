@@ -8,35 +8,13 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import fr.characters.Player;
+import fr.game.Game;
 import fr.util.Entity;
 import fr.util.Rectangle;
 
 public class Plateform extends Entity implements Rectangle {
 
-	private double width; // nombre de tuiles suivant x
-	private double height; // nombre de tuiles suivant y
-	protected double x; // en pixel
-	protected double y; // en pixel
 	Image texture;
-
-	// Getters******************************************************
-	public double getX() {
-		return x;
-
-	}
-
-	public double getY() {
-		return y;
-	}
-
-	public double getWidth() {
-		return width;
-
-	}
-
-	public double getHeight() {
-		return height;
-	}
 
 	// Setters *****************************************************
 	public void setPosition(float newx, float newy) {
@@ -50,12 +28,11 @@ public class Plateform extends Entity implements Rectangle {
 	}
 
 	// Constructeur***********************************************
-	public Plateform(float width, float height, float x,float y) {
-
-		this.width = width;
-		this.height = height;
-		this.x = x;
-		this.y = y;
+	public Plateform(int indexX, int indexY, int sizeX, int sizeY) {
+		this.x = indexX*Game.DENSITE_X;
+		this.y = indexY*Game.DENSITE_Y;
+		this.width = sizeX*Game.DENSITE_X;
+		this.height = sizeY*Game.DENSITE_Y;
 	}
 
 	// Fonction de jeu*********************************************

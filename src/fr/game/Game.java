@@ -19,6 +19,8 @@ public class Game extends StateBasedGame {
 
 	public static final int longueur=1280;
 	public static final int hauteur=720;
+	public static final int DENSITE_X = 32;
+	public static final int DENSITE_Y = 32;
 	
 	public static void main(String[] args) throws SlickException {
 		

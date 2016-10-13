@@ -3,6 +3,9 @@ import fr.bonus.*;
 
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -24,12 +27,15 @@ import fr.decor.Plateform;
 import fr.game.Game;
 import fr.game.World;
 import fr.menus.Mainmenu;
+import fr.util.Button;
 
 public class Editor extends BasicGameState{
 
 	private static final int vitesseMenu=10;
 	
 	public static final int ID = 1;
+
+	private static final String DOSSIER_LEVEL = "levels";
 	private ArrayList<Bonus> bonus=new ArrayList<Bonus>();
 	private ArrayList<Plateform> plateforms=new ArrayList<Plateform>();
 	private ArrayList<Enemy> enemys=new ArrayList<Enemy>();
@@ -71,6 +77,12 @@ public class Editor extends BasicGameState{
 	private static boolean showTitle=true;
 	private TrueTypeFont fontTitle;
 	private String title="LEVEL EDITOR";
+
+	private Button enregistrer=new Button("Enregistrer",15,yMenu-tailleMenu-35);
+
+	private boolean saveAbove;
+
+	private boolean saveClicked;
 
 	public Editor(){
 		Font titreFont;
@@ -164,7 +176,19 @@ public class Editor extends BasicGameState{
 		else{
 			g.setColor(Color.white);
 			g.drawString("Press G for 32x32 grid",15,yMenu+30);
-		}	
+		}
+
+		
+		if(saveAbove){
+			g.setColor(Color.red);
+			g.drawRect(5, yMenu+tailleMenu-35, 120, 26);
+		}
+		
+		if(saveClicked)
+			g.setColor(Color.red);
+		else
+			g.setColor(Color.white);
+		g.drawString("ENREGISTRER",15,yMenu+tailleMenu-30);
 	}
 
 
@@ -260,6 +284,9 @@ public class Editor extends BasicGameState{
 		if(plateformEnCours!=null){
 			plateformEnCours.setPosition((int)((newx-plateformEnCours.getWidth()/2)/Game.DENSITE_X),(int) ((newy-plateformEnCours.getHeight()/2)/Game.DENSITE_Y));
 		}
+		if(newx>5 && newy>yMenu+tailleMenu-35 && newx<130 && newy<yMenu+tailleMenu+45){
+			saveAbove=true;
+		}else saveAbove=false;
 		
 		
 	}
@@ -271,9 +298,16 @@ public class Editor extends BasicGameState{
 			plateforms.add(plateformEnCours);
 			plateformEnCours=new Plateform(plateformMenu);
 		}
-	}
-	public void mousePressed(int button, int oldx,int oldy){
 		
+		if(x>5 && y>yMenu+tailleMenu-35 && x<130 && y<yMenu+tailleMenu+45){
+			enregistrer("niveau1");
+			saveClicked=false;
+		}
+	}
+	public void mousePressed(int button, int x,int y){
+		if(x>5 && y>yMenu+tailleMenu-35 && x<130 && y<yMenu+tailleMenu+45){
+			saveClicked=true;
+		}
 	}
 	
 	public static void reset(){
@@ -291,8 +325,26 @@ public class Editor extends BasicGameState{
 		// TODO Auto-generated method stub
 		return ID;
 	}
-	public void enregistrer(String nom){
 	
+	public boolean enregistrer(String nom){
+		File f=new File(DOSSIER_LEVEL+File.separator+nom);
+		if(f.exists())return false;
+		try {
+			BufferedWriter bw=new BufferedWriter(new FileWriter(f));
+			String ligne;
+			bw.write("// PLATEFORMES");
+			bw.newLine();
+			
+			for(int i=0;i<plateforms.size();i++){
+				bw.write(plateforms.get(i).toString());
+				bw.newLine();
+			}
+			bw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
 	}
 
 }

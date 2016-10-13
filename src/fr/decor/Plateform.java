@@ -94,6 +94,10 @@ public class Plateform extends Entity implements Rectangle {
 
 	}
 	
+	@Override
+	public String toString(){
+		return getX()+ ";"+ getY()+";"+getWidth()+";"+getHeight();
+	}
 	
 
 

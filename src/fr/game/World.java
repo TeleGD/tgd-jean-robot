@@ -31,7 +31,7 @@ public class World extends BasicGameState {
 		Nico = new Player();
 		plateforms= new ArrayList<Plateform>();
 		enemies=new ArrayList<Enemy>();
-		plateforms.add(new Plateform(500,32,0,650));
+		plateforms.add(new Plateform(0,20,10,1));
 		enemies.add(new Enemy());
 	}
 

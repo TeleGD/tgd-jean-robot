@@ -9,14 +9,14 @@ public abstract class Entity {
 	
 	// les variables
 	protected double x,y;
-	protected double newx,newy;
-	protected double speedx,speedy;
+	protected double newX,newY;
+	protected double speedX,speedY;
 	protected double width, height;
 	protected int life;
 	protected boolean killable;
 	
 	
-	//N�cessaire pour les jeux****************************************************
+	//N�ｿｽcessaire pour les jeux****************************************************
 	public abstract void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException;
 	public abstract void update(GameContainer container, StateBasedGame game, int delta) throws SlickException;
 
@@ -40,12 +40,15 @@ public abstract class Entity {
 	public double getX() {
 		return x;
 	}
+	
 	public double getnewY() {
-		return y;
+		//Methode forcee par la bibliotheque...
+		return newY;
 	}
 	
 	public double getnewX() {
-		return x;
+		//Methode forcee par la bibliotheque...
+		return newX;
 	}
 	
 	public boolean isKillable() {
@@ -54,29 +57,29 @@ public abstract class Entity {
 	public void setKillable(boolean killable) {
 		this.killable = killable;
 	}
-	public double getNewx() {
-		return newx;
+	public double getNewX() {
+		return newX;
 	}
 	public void setNewx(double newx) {
-		this.newx = newx;
+		this.newX = newx;
 	}
-	public double getNewy() {
-		return newy;
+	public double getNewY() {
+		return newY;
 	}
 	public void setNewy(double newy) {
-		this.newy = newy;
+		this.newY = newy;
 	}
-	public double getSpeedx() {
-		return speedx;
+	public double getSpeedX() {
+		return speedX;
 	}
-	public void setSpeedx(double speedx) {
-		this.speedx = speedx;
+	public void setSpeedX(double speedx) {
+		this.speedX = speedx;
 	}
-	public double getSpeedy() {
-		return speedy;
+	public double getSpeedY() {
+		return speedY;
 	}
-	public void setSpeedy(double speedy) {
-		this.speedy = speedy;
+	public void setSpeedY(double speedy) {
+		this.speedY = speedy;
 	}
 	public double getWidth() {
 		return width;
@@ -98,7 +101,7 @@ public abstract class Entity {
 	}
 	
 	public boolean containsPoint(int x,int y){
-		return this.newx<=x &&  x<=this.newx+width && this.newy<=y && y<=this.newy+height;
+		return this.newX<=x &&  x<=this.newX+width && this.newY<=y && y<=this.newY+height;
 	}
 
 	

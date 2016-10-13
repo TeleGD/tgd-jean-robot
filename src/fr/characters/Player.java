@@ -61,11 +61,14 @@ public class Player extends Movable implements Rectangle {
 		if(System.currentTimeMillis()-this.timeOfDeath<this.timekillableDying){killable=false;}else{killable=true;}
 		if(!killable){this.comptkillable=0;}else{this.comptkillable+=1;}
 		
-		this.posjump = this.updatePosJump(); //verifie la possibilitÃ© de sauter
+		this.posjump = this.updatePosJump(); //verifie la possibilite de sauter
 		
-		this.newx = x + speedX * delta;
-		this.newy = y + speedY * delta;
+		this.newX = x + speedX * delta;
+		this.newY = y + speedY * delta;
+		this.accelY = (this.accelY + this.gravity)/2;
 		this.speedY += accelY;
+		//if(Math.abs(this.speedY) > 1) speedY = 1; // limitation de vitesse.
+		System.out.println("vy = "+speedY);
 		horizontalMove();
 		moveX(delta);
 		verticalMove();
@@ -83,20 +86,13 @@ public class Player extends Movable implements Rectangle {
 
 
 	private void horizontalMove() {
-		//Collision en allant vers la gauche
-		if ((leftPress && !rightPress) || (leftPress && rightPress && !droitegauche)){
-			for (int i = 0; i < fr.game.World.getPlateforms().size(); i++){
-				if(Collisions.altCollisionX(this, fr.game.World.getPlateforms().get(i))){
-					speedX = 0;
-				}
-			}
-		}
-		// Collision en allant vers la droite
-		if ((!leftPress && rightPress) || (leftPress && rightPress && droitegauche)){
-			for (int i = 0; i < fr.game.World.getPlateforms().size(); i++){
-				if(Collisions.altCollisionX(this, fr.game.World.getPlateforms().get(i))){
-					speedX = 0;
-				}
+		int col;
+		for (int i = 0; i < fr.game.World.getPlateforms().size(); i++){
+			col = Collisions.altCollisionSide(this, fr.game.World.getPlateforms().get(i));
+			if((col % 2) != 0){
+				// Si on a une collision, et qu'elle n'est pas par le bas ni par le haut.
+				// (les collisions verticales renvoient 2 ou 4, et pas de collision renvoie 0)
+				speedX = 0;
 			}
 		}
 	}
@@ -109,15 +105,23 @@ public class Player extends Movable implements Rectangle {
 			fr.game.World.game.enterState(MenuFinPartie.ID);//d, new FadeOutTransition(),new FadeInTransition());
 		}
 		
+		int col;
+		for (int i = 0; i < fr.game.World.getPlateforms().size(); i++){
+			col = Collisions.altCollisionSide(this, fr.game.World.getPlateforms().get(i));
+			if( col == 2 ){
+				// S'il y a une collision par le bas du joueur.
+				
+				speedY = 0;
+				posjump = true;
+			}
+		}
+		
+		System.out.println("can jump : "+posjump+" & Z pressed : "+upPress);
 		if (this.posjump && upPress) {
+			System.out.println("JUMP");
 			jump();
 		}
 		
-		for (int i = 0; i < fr.game.World.getPlateforms().size(); i++){
-			if(Collisions.altCollisionY(this, fr.game.World.getPlateforms().get(i))){
-				speedY = 0;
-			}
-		}
 	}	
 
 //  Coucou PA, ici Arthur. On me dit dans l'oreille que tu n'es pas PA, mais Aurelien. Desole pour l'accent (et pour l'erreur).
@@ -193,11 +197,11 @@ public class Player extends Movable implements Rectangle {
 //	}
 
 	public double getnewY() {
-		return newy;
+		return newY;
 	}
 
 	public double getnewX() {
-		return newx;
+		return newX;
 	}
 
 	public boolean getcolplat() {
@@ -208,13 +212,14 @@ public class Player extends Movable implements Rectangle {
 		this.speedY = 0;
 		this.accelY = -this.jumppower;
 		this.vertcolthis = true;
+		this.posjump = false;
 	}
 
 	private boolean isTooLow() { //renvoie true si le personne touche le bas de l'Ã©cran
 		if (speedY < 0) {
 			return false;
 		}
-		if (newy + height < 720) {
+		if (newY + height < 720) {
 			return false;
 		}
 		return true;
@@ -305,14 +310,10 @@ public class Player extends Movable implements Rectangle {
 
 	@Override
 	public double getWidth() {
-		// TODO Auto-generated method stub
 		return width;
 	}
-
-
 	@Override
 	public double getHeight() {
-		// TODO Auto-generated method stub
 		return height;
 	}
 }

@@ -79,7 +79,7 @@ public class Enemy extends Movable implements Rectangle{
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		// TODO Auto-generated method stub
 		
-		this.newy = y + speedY * delta;
+		this.newY = y + speedY * delta;
 		this.verticalMove();
 		
 		if(this.isTooLow())//si l'ennemi est trop bas : il meurt
@@ -108,7 +108,7 @@ public class Enemy extends Movable implements Rectangle{
 		if (speedY < 0) {
 			return false;
 		}
-		if (newy + height < 720) {
+		if (newY + height < 720) {
 			return false;
 		}
 		return true;

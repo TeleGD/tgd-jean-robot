@@ -41,8 +41,8 @@ public class Plateform extends Entity implements Rectangle {
 		this.width = sizeX*Game.DENSITE_X;
 		this.height = sizeY*Game.DENSITE_Y;
 		
-		this.newx = this.x;
-		this.newy = this.y;
+		this.newX = this.x;
+		this.newY = this.y;
 		
 		
 	}
@@ -50,8 +50,8 @@ public class Plateform extends Entity implements Rectangle {
 	public Plateform(Plateform p){
 		this.x = p.x;
 		this.y = p.y;
-		this.newx = p.newx;
-		this.newy = p.newy;
+		this.newX = p.newX;
+		this.newY = p.newY;
 		this.width = p.width;
 		this.height = p.height;
 		
@@ -68,8 +68,8 @@ public class Plateform extends Entity implements Rectangle {
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		// TODO
-		this.newx = this.x;
-		this.newy = this.y;
+		this.newX = this.x;
+		this.newY = this.y;
 
 	}
 	
@@ -85,7 +85,7 @@ public class Plateform extends Entity implements Rectangle {
 	}
 
 	public boolean collPlayer(Player player){
-		if(player.getspeedY()<0){return false;}
+		if(player.getSpeedY()<0){return false;}
 		if(player.getnewY()+player.getHeight()<this.y){return false;}
 		if(player.getY()>this.y){return false;}
 		if(player.getX()>this.x+this.width){return false;}

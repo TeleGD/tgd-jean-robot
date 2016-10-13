@@ -5,8 +5,8 @@ import fr.util.Entity;
 public abstract class Movable extends Entity{
 	
 	// Variables**********************************************
-	public double speedX,speedY,accelX,accelY;
-	public double jumppower=0.6;
+	public double /*speedX,speedY,*/accelX,accelY; //speedX et speedY existent deja dans entity, les gars...
+	public double jumppower=0.8;
 	public double gravity=0.04;
 	protected boolean posjump;//Jump possible?
 	protected int dir=0; //-1:vers la gauche,0:ne bouge pas,1:vers la droite
@@ -17,31 +17,15 @@ public abstract class Movable extends Entity{
 	public void setAccelY(int a){
 		accelY=a;
 	}
-	public void setSpeedX(double d){
-		speedX=d;
-	}
-	public void setSpeedY(double a){
-		speedY=a;
-	}
-	
 	//Getters***************************************************
-	public double getspeedX(){
-		return speedX;
-	}
-	public double getspeedY(){
-		return speedY;
-	}
-	public double getaccelX(){
+	public double getAccelX(){
 		return accelX;
 	}
-	public double getaccelY(){
+	public double getAccelY(){
 		return accelY;
 	}
-	public double getNewY(){
-		return newy;
-	}
-	public double getNewX(){
-		return newx;
+	public boolean canJump(){
+		return posjump;
 	}
 	
 	//Modifier**************************************************
@@ -62,6 +46,9 @@ public abstract class Movable extends Entity{
 	}
 	public void modifySpeedY(int a){
 		speedY+=a;
+	}
+	public void setPosJump(boolean b){
+		posjump = b;
 	}
 	
 	//Other movements**********************************************

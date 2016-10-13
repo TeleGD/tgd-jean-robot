@@ -9,7 +9,7 @@ public abstract class Entity {
 	
 	// les variables
 	protected double x,y;
-	protected double newx,newy,oldx,oldy;
+	protected double newx,newy;
 	protected double speedx,speedy;
 	protected double width, height;
 	protected int life;
@@ -66,18 +66,6 @@ public abstract class Entity {
 	public void setNewy(double newy) {
 		this.newy = newy;
 	}
-	public double getOldx() {
-		return oldx;
-	}
-	public void setOldx(double oldx) {
-		this.oldx = oldx;
-	}
-	public double getOldy() {
-		return oldy;
-	}
-	public void setOldy(double oldy) {
-		this.oldy = oldy;
-	}
 	public double getSpeedx() {
 		return speedx;
 	}
@@ -110,7 +98,7 @@ public abstract class Entity {
 	}
 	
 	public boolean containsPoint(int x,int y){
-		return getX()<x && getX()+getWidth() >x && getY()<y && getY()+getHeight()>y;
+		return this.newx<=x &&  x<=this.newx+width && this.newy<=y && y<=this.newy+height;
 	}
 
 	

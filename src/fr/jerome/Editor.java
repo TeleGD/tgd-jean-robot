@@ -45,7 +45,7 @@ public class Editor extends BasicGameState{
 	private static int yMenu=Game.hauteur-tailleMenu;
 	
 	//Faudra voir pour le constructeur des plateformes (Nico)
-	private Plateform plateformMenu=new Plateform(3,1,5,-1);
+	private Plateform plateformMenu=new Plateform(5,1,3,1);
 	private Enemy enemyMenu=new Enemy();
 	private AddMunition addMunitionMenu=new AddMunition();
 	private DecreaseAmmo decreaseAmmoMenu=new DecreaseAmmo();
@@ -63,10 +63,9 @@ public class Editor extends BasicGameState{
 	private static StateBasedGame game;
 	private static long time;
 
-
 	private static boolean gridEnabled;
 	
-	
+	private Plateform plateformEnCours;
 	
 	//pour le titre de l'editeur
 	private static boolean showTitle=true;
@@ -85,7 +84,8 @@ public class Editor extends BasicGameState{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		plateformMenu.setY(yMenu+30);
+		
+		plateformMenu.setY(yMenu+50);
 		plateformMenu.setX(Game.longueur*0.2);
 	}
 	
@@ -135,6 +135,8 @@ public class Editor extends BasicGameState{
 		//addMunitionMenu.render(container, game, g);
 		//decreaseAmmoMenu.render(container, game, g);
 		
+		
+		if(plateformEnCours!=null)plateformEnCours.render(container, game, g);
 		renderOptions(container,game,g);
 	}
 	
@@ -179,7 +181,7 @@ public class Editor extends BasicGameState{
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		time+=delta;
-		if(time>3000 && time<3500 ){
+		if(time>4000 && time<4500 ){
 			if(!menuRentre)fermerMenu=true;
 			showTitle=false;
 		}
@@ -199,7 +201,8 @@ public class Editor extends BasicGameState{
 				menuRentre=false;
 			}
 		}
-		plateformMenu.setY(yMenu+30);
+		plateformMenu.setY(yMenu+50);
+		plateformMenu.update(container, game, delta);
 	}
 
 	@Override
@@ -213,6 +216,8 @@ public class Editor extends BasicGameState{
 		if(newy<Game.hauteur-tailleMenu && !menuRentre){
 			fermerMenu=true;
 		}
+		
+		
 	}
 	public void mouseMoved(int oldx,int  oldy, int newx,int  newy){
 		if(newy<Game.hauteur-tailleMenu && !menuRentre){
@@ -222,16 +227,25 @@ public class Editor extends BasicGameState{
 		if(newy>Game.hauteur-50 && menuRentre){
 			ouvrirMenu=true;
 		}
+		if(plateformEnCours!=null){
+			plateformEnCours.setPosition((int)((newx-plateformEnCours.getWidth()/2)/Game.DENSITE_X),(int) ((newy-plateformEnCours.getHeight()/2)/Game.DENSITE_Y));
+		
+		}
+		
 		
 	}
 	public void mouseReleased(int button, int x,int y){
-		
+		//System.out.println("x="+x+"  y="+y);
+		//System.out.println("(x,y)="+plateformMenu.getX()+","+plateformMenu.getY()+")");
+		//System.out.println("(w,h)="+plateformMenu.getWidth()+","+plateformMenu.getHeight()+")");
+		if(plateformMenu.containsPoint(x, y)){
+			//System.out.println("salut");
+			plateformEnCours=new Plateform(plateformMenu);
+			plateforms.add(plateformEnCours);
+		}
 	}
 	public void mousePressed(int button, int oldx,int oldy){
-		if(plateformMenu.containsPoint(oldx, oldy)){
-			plateforms.add(plateformMenu);
-			
-		}
+		
 	}
 	
 	public static void reset(){

@@ -17,9 +17,9 @@ public class Plateform extends Entity implements Rectangle {
 	Image texture;
 
 	// Setters *****************************************************
-	public void setPosition(float newx, float newy) {
-		x = newx;
-		y = newy;
+	public void setPosition(int indexX, int indexY) {
+		x = indexX*Game.DENSITE_X;
+		y = indexY*Game.DENSITE_Y;
 	}
 
 	public void setSize(float newwidth, float newheight) {
@@ -28,13 +28,23 @@ public class Plateform extends Entity implements Rectangle {
 	}
 
 	// Constructeur***********************************************
+	/**
+	 * 
+	 * @param indexX  : indice du placement de la plateforme horizontal 0->0 1->32 2->64,...
+	 * @param indexY  : indice du placement de la plateforme vertical 0->0 1->32 2->64,...
+	 * @param sizeX
+	 * @param sizeY
+	 */
 	public Plateform(int indexX, int indexY, int sizeX, int sizeY) {
 		this.x = indexX*Game.DENSITE_X;
-		this.newx = this.x;
-		this.newy = this.y;
 		this.y = indexY*Game.DENSITE_Y;
 		this.width = sizeX*Game.DENSITE_X;
 		this.height = sizeY*Game.DENSITE_Y;
+		
+		this.newx = this.x;
+		this.newy = this.y;
+		
+		
 	}
 	
 	public Plateform(Plateform p){
@@ -44,6 +54,7 @@ public class Plateform extends Entity implements Rectangle {
 		this.newy = p.newy;
 		this.width = p.width;
 		this.height = p.height;
+		
 	}
 
 	// Fonction de jeu*********************************************
@@ -59,6 +70,7 @@ public class Plateform extends Entity implements Rectangle {
 		// TODO
 		this.newx = this.x;
 		this.newy = this.y;
+
 	}
 	
 

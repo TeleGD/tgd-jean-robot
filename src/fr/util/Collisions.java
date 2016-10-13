@@ -8,6 +8,23 @@ public class Collisions {
 
 	private static double delta=5; //delta par defaut, valeur de penetration.
 	
+	private static boolean altCollisionY(Entity h1, Entity h2){
+		// produit scalaire negatif OU h1 au dessus de h2 OU h2 au dessus de h1
+		if( (h1.getSpeedy()*h2.getSpeedy() < 0) || (h1.getY()+h1.getHeight()-h2.getY()> 0) || (h2.getY()+h2.getHeight()-h1.getY() > 0) ){
+			return false;
+		}
+		return true;
+	}
+	
+	private static boolean altCollisionX(Entity h1, Entity h2){
+		// produit scalaire negatif OU h1 a gauche de h2 OU h2 a gauche de h1
+		if( (h1.getSpeedx()*h2.getSpeedx() < 0) || (h1.getX()+h1.getWidth()-h2.getX()> 0) || (h2.getX()+h2.getWidth()-h1.getX() > 0) ){
+			return false;
+		}
+		return true;
+	}
+	
+	
 	//verifie qu'il existe une collision entre la Entity 1 et Entity2 sur l'axe Y
 	//retourne :
 	//0 -> aucune collision
@@ -17,15 +34,28 @@ public class Collisions {
 	public static int isCollisionY(Entity h1,Entity h2, double delta){
 		
 		//si la Entity tombe et va plus bas que le haut de l'autre Entity
-		if ( (h1.getSpeedy()>0) && (h1.getnewY()+h1.getHeight()>h2.getnewY()+delta) ){
+		if ( (h1.getSpeedy()>0) && (h1.getnewY()+h1.getHeight()>=h2.getnewY()+delta) ){
 			return -1;
 		}
 		
 		//si la Entity saute et se cogne sur la Entity du dessus.
-		if ( (h1.getSpeedy()<0) && (h1.getY()-delta<h2.getY()+h2.getHeight())){
+		if ( (h1.getSpeedy()<0) && (h1.getY()-delta<=h2.getY()+h2.getHeight())){
 			return 1;
 		}
 		
+		//sinon, aucune collision
+		return 0;
+	}
+	public static int isCollisionY(Entity h1,Entity h2){
+		
+		//si la Entity tombe et va plus bas que le haut de l'autre Entity
+		if ( (h1.getSpeedy()>0) && (h1.getnewY()+h1.getHeight()>=h2.getnewY()+delta) ){
+			return -1;
+		}
+		//si la Entity saute et se cogne sur la Entity du dessus.
+		if ( (h1.getSpeedy()<0) && (h1.getY()-delta<=h2.getY()+h2.getHeight())){
+			return 1;
+		}
 		//sinon, aucune collision
 		return 0;
 	}
@@ -39,52 +69,39 @@ public class Collisions {
 	public static int isCollisionX(Entity h1,Entity h2, double delta){
 		
 		//si la Entity va vers la gauche et heurte l'autre
-		if ( (h1.getSpeedx()>0) && (h1.getnewX()+h1.getWidth()>h2.getnewX()+delta) ){
+		if ( (h1.getSpeedx()>0) && (h1.getnewX()+h1.getWidth()>=h2.getnewX()+delta) ){
 			return -1;
 		}
 		//si la Entity va vers la droite et heurte l'autre
-		if ( (h1.getSpeedx()<0) && (h1.getX()-delta<h2.getX()+h2.getWidth())){
+		if ( (h1.getSpeedx()<0) && (h1.getX()-delta<=h2.getX()+h2.getWidth())){
 			return 1;
 		}
 		
 		//sinon, aucune collision
 		return 0;
 	}
-	
-	public static int isCollisionY(Entity h1,Entity h2){
 			
-			//si la Entity tombe et va plus bas que le haut de l'autre Entity
-			if ( (h1.getSpeedy()>0) && (h1.getnewY()+h1.getHeight()>h2.getnewY()+delta) ){
-				return -1;
-			}
-			//si la Entity saute et se cogne sur la Entity du dessus.
-			if ( (h1.getSpeedy()<0) && (h1.getY()-delta<h2.getY()+h2.getHeight())){
-				return 1;
-			}
-			//sinon, aucune collision
-			return 0;
+	//verifie qu'il existe une collision entre la Entity 1 et Entity2 sur l'axe X
+		//retourne :
+		//0 -> aucune collision
+		//-1 -> collision par la gauche
+		//1 -> collision par la droite
+		//note : on peut utiliser la valeur retournee pour modifier la vitesse suite a la collision ! merci bibi
+	
+	public static int isCollisionX(Entity h1,Entity h2){
+		
+		//si la Entity va vers la droite et heurte l'autre
+		if ( (h1.getSpeedx()>0) && (h1.getnewX()+h1.getWidth()>=h2.getnewX()-delta) ){
+			return -1;
+		}
+		//si la Entity va vers la gauche et heurte l'autre
+		if ( (h1.getSpeedx()<0) && (h1.getX()-delta<=h2.getX()+h2.getWidth())){
+			return 1;
 		}
 		
-		//verifie qu'il existe une collision entre la Entity 1 et Entity2 sur l'axe X
-			//retourne :
-			//0 -> aucune collision
-			//-1 -> collision par la gauche
-			//1 -> collision par la droite
-			//note : on peut utiliser la valeur retourner pour modifier la vitesse suite a la collision ! merci bibi
-		public static int isCollisionX(Entity h1,Entity h2){
-			
-			//si la Entity va vers la droite et heurte l'autre
-			if ( (h1.getSpeedx()>0) && (h1.getnewX()+h1.getWidth()>h2.getnewX()-delta) ){
-				return -1;
-			}
-			//si la Entity va vers la gauche et heurte l'autre
-			if ( (h1.getSpeedx()<0) && (h1.getX()-delta<h2.getX()+h2.getWidth())){
-				return 1;
-			}
-			
-			//sinon, aucune collision
-			return 0;
-		}
+		//sinon, aucune collision
+		return 0;
+	}
 	
 	
 	
@@ -147,7 +164,7 @@ public class Collisions {
 	
 	 * collision ou non de deux rectangle l'un au-dessus de l'autre on considﾃｩ窶伉ｽe
 	 * que les rectanggle n'ont pas de rotation selon l'axe z (qui sort de
-	 * l'ﾃｩﾂｦ窶排an) on a donc la trajectoirede tous les points qui est la mﾃｩﾂｺﾂ･e pour
+	 * l'écran) on a donc la trajectoirede tous les points qui est la mﾃｩﾂｺﾂ･e pour
 	 * un rectangle donnﾃｯﾂｿﾂｽ c'est pourquoi on s'interesse a certains coins et non
 	 * a chaque coin on s'occupe du coin inferieur droit du rectange du haut et
 	 * au coin superieur gauche du rectangle d'en bas

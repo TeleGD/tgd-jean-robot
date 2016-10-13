@@ -18,9 +18,9 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 import org.newdawn.slick.util.ResourceLoader;
 
-import fr.main.Main;
-import fr.main.World;
-import fr.testjeje.Editor;
+import fr.game.Game;
+import fr.game.World;
+import fr.jerome.Editor;
 
 public class Mainmenu extends BasicGameState {
 
@@ -84,10 +84,10 @@ public class Mainmenu extends BasicGameState {
 
 		g.setColor(Color.red);
 		g.setFont(fontTitreBold);
-		g.drawString(this.titre,(Main.longueur-fontTitreBold.getWidth(titre))/2 , 120);
+		g.drawString(this.titre,(Game.longueur-fontTitreBold.getWidth(titre))/2 , 120);
 		g.setColor(Color.white);
 		g.setFont(fontTitre);
-		g.drawString(this.titre,(Main.longueur-fontTitre.getWidth(titre))/2 , 120);
+		g.drawString(this.titre,(Game.longueur-fontTitre.getWidth(titre))/2 , 120);
 
 		g.setFont(font1);
 		g.drawString(this.nom, 550, 320);

@@ -10,8 +10,8 @@ import fr.util.Movable;
 public class Camera extends Movable{
 	
 	public Camera(){
-		this.x=fr.main.World.getPlayer().getX();
-		this.y=fr.main.World.getPlayer().getY();
+		this.x=fr.game.World.getPlayer().getX();
+		this.y=fr.game.World.getPlayer().getY();
 	}
 	
 	@Override
@@ -22,7 +22,7 @@ public class Camera extends Movable{
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-		this.x=fr.main.World.getPlayer().getspeedX();
-		this.y=fr.main.World.getPlayer().getspeedY();
+		this.x=fr.game.World.getPlayer().getspeedX();
+		this.y=fr.game.World.getPlayer().getspeedY();
 	}
 }

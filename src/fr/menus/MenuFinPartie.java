@@ -25,7 +25,7 @@ public class MenuFinPartie extends BasicGameState {
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {
 		
 		arg2.drawString("Tu as perdu, ton score n'est que de ", 500, 300);
-		arg2.drawString(""+fr.main.World.getScore(),600,400);
+		arg2.drawString(""+fr.game.World.getScore(),600,400);
 	}
 
 	@Override

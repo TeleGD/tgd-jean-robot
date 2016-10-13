@@ -23,13 +23,13 @@ public class MenuSortie extends BasicGameState{
 		container.setShowFPS(true);
 		this.game = game;
 
-		image =new Image("Images/imagefin.png");  
+		//image =new Image("Images/imagefin.png");  
 
 	}
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {
-		arg2.drawImage(image, 400-155, 300-110);
+		//arg2.drawImage(image, 400-155, 300-110);
 	}
 
 	@Override

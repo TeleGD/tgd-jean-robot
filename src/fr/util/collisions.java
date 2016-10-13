@@ -1,15 +1,100 @@
 package fr.util;
 
 //import fr.character.Ennemy1;
-import fr.character.Player;
-import fr.decor.Platform;
+import fr.characters.Player;
+//import fr.decor.Platforms;
 
-public class collisions {
+public class Collisions {
 
-	private static int margev = 0;
+	private static double delta=5; //delta par dÃ©faut, valeur de pÃ©nÃ©tration.
+	
+	//vÃ©rifie qu'il existe une collision entre la Entity 1 en rapport Ã  Entity2 sur l'axe Y
+	//retourne :
+	//0 -> aucune collision
+	//-1 -> collision par le haut
+	//1 -> collision par le bas
+	//note : on peut utiliser la valeur retourner pour modifier la vitesse suite Ã  la colision ! merci bibi
+	public static int isCollisionY(Entity h1,Entity h2, double delta){
+		
+		//si la Entity tombe et va plus bas que le haut de l'autre Entity
+		if ( (h1.getSpeedy()>0) && (h1.getnewY()+h1.getHeight()>h2.getnewY()+delta) ){
+			return -1;
+		}
+		//si la Entity saute et se cogne sur la Entity du dessus.
+		if ( (h1.getSpeedy()<0) && (h1.getY()-delta<h2.getY()+h2.getHeight())){
+			return 1;
+		}
+		
+		//sinon, aucune collision
+		return 0;
+	}
+	
+	//vÃ©rifie qu'il existe une collision entre la Entity 1 en rapport Ã  Entity2 sur l'axe X
+		//retourne :
+		//0 -> aucune collision
+		//-1 -> collision par la gauche
+		//1 -> collision par la droite
+		//note : on peut utiliser la valeur retourner pour modifier la vitesse suite Ã  la colision ! merci bibi
+	public static int isCollisionX(Entity h1,Entity h2, double delta){
+		
+		//si la Entity va vers la gauche et heurte l'autre
+		if ( (h1.getSpeedx()>0) && (h1.getnewX()+h1.getWidth()>h2.getnewX()+delta) ){
+			return -1;
+		}
+		//si la Entity va vers la droite et heurte l'autre
+		if ( (h1.getSpeedx()<0) && (h1.getX()-delta<h2.getX()+h2.getWidth())){
+			return 1;
+		}
+		
+		//sinon, aucune collision
+		return 0;
+	}
+	
+	public static int isCollisionY(Entity h1,Entity h2){
+			
+			//si la Entity tombe et va plus bas que le haut de l'autre Entity
+			if ( (h1.getSpeedy()>0) && (h1.getnewY()+h1.getHeight()>h2.getnewY()+delta) ){
+				return -1;
+			}
+			//si la Entity saute et se cogne sur la Entity du dessus.
+			if ( (h1.getSpeedy()<0) && (h1.getY()-delta<h2.getY()+h2.getHeight())){
+				return 1;
+			}
+			
+			//sinon, aucune collision
+			return 0;
+		}
+		
+		//vÃ©rifie qu'il existe une collision entre la Entity 1 en rapport Ã  Entity2 sur l'axe X
+			//retourne :
+			//0 -> aucune collision
+			//-1 -> collision par la gauche
+			//1 -> collision par la droite
+			//note : on peut utiliser la valeur retourner pour modifier la vitesse suite Ã  la colision ! merci bibi
+		public static int isCollisionX(Entity h1,Entity h2){
+			
+			//si la Entity va vers la gauche et heurte l'autre
+			if ( (h1.getSpeedx()>0) && (h1.getnewX()+h1.getWidth()>h2.getnewX()+delta) ){
+				return -1;
+			}
+			//si la Entity va vers la droite et heurte l'autre
+			if ( (h1.getSpeedx()<0) && (h1.getX()-delta<h2.getX()+h2.getWidth())){
+				return 1;
+			}
+			
+			//sinon, aucune collision
+			return 0;
+		}
+	
+	
+	
+	
+	
+	
+	/*private static int margev = 0;
 	private static double valint1, valint2, valint3;
 
-	public static boolean isCollisionplayer1plateform(Player player1, Platform plat, int delta) {
+	public static boolean isCollisionplayer1plateform(Player player1, Platforms plat, int delta) {
 
 		if (player1.getspeedY() < 0) {
 			return false;
@@ -31,7 +116,7 @@ public class collisions {
 
 	// Detection de collisions entre deux rectangle,le premier etant au-dessus
 	// du deuxieme:
-	/*
+	
 	 * public static boolean col2RecTopBottom(Rectangle top,Rectangle bottom){
 	 * 
 	 * if((top.getY()+top.getHeight()<bottom.getY())&&(top.getnewY()+top.
@@ -43,7 +128,7 @@ public class collisions {
 	 * 
 	 * 
 	 * return true; }
-	 */
+	 
 
 	public static boolean col2RecLeftRight(Rectangle left, Rectangle right) {
 
@@ -59,14 +144,14 @@ public class collisions {
 		return true;
 	}
 
-	/*
-	 * collision ou non de deux rectangle l'un au-dessus de l'autre on consid鑽e
+	
+	 * collision ou non de deux rectangle l'un au-dessus de l'autre on considé‘½e
 	 * que les rectanggle n'ont pas de rotation selon l'axe z (qui sort de
-	 * l'馗ran) on a donc la trajectoirede tous les points qui est la m麥e pour
-	 * un rectangle donn� c'est pourquoi on s'interesse a certains coins et non
+	 * l'é¦—ran) on a donc la trajectoirede tous les points qui est la méº¥e pour
+	 * un rectangle donnï¿½ c'est pourquoi on s'interesse a certains coins et non
 	 * a chaque coin on s'occupe du coin inferieur droit du rectange du haut et
 	 * au coin superieur gauche du rectangle d'en bas
-	 */
+	 
 
 	public static boolean col2RecTopBottom(Rectangle top, Rectangle bottom) {
 		if ((top.getnewY() + top.getHeight() > bottom.getnewY()) && (top.getY() + top.getHeight() < bottom.getY())) {
@@ -125,13 +210,13 @@ public class collisions {
 	}
 
 	// Fonction de Quentin
-	/*
+	
 	 * public static boolean isCollisionRectRect(Rectangle rect1, Rectangle
 	 * rect2) { int marge = 0; if (rect1.getX() + rect1.getWidth() - marge >=
 	 * rect2.getX() && rect1.getX() + marge <= rect2.getX() + rect2.getWidth())
 	 * { if (rect1.getY() + rect1.getHeight() - marge >= rect2.getY()&&
 	 * rect1.getY() + marge <= rect2.getY() + rect2.getHeight()) { return true;
 	 * } else return false; } else return false; }
-	 */
-
+	 
+*/
 }

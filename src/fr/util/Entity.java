@@ -7,8 +7,14 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public abstract class Entity {
 	
+	// les variables
 	protected double x,y;
 	protected double newx,newy,oldx,oldy;
+	protected double speedx,speedy;
+	protected double width, height;
+	protected int life;
+	protected boolean killable;
+	
 	
 	//N�cessaire pour les jeux****************************************************
 	public abstract void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException;
@@ -40,6 +46,67 @@ public abstract class Entity {
 	
 	public double getnewX() {
 		return x;
+	}
+	
+	public boolean isKillable() {
+		return killable;
+	}
+	public void setKillable(boolean killable) {
+		this.killable = killable;
+	}
+	public double getNewx() {
+		return newx;
+	}
+	public void setNewx(double newx) {
+		this.newx = newx;
+	}
+	public double getNewy() {
+		return newy;
+	}
+	public void setNewy(double newy) {
+		this.newy = newy;
+	}
+	public double getOldx() {
+		return oldx;
+	}
+	public void setOldx(double oldx) {
+		this.oldx = oldx;
+	}
+	public double getOldy() {
+		return oldy;
+	}
+	public void setOldy(double oldy) {
+		this.oldy = oldy;
+	}
+	public double getSpeedx() {
+		return speedx;
+	}
+	public void setSpeedx(double speedx) {
+		this.speedx = speedx;
+	}
+	public double getSpeedy() {
+		return speedy;
+	}
+	public void setSpeedy(double speedy) {
+		this.speedy = speedy;
+	}
+	public double getWidth() {
+		return width;
+	}
+	public void setWidth(double width) {
+		this.width = width;
+	}
+	public double getHeight() {
+		return height;
+	}
+	public void setHeight(double height) {
+		this.height = height;
+	}
+	public int getLife() {
+		return life;
+	}
+	public void setLife(int life) {
+		this.life = life;
 	}
 
 	

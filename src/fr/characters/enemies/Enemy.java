@@ -13,7 +13,7 @@ import fr.util.Rectangle;
 public class Enemy extends Movable implements Rectangle{
 		protected double width, height;
 		private int isCollisionX;// y a t il eu une coll
-		// sur l'axe X à gauche ou à droite
+		// sur l'axe X ï¿½ gauche ou ï¿½ droite
 		private int isCollisionY; // y a t il eu une coll
 		// sur l'axe Y en haut ou en bas
 		int bas = 600;

@@ -6,20 +6,21 @@ import fr.characters.Player;
 
 public class Collisions {
 
-	private static double delta=5; //delta par dÃ©faut, valeur de pÃ©nÃ©tration.
+	private static double delta=5; //delta par defaut, valeur de penetration.
 	
-	//vÃ©rifie qu'il existe une collision entre la Entity 1 en rapport Ã  Entity2 sur l'axe Y
+	//verifie qu'il existe une collision entre la Entity 1 et Entity2 sur l'axe Y
 	//retourne :
 	//0 -> aucune collision
 	//-1 -> collision par le haut
 	//1 -> collision par le bas
-	//note : on peut utiliser la valeur retourner pour modifier la vitesse suite Ã  la colision ! merci bibi
+	//note : on peut utiliser la valeur retourner pour modifier la vitesse suite a la collision ! merci bibi (Par pitie, pas d'accents dans le code ou les commentaires : ca fout le merdier chez moi)
 	public static int isCollisionY(Entity h1,Entity h2, double delta){
 		
 		//si la Entity tombe et va plus bas que le haut de l'autre Entity
 		if ( (h1.getSpeedy()>0) && (h1.getnewY()+h1.getHeight()>h2.getnewY()+delta) ){
 			return -1;
 		}
+		
 		//si la Entity saute et se cogne sur la Entity du dessus.
 		if ( (h1.getSpeedy()<0) && (h1.getY()-delta<h2.getY()+h2.getHeight())){
 			return 1;
@@ -29,12 +30,12 @@ public class Collisions {
 		return 0;
 	}
 	
-	//vÃ©rifie qu'il existe une collision entre la Entity 1 en rapport Ã  Entity2 sur l'axe X
+	//verifie qu'il existe une collision entre la Entity 1 et Entity2 sur l'axe X
 		//retourne :
 		//0 -> aucune collision
 		//-1 -> collision par la gauche
 		//1 -> collision par la droite
-		//note : on peut utiliser la valeur retourner pour modifier la vitesse suite Ã  la colision ! merci bibi
+		//note : on peut utiliser la valeur retournee pour modifier la vitesse suite a la collision ! merci bibi
 	public static int isCollisionX(Entity h1,Entity h2, double delta){
 		
 		//si la Entity va vers la gauche et heurte l'autre
@@ -60,24 +61,23 @@ public class Collisions {
 			if ( (h1.getSpeedy()<0) && (h1.getY()-delta<h2.getY()+h2.getHeight())){
 				return 1;
 			}
-			
 			//sinon, aucune collision
 			return 0;
 		}
 		
-		//vÃ©rifie qu'il existe une collision entre la Entity 1 en rapport Ã  Entity2 sur l'axe X
+		//verifie qu'il existe une collision entre la Entity 1 et Entity2 sur l'axe X
 			//retourne :
 			//0 -> aucune collision
 			//-1 -> collision par la gauche
 			//1 -> collision par la droite
-			//note : on peut utiliser la valeur retourner pour modifier la vitesse suite Ã  la colision ! merci bibi
+			//note : on peut utiliser la valeur retourner pour modifier la vitesse suite a la collision ! merci bibi
 		public static int isCollisionX(Entity h1,Entity h2){
 			
-			//si la Entity va vers la gauche et heurte l'autre
-			if ( (h1.getSpeedx()>0) && (h1.getnewX()+h1.getWidth()>h2.getnewX()+delta) ){
+			//si la Entity va vers la droite et heurte l'autre
+			if ( (h1.getSpeedx()>0) && (h1.getnewX()+h1.getWidth()>h2.getnewX()-delta) ){
 				return -1;
 			}
-			//si la Entity va vers la droite et heurte l'autre
+			//si la Entity va vers la gauche et heurte l'autre
 			if ( (h1.getSpeedx()<0) && (h1.getX()-delta<h2.getX()+h2.getWidth())){
 				return 1;
 			}
@@ -145,10 +145,10 @@ public class Collisions {
 	}
 
 	
-	 * collision ou non de deux rectangle l'un au-dessus de l'autre on considé‘½e
+	 * collision ou non de deux rectangle l'un au-dessus de l'autre on considﾃｩ窶伉ｽe
 	 * que les rectanggle n'ont pas de rotation selon l'axe z (qui sort de
-	 * l'é¦—ran) on a donc la trajectoirede tous les points qui est la méº¥e pour
-	 * un rectangle donnï¿½ c'est pourquoi on s'interesse a certains coins et non
+	 * l'ﾃｩﾂｦ窶排an) on a donc la trajectoirede tous les points qui est la mﾃｩﾂｺﾂ･e pour
+	 * un rectangle donnﾃｯﾂｿﾂｽ c'est pourquoi on s'interesse a certains coins et non
 	 * a chaque coin on s'occupe du coin inferieur droit du rectange du haut et
 	 * au coin superieur gauche du rectangle d'en bas
 	 

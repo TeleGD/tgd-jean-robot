@@ -27,6 +27,7 @@ public class World extends BasicGameState {
 	
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
+		game = arg1;
 		Nico = new Player();
 		plateforms= new ArrayList<Plateform>();
 		enemies=new ArrayList<Enemy>();

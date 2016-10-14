@@ -15,19 +15,19 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.geom.Path;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 import org.newdawn.slick.util.ResourceLoader;
 
-import fr.characters.Player;
 import fr.characters.enemies.*;
 import fr.decor.Plateform;
 import fr.game.Game;
-import fr.game.World;
 import fr.menus.Mainmenu;
 import fr.util.Button;
+import fr.util.Button.OnClickListener;
 
 public class Editor extends BasicGameState{
 
@@ -35,13 +35,11 @@ public class Editor extends BasicGameState{
 	
 	public static final int ID = 1;
 
-	private static final String DOSSIER_LEVEL = "levels";
+	private static final String REPERTOIRE_LEVELS = "levels";
 	private ArrayList<Bonus> bonus=new ArrayList<Bonus>();
 	private ArrayList<Plateform> plateforms=new ArrayList<Plateform>();
 	private ArrayList<Enemy> enemys=new ArrayList<Enemy>();
 	//private Player player=new Player((int)(Game.longueur*0.15f),(int)(Game.hauteur*0.7f));
-	
-
 	private static boolean ouvrirMenu;
 	private static boolean fermerMenu;
 	private boolean menuRentre;
@@ -78,18 +76,18 @@ public class Editor extends BasicGameState{
 	private TrueTypeFont fontTitle;
 	private String title="LEVEL EDITOR";
 
-	private Button enregistrer=new Button("Enregistrer",15,yMenu-tailleMenu-35);
+	private Button enregistrer=new Button("ENREGISTRER",Game.longueur-130,5);
 
-	private boolean saveAbove;
+	private int decalage=0;
 
-	private boolean saveClicked;
 
+	private boolean flecheBackVisible=true;
+	private boolean flecheForwardVisible=true;
+			
 	public Editor(){
 		Font titreFont;
 		try {
-			titreFont =Font.createFont(java.awt.Font.TRUETYPE_FONT,
-					       ResourceLoader.getResourceAsStream("font/PressStart2P.ttf"));
-			
+			titreFont =Font.createFont(java.awt.Font.TRUETYPE_FONT,ResourceLoader.getResourceAsStream("font/PressStart2P.ttf"));
 			fontTitle = new TrueTypeFont(titreFont.deriveFont(java.awt.Font.PLAIN, 50.f),false);
 
 		} catch (FontFormatException | IOException e) {
@@ -99,19 +97,30 @@ public class Editor extends BasicGameState{
 		
 		plateformMenu.setY(yMenu+50);
 		plateformMenu.setX(Game.longueur*0.2);
+		
+		enregistrer.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClicked(Button b) {
+				enregistrer("niveau1");
+				
+			}});
 	}
 	
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 
-		World.getPlayer().render(container, game, g);
+		
+		
 		if(gridEnabled)renderGrid(container,game,g);
 
 		for(int i=0;i<plateforms.size();i++){
 			plateforms.get(i).render(container, game, g);
 		}
-		
+
+		renderFleches(container,game,g);
 		renderMenu(container,game,g);
+		enregistrer.render(container, game, g);
 		
 		if(showTitle){
 			g.setFont(fontTitle);
@@ -122,6 +131,35 @@ public class Editor extends BasicGameState{
 	}
 	
 	
+	private void renderFleches(GameContainer container, StateBasedGame game, Graphics g) {
+		g.setColor(Color.white);
+
+		g.setAntiAlias(true);
+		g.setLineWidth(10);
+		
+		if(flecheForwardVisible){
+			Path path = new Path(Game.longueur-35,2*Game.hauteur/5);
+			path.lineTo(Game.longueur-10,Game.hauteur/2+1);
+			path.lineTo(Game.longueur-10,Game.hauteur/2-1);
+			path.lineTo(Game.longueur-35,3*Game.hauteur/5);
+
+			g.draw(path);
+		}
+		
+
+		if(flecheBackVisible){
+			Path path2 = new Path(35,2*Game.hauteur/5);
+			path2.lineTo(10,Game.hauteur/2+1);
+			path2.lineTo(10,Game.hauteur/2-1);
+			path2.lineTo(35,3*Game.hauteur/5);
+
+			g.draw(path2);
+
+		}
+		g.setLineWidth(1);
+		
+	}
+
 	public void renderGrid(GameContainer container, StateBasedGame game, Graphics g) {
 		int nbCaseHori=Game.longueur/32;
 		int nbCaseVert=Game.hauteur/32;
@@ -146,16 +184,13 @@ public class Editor extends BasicGameState{
 		g.fillRect(0, yMenu+6, Game.longueur,(Game.hauteur-yMenu)-5);
 		
 		plateformMenu.render(container, game, g);
-		//enemyMenu.render(container, game, g);
-		//addMunitionMenu.render(container, game, g);
-		//decreaseAmmoMenu.render(container, game, g);
-		
-		
+	
 		if(plateformEnCours!=null){
 			plateformEnCours.render(container, game, g);
 			g.setColor(Color.red);
-			g.drawString("SELECTED",(int)(plateformEnCours.getX()+plateformEnCours.getWidth()/2-40), (int)(plateformEnCours.getY()+plateformEnCours.getHeight()/2-10));
+			g.drawRect((float)plateformEnCours.getX(),(float)plateformEnCours.getY(),(float)plateformEnCours.getWidth(),(float)plateformEnCours.getHeight());
 		}
+		
 		renderOptions(container,game,g);
 	}
 	
@@ -179,16 +214,6 @@ public class Editor extends BasicGameState{
 		}
 
 		
-		if(saveAbove){
-			g.setColor(Color.red);
-			g.drawRect(5, yMenu+tailleMenu-35, 120, 26);
-		}
-		
-		if(saveClicked)
-			g.setColor(Color.red);
-		else
-			g.setColor(Color.white);
-		g.drawString("ENREGISTRER",15,yMenu+tailleMenu-30);
 	}
 
 
@@ -234,6 +259,8 @@ public class Editor extends BasicGameState{
 		if(time>4000 && time<4500 ){
 			if(!menuRentre)fermerMenu=true;
 			showTitle=false;
+			flecheForwardVisible=false;
+			flecheBackVisible=false;
 		}
 		
 		if(fermerMenu && !menuRentre && !menuLocked){
@@ -267,6 +294,7 @@ public class Editor extends BasicGameState{
 	}
 
 	public void mouseDragged(int oldx,int  oldy, int newx,int  newy){
+		enregistrer.mouseDragged(newx,newy);
 		if(newy<Game.hauteur-tailleMenu && !menuRentre){
 			fermerMenu=true;
 		}
@@ -274,6 +302,8 @@ public class Editor extends BasicGameState{
 		
 	}
 	public void mouseMoved(int oldx,int  oldy, int newx,int  newy){
+		enregistrer.mouseMoved(newx,newy);
+		
 		if(newy<Game.hauteur-tailleMenu && !menuRentre){
 			fermerMenu=true;
 		}
@@ -281,17 +311,55 @@ public class Editor extends BasicGameState{
 		if(newy>Game.hauteur-50 && menuRentre){
 			ouvrirMenu=true;
 		}
-		if(plateformEnCours!=null){
+		if(plateformEnCours!=null && !isTherePlatform(newx,newy)){
 			plateformEnCours.setPosition((int)((newx-plateformEnCours.getWidth()/2)/Game.DENSITE_X),(int) ((newy-plateformEnCours.getHeight()/2)/Game.DENSITE_Y));
 		}
-		if(newx>5 && newy>yMenu+tailleMenu-35 && newx<130 && newy<yMenu+tailleMenu+45){
-			saveAbove=true;
-		}else saveAbove=false;
+		
+		if(newx>Game.longueur-40){
+			flecheForwardVisible=true;
+			time=0;
+		}
+		if(newx<40 && decalage>0){
+			flecheBackVisible=true;
+			time=0;
+		}
 		
 		
 	}
+	private boolean isTherePlatform(int newx, int newy) {	
+		
+		newx=(int)((newx-plateformEnCours.getWidth()/2)/Game.DENSITE_X)*Game.DENSITE_X;
+		newy=(int)((newy-plateformEnCours.getHeight()/2)/Game.DENSITE_Y)*Game.DENSITE_Y;
+		
+		int width=(int) plateformEnCours.getWidth();
+		int height=(int) plateformEnCours.getHeight();
+		
+		for(int i=0;i<plateforms.size();i++){
+			for(int k=0;k<width/Game.DENSITE_X;k++){
+				for(int l=0;l<height/Game.DENSITE_Y;l++){
+					if(newx+k*Game.DENSITE_X>=plateforms.get(i).getX()
+					&& newx+k*Game.DENSITE_X<plateforms.get(i).getX()+plateforms.get(i).getWidth()
+					&& newy+l*Game.DENSITE_Y>=plateforms.get(i).getY()
+				    && newy+l*Game.DENSITE_Y<plateforms.get(i).getY()+plateforms.get(i).getHeight())
+							{
+								return true;
+							}
+				}
+			}
+			
+		}
+		return false;
+	}
+
 	public void mouseReleased(int button, int x,int y){
-		//c'est quoi
+		if(plateformEnCours!=null){
+			enregistrer.mouseReleased(button,x,y);
+		}
+		if(button==1){
+			plateformEnCours=null;
+			return;
+		}
+		
 		if(plateformMenu.containsPoint(x, y)){
 			plateformEnCours=new Plateform(plateformMenu);
 		}else if(plateformEnCours!=null){
@@ -299,17 +367,29 @@ public class Editor extends BasicGameState{
 			plateformEnCours=new Plateform(plateformMenu);
 		}
 		
-		if(x>5 && y>yMenu+tailleMenu-35 && x<130 && y<yMenu+tailleMenu+45){
-			enregistrer("niveau1");
-			saveClicked=false;
-		}
-	}
-	public void mousePressed(int button, int x,int y){
-		if(x>5 && y>yMenu+tailleMenu-35 && x<130 && y<yMenu+tailleMenu+45){
-			saveClicked=true;
-		}
+		
 	}
 	
+	@Override
+	public void mousePressed(int button, int x,int y){
+		enregistrer.moussePressed(button,x,y);
+	}
+	
+	@Override
+	public void mouseWheelMoved(int val){
+		System.out.println("decalage="+val);
+		decalage=((int)(val/Game.DENSITE_X))*Game.DENSITE_X;
+		
+		decalerEcran();
+	}
+	
+	private void decalerEcran() {
+		for(int i=0;i<plateforms.size();i++){
+			plateforms.get(i).setX(plateforms.get(i).getX()-decalage);
+		}
+		
+	}
+
 	public static void reset(){
 		time=0;
 		showTitle=true;
@@ -327,16 +407,18 @@ public class Editor extends BasicGameState{
 	}
 	
 	public boolean enregistrer(String nom){
-		File f=new File(DOSSIER_LEVEL+File.separator+nom);
-		if(f.exists())return false;
+		File f=new File(REPERTOIRE_LEVELS+File.separator+nom);
+		if(f.exists()){
+			//enregistrer(nom+"2");
+			return false;
+		}
 		try {
 			BufferedWriter bw=new BufferedWriter(new FileWriter(f));
-			String ligne;
 			bw.write("// PLATEFORMES");
 			bw.newLine();
 			
 			for(int i=0;i<plateforms.size();i++){
-				bw.write(plateforms.get(i).toString());
+				bw.write(plateforms.get(i).parseString());
 				bw.newLine();
 			}
 			bw.close();

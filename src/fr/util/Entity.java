@@ -16,7 +16,7 @@ public abstract class Entity {
 	protected boolean killable;
 	
 	
-	//N�ｿｽcessaire pour les jeux****************************************************
+	//Nececessaire pour les jeux****************************************************
 	public abstract void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException;
 	public abstract void update(GameContainer container, StateBasedGame game, int delta) throws SlickException;
 
@@ -100,9 +100,13 @@ public abstract class Entity {
 		this.life = life;
 	}
 	
+	@Override
+	public String toString(){
+		return "x="+x+" y="+y+" width="+width+" height="+height;
+	}
 	//methode qui determine si un point(x,y) est contenu dans la inbox de l'entity
 	public boolean containsPoint(int x,int y){
-		return this.newX<=x &&  x<=this.newX+width && this.newY<=y && y<=this.newY+height;
+		return this.x<=x &&  x<=this.x+width && this.y<=y && y<=this.y+height;
 	}
 
 	

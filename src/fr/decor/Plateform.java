@@ -105,8 +105,8 @@ public class Plateform extends Entity implements Rectangle {
 
 	}
 	
-	@Override
-	public String toString(){
+	public String parseString() {
+		// TODO Auto-generated method stub
 		return "Plateform "+getX()+ ";"+ getY()+";"+getWidth()+";"+getHeight();
 	}
 	

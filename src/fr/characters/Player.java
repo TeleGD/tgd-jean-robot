@@ -10,6 +10,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
+import fr.decor.Plateform;
 import fr.game.Game;
 import fr.menus.MenuFinPartie;
 import fr.util.Collisions;
@@ -66,11 +67,13 @@ public class Player extends Movable implements Rectangle {
 		
 		this.newX = x + speedX * delta;
 		this.newY = y + speedY * delta;
-		this.accelY = (this.accelY + this.gravity)/2;
+		this.accelY = (this.accelY + this.gravity)/2;// Pour que le perso redescende quand il saute.
 		this.speedY += accelY;
 		//if(Math.abs(this.speedY) > 1) speedY = 1; // limitation de vitesse.
-		System.out.println("vy = "+speedY);
+		
+		System.out.println("vy = "+speedY+"; vx = "+speedX+"; y = "+y+"; x = "+x);
 		altMove();
+		System.out.println("----------------------------------------------------");
 		moveX(delta);
 		moveY(delta);
 		
@@ -86,7 +89,9 @@ public class Player extends Movable implements Rectangle {
 
 	private void altMove(){
 		int col;
-		boolean colX = false;
+		boolean colD = false;
+		boolean colG = false;
+		Plateform plat;
 		
 		if (isTooLow()) {
 			//le personnage meurt
@@ -94,20 +99,35 @@ public class Player extends Movable implements Rectangle {
 		}
 		
 		for (int i = 0; i < fr.game.World.getPlateforms().size(); i++){
-			col = Collisions.altCollisionSide(this, fr.game.World.getPlateforms().get(i));
-			colX = colX || (col == 1 || col == 3);
-			if( col == 2 || col == 6 || col == 5 ){
-				// S'il y a une collision par le bas du joueur.
-				speedY = 0;
-				posjump = true;
-				System.out.println("ColID : "+col+"; JUMP ? "+posjump+" UP? "+upPress);
-				
-				if(rightPress)speedX=0.3;
-				else if(leftPress)speedX=-.3;
-				else speedX=0;
+			plat = fr.game.World.getPlateforms().get(i);
+			col = Collisions.altCollisionSide(this, plat);
+			
+			if(this.newY+this.height > plat.getY() && this.newY < plat.getY() + plat.getHeight()){
+				if( this.newX + this.width >= plat.getX() && plat.getX() > this.newX) colD = true;
+				if( this.newX <= plat.getX() + plat.getWidth() && this.newX > plat.getX()) colG = true;
 			}
+			
+			if( col == 2 || col == 6 || col == 5 ){
+				// S'il y a une collision par le bas du joueur, ET par le haut de la plate forme.
+				if(this.newY+this.height <= plat.getY() + plat.getHeight()){
+					speedY = 0;
+					this.y = plat.getY() - this.height; // Juste pour eviter d'avoir les pieds du perso au milieu de la plate forme.
+					posjump = true;
+				}	
+			}
+			
+			System.out.println("Col (ID "+i+") : "+col+"; JUMP : "+posjump+"; UP : "+upPress+"; vertcolthis : "+vertcolthis);
+			
+			
 		}
-		if(colX) speedX=0;
+		
+		if(rightPress && !colD) speedX=0.3;
+		else if(leftPress && !colG) speedX=-.3;
+		else {
+			System.out.println("NOFUNZ");
+			speedX=0;
+		}
+		
 		if (this.posjump && upPress) {
 			jump();
 		}

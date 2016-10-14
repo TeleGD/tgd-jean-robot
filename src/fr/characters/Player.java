@@ -10,6 +10,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
+import fr.game.Game;
 import fr.menus.MenuFinPartie;
 import fr.util.Collisions;
 import fr.util.Movable;
@@ -93,8 +94,16 @@ public class Player extends Movable implements Rectangle {
 				// Si on a une collision, et qu'elle n'est pas par le bas ni par le haut.
 				// (les collisions verticales renvoient 2 ou 4, et pas de collision renvoie 0)
 				speedX = 0;
+			}else{
+
+				if(rightPress)speedX=0.3;
+				else if(leftPress)speedX=-.3;
+				else speedX=0;
 			}
 		}
+		
+		
+	
 	}
 
 
@@ -110,7 +119,6 @@ public class Player extends Movable implements Rectangle {
 			col = Collisions.altCollisionSide(this, fr.game.World.getPlateforms().get(i));
 			if( col == 2 ){
 				// S'il y a une collision par le bas du joueur.
-				
 				speedY = 0;
 				posjump = true;
 			}
@@ -238,10 +246,12 @@ public class Player extends Movable implements Rectangle {
 			break;
 
 		case Input.KEY_Q:
+		case Input.KEY_LEFT:
 			leftPress = false;
 			break;
 
 		case Input.KEY_D:
+		case Input.KEY_RIGHT:
 			rightPress = false;
 			break;
 		}
@@ -258,10 +268,12 @@ public class Player extends Movable implements Rectangle {
 			break;
 
 		case Input.KEY_Q:
+		case Input.KEY_LEFT:
 			leftPress = true;
 			droitegauche = false;
 			break;
 		case Input.KEY_D:
+		case Input.KEY_RIGHT:
 			rightPress = true;
 			droitegauche = true;
 			break;

@@ -141,7 +141,7 @@ public class Collisions {
 		//note : on peut utiliser la valeur retournee pour modifier la vitesse suite a la collision ! merci bibi
 	
 	public static int isCollisionX(Entity h1,Entity h2){
-		
+		/*
 		//si la Entity va vers la droite et heurte l'autre
 		if ( (h1.getSpeedX()>0) && (h1.getNewX()+h1.getWidth()>=h2.getNewX()-delta) ){
 			return -1;
@@ -149,10 +149,10 @@ public class Collisions {
 		//si la Entity va vers la gauche et heurte l'autre
 		if ( (h1.getSpeedX()<0) && (h1.getX()-delta<=h2.getX()+h2.getWidth())){
 			return 1;
-		}
+		}*/
 		
 		//sinon, aucune collision
-		return 0;
+		return isCollisionX(h1,h2,delta);
 	}
 	
 	

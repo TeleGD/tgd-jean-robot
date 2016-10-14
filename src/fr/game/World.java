@@ -32,6 +32,7 @@ public class World extends BasicGameState {
 		plateforms= new ArrayList<Plateform>();
 		enemies=new ArrayList<Enemy>();
 		plateforms.add(new Plateform(0,20,10,1));
+		plateforms.add(new Plateform(10,16,10,1));
 		enemies.add(new Enemy());
 	}
 

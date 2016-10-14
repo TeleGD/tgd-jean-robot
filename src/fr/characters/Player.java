@@ -70,9 +70,8 @@ public class Player extends Movable implements Rectangle {
 		this.speedY += accelY;
 		//if(Math.abs(this.speedY) > 1) speedY = 1; // limitation de vitesse.
 		System.out.println("vy = "+speedY);
-		horizontalMove();
+		altMove();
 		moveX(delta);
-		verticalMove();
 		moveY(delta);
 		
 		this.colplat = this.vertcolthis;
@@ -85,13 +84,41 @@ public class Player extends Movable implements Rectangle {
 		return false;
 	}
 
-
-	private void horizontalMove() {
+	private void altMove(){
 		int col;
+		boolean colX = false;
+		
+		if (isTooLow()) {
+			//le personnage meurt
+			fr.game.World.game.enterState(MenuFinPartie.ID);//d, new FadeOutTransition(),new FadeInTransition());
+		}
+		
 		for (int i = 0; i < fr.game.World.getPlateforms().size(); i++){
 			col = Collisions.altCollisionSide(this, fr.game.World.getPlateforms().get(i));
-			if((col % 2) != 0){
-				// Si on a une collision, et qu'elle n'est pas par le bas ni par le haut.
+			colX = colX || (col == 1 || col == 3);
+			if( col == 2 || col == 6 || col == 5 ){
+				// S'il y a une collision par le bas du joueur.
+				speedY = 0;
+				posjump = true;
+				System.out.println("ColID : "+col+"; JUMP ? "+posjump+" UP? "+upPress);
+				
+				if(rightPress)speedX=0.3;
+				else if(leftPress)speedX=-.3;
+				else speedX=0;
+			}
+		}
+		if(colX) speedX=0;
+		if (this.posjump && upPress) {
+			jump();
+		}
+	}
+
+	private void horizontalMove() {
+		int col;		
+		for (int i = 0; i < fr.game.World.getPlateforms().size(); i++){
+			col = Collisions.altCollisionSide(this, fr.game.World.getPlateforms().get(i));
+			if(col != 0 && col != 2 && col != 4 && col != 0){
+				// Si on a une collision, et qu'elle n'est pas directement par le bas ni par le haut.
 				// (les collisions verticales renvoient 2 ou 4, et pas de collision renvoie 0)
 				speedX = 0;
 			}else{
@@ -117,16 +144,18 @@ public class Player extends Movable implements Rectangle {
 		int col;
 		for (int i = 0; i < fr.game.World.getPlateforms().size(); i++){
 			col = Collisions.altCollisionSide(this, fr.game.World.getPlateforms().get(i));
-			if( col == 2 ){
+			
+			if( col == 2 || col == 6 || col == 5 ){
 				// S'il y a une collision par le bas du joueur.
 				speedY = 0;
 				posjump = true;
+				//System.out.println("Y ColID : "+col+"; JUMP ? "+posjump+" UP? "+upPress);
+
 			}
 		}
 		
-		System.out.println("can jump : "+posjump+" & Z pressed : "+upPress);
+		//System.out.println("can jump : "+posjump+" & Z pressed : "+upPress);
 		if (this.posjump && upPress) {
-			System.out.println("JUMP");
 			jump();
 		}
 		

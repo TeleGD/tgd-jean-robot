@@ -38,17 +38,17 @@ public class Collisions {
 	
 	public static int altCollisionSide(Entity h1, Entity h2){
 	/*Renvoie (on suppose h2 immobile pour le moment):
-	 *	0 si pas de collision; Et sinon :
+	 *	0 si pas de collision; Et sinon : (donc du point de vue du joueur, c'est inverse :)
 	 *		
-	 *				2
-	 *				|
-	 *				v
-	 *			  ------	
-	 *		3 -->|	h2	|<-- 1
-	 *			  ------
-	 *				*
-	 *				|
-	 *				4
+	 *Plate forme :	6		2		5			|Joueur :		8		4		7			
+	 *						|					|
+	 *						v					|
+	 *					  ------				|
+	 *				3 -->|	h2	|<--1			|				1		@		3
+	 *					  ------				|
+	 *						*					|
+	 *						|					|
+	 *				7		4		8			|				5		2		6
 	 * */
 		
 		boolean d,h,g,b;
@@ -62,10 +62,26 @@ public class Collisions {
 		b = ( h1.getSpeedY() < 0 ); // Collision par le bas possible
 		
 		if(supX && supY){
-			if(d) return 1;
-			if(h) return 2;
-			if(g) return 3;
-			if(b) return 4;
+			if(d){
+				if(h) return 5;
+				if(b) return 8;
+				return 1;
+			}
+			if(h){
+				if(g) return 6;
+				if(d) return 5;
+				return 2;
+			}
+			if(g){
+				if(h) return 6;
+				if(b) return 7;
+				return 3;
+			}
+			if(b){
+				if(g) return 7;
+				if(d) return 8;
+				return 4;
+			}
 		}
 		return 0;
 	}

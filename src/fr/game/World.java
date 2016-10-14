@@ -1,6 +1,11 @@
 package fr.game;
 
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.newdawn.slick.GameContainer;
@@ -17,6 +22,7 @@ import fr.decor.Plateform;
 
 public class World extends BasicGameState {
 
+	private static final String REPERTOIRE_NIVEAU = "levels";
 	public static int ID = 0;
 	private static Player Nico;
 	private static ArrayList<Plateform> plateforms = null;
@@ -31,16 +37,23 @@ public class World extends BasicGameState {
 		Nico = new Player();
 		plateforms= new ArrayList<Plateform>();
 		enemies=new ArrayList<Enemy>();
-		plateforms.add(new Plateform(0,20,10,1));
-		plateforms.add(new Plateform(10,16,10,1));
+		
+		if(!chargerNiveau("niveau1")){
+			plateforms.add(new Plateform(0,20,10,1));
+			plateforms.add(new Plateform(10,20,10,1));
+			plateforms.add(new Plateform(10,16,10,1));
+		}
 		enemies.add(new Enemy());
 	}
+
+	
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {
 		Nico.render(arg0, arg1, arg2);
 		for (int i=0; i<plateforms.size();i++){
 			plateforms.get(i).render(arg0, arg1, arg2);
+			
 		}
 	}
 
@@ -95,5 +108,33 @@ public class World extends BasicGameState {
 		return null;
 	}
 	
+	private boolean chargerNiveau(String niveau) {
+		File f=new File(niveau);
+		if(f.exists()){
+			System.out.println("Le niveau "+niveau+" n'existe pas dans le repertoire "+REPERTOIRE_NIVEAU);
+			return false;
+		}
+		try {
+			BufferedReader br=new BufferedReader(new FileReader(REPERTOIRE_NIVEAU+File.separator+niveau));
+			String ligne;
+			while((ligne=br.readLine())!=null){
+				if(ligne.startsWith("Plateform")){
+					Plateform p=new Plateform(ligne);
+					plateforms.add(p);
+				}
+			}
+			br.close();
+			return true;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+		
+		
+	}
 
 }

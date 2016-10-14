@@ -60,7 +60,7 @@ public class Mainmenu extends BasicGameState {
 					       ResourceLoader.getResourceAsStream("font/PressStart2P.ttf"));
 			
 			fontTitre = new TrueTypeFont(titreFont.deriveFont(java.awt.Font.PLAIN, 40.f),false);
-			fontTitreBold = new TrueTypeFont(titreFont.deriveFont(java.awt.Font.PLAIN, 40.5f),false);
+			fontTitreBold = new TrueTypeFont(titreFont.deriveFont(java.awt.Font.PLAIN, 40.f),false);
 
 		} catch (FontFormatException | IOException e) {
 			// TODO Auto-generated catch block
@@ -87,7 +87,7 @@ public class Mainmenu extends BasicGameState {
 		g.drawString(this.titre,(Game.longueur-fontTitreBold.getWidth(titre))/2 , 120);
 		g.setColor(Color.white);
 		g.setFont(fontTitre);
-		g.drawString(this.titre,(Game.longueur-fontTitre.getWidth(titre))/2 , 120);
+		g.drawString(this.titre,(Game.longueur-fontTitre.getWidth(titre))/2+4 , 122);
 
 		g.setFont(font1);
 		g.drawString(this.nom, 550, 320);

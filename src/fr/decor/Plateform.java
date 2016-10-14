@@ -56,9 +56,20 @@ public class Plateform extends Entity implements Rectangle {
 		this.height = p.height;
 		
 	}
+	
+	//construteur appele pour charger de niveau.
+	public Plateform(String ligne) {
+		String[] s=ligne.substring(ligne.indexOf(" ")+1).split(";");
+		x=Double.parseDouble(s[0]);
+		y=Double.parseDouble(s[1]);
+		width=Double.parseDouble(s[2]);
+		height=Double.parseDouble(s[3]);
+	}
 
 	// Fonction de jeu*********************************************
 	
+	
+
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		g.setColor(Color.blue);
@@ -96,7 +107,7 @@ public class Plateform extends Entity implements Rectangle {
 	
 	@Override
 	public String toString(){
-		return getX()+ ";"+ getY()+";"+getWidth()+";"+getHeight();
+		return "Plateform "+getX()+ ";"+ getY()+";"+getWidth()+";"+getHeight();
 	}
 	
 

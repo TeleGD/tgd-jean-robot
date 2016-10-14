@@ -100,6 +100,7 @@ public abstract class Entity {
 		this.life = life;
 	}
 	
+	//methode qui determine si un point(x,y) est contenu dans la inbox de l'entity
 	public boolean containsPoint(int x,int y){
 		return this.newX<=x &&  x<=this.newX+width && this.newY<=y && y<=this.newY+height;
 	}

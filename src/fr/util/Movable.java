@@ -6,7 +6,7 @@ public abstract class Movable extends Entity{
 	
 	// Variables**********************************************
 	public double jumppower=0.8;
-	public double gravity=0.0001;//0.04;
+	//public double gravity=5;//0.04;
 	protected boolean posjump;//Jump possible?
 	protected int dir=0; //-1:vers la gauche,0:ne bouge pas,1:vers la droite
 	//Setters*************************************************

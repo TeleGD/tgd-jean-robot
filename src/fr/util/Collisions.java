@@ -2,7 +2,7 @@ package fr.util;
 
 public class Collisions {
 
-	private static double delta=5; //delta par defaut, valeur de penetration dans l entity.
+	private static double delta=0; //delta par defaut, valeur de penetration dans l entity.
 	
 	//TODO
 	// ET OPTION SELON LE TYPE DE COLLISION SOUHAITE (tranverse dessous collision totale, ...)
@@ -20,11 +20,11 @@ public class Collisions {
 		//si la Entity est au meme niveau que l autre entity sur l autre axe
 		if (h1.getNewX()+h1.getWidth()>h2.getNewX() && h1.getNewX()<h2.getNewX()+h2.getWidth()){
 			//si la Entity tombe et va plus bas que le haut de l'autre Entity
-			if ( (h1.getSpeedY()>0) && (h1.getNewY()+h1.getHeight()>=h2.getNewY()+delta)){
+			if ( (h1.getSpeedY()>=0) && (h1.getNewY()+h1.getHeight()>=h2.getNewY()+delta) && (h1.getNewY()>=h2.getNewY()+h2.getHeight())){
 				return -1;
 			}
 			//si la Entity saute et se cogne sur la Entity du dessus.
-			if ( (h1.getSpeedY()<0) && (h1.getY()-delta<=h2.getY()+h2.getHeight())){
+			if ( (h1.getSpeedY()<=0) && (h1.getY()-delta<=h2.getY()+h2.getHeight()) && (h1.getNewY()+h1.getHeight()>= h2.getNewY())){
 				return 1;
 			}
 		}
@@ -56,11 +56,11 @@ public class Collisions {
 		//si la Entity est au meme niveau que l autre entity sur l autre axe
 		if (h1.getNewY()+h1.getHeight()>h2.getNewY() && h1.getNewY()<h2.getNewY()+h2.getHeight()){
 			//si la Entity va vers la gauche et heurte l'autre
-			if ( (h1.getSpeedX()>0) && (h1.getNewX()+h1.getWidth()>=h2.getNewX()+delta) ){
+			if ( (h1.getSpeedX()>=0) && (h1.getNewX()+h1.getWidth()>=h2.getNewX()+delta) && (h1.getnewX()<h2.getNewX()+h2.getWidth() )){
 				return -1;
 			}
 			//si la Entity va vers la droite et heurte l'autre
-			if ( (h1.getSpeedX()<0) && (h1.getX()-delta<=h2.getX()+h2.getWidth())){
+			if ( (h1.getSpeedX()<=0) && (h1.getNewX()-delta<=h2.getNewX()+h2.getWidth())&& (h1.getNewX()+h1.getWidth()>=h2.getNewX())){
 				return 1;
 			}	
 		}

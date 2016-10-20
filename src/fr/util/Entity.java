@@ -15,6 +15,7 @@ public abstract class Entity {
 	protected double width, height;
 	protected int life;
 	protected boolean killable;
+	protected double gravity;
 	
 	
 	//Nececessaire pour les jeux****************************************************
@@ -127,9 +128,12 @@ public abstract class Entity {
 	public boolean containsPoint(int x,int y){
 		return this.x<=x &&  x<=this.x+width && this.y<=y && y<=this.y+height;
 	}
-
-	
-
+	public double getGravity() {
+		return gravity;
+	}
+	public void setGravity(double gravity) {
+		this.gravity = gravity;
+	}
 
 
 }

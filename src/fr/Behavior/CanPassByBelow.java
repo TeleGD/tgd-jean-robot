@@ -12,13 +12,13 @@ public class CanPassByBelow implements BeCollision{
 			if (a!=0){
 				e.setSpeedX(0);
 				e.setAccelX(0);
-				System.out.println("testa");
+				System.out.println("STOOOOOOOOOOOOOP");
 			}
 			//me cogne par dessus
 			if (b==-1){
 				e.setSpeedY(0);
 				e.setAccelY(0);
-				System.out.println("testb");
+				//System.out.println("testb"");
 			}
 		}
 	}

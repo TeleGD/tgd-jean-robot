@@ -5,9 +5,8 @@ import fr.util.Entity;
 public abstract class Movable extends Entity{
 	
 	// Variables**********************************************
-	public double /*speedX,speedY,*/accelX,accelY; //speedX et speedY existent deja dans entity, les gars...
 	public double jumppower=0.8;
-	public double gravity=0.04;
+	public double gravity=0.0001;//0.04;
 	protected boolean posjump;//Jump possible?
 	protected int dir=0; //-1:vers la gauche,0:ne bouge pas,1:vers la droite
 	//Setters*************************************************
@@ -18,12 +17,6 @@ public abstract class Movable extends Entity{
 		accelY=a;
 	}
 	//Getters***************************************************
-	public double getAccelX(){
-		return accelX;
-	}
-	public double getAccelY(){
-		return accelY;
-	}
 	public boolean canJump(){
 		return posjump;
 	}

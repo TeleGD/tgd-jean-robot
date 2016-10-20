@@ -10,26 +10,30 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
+import fr.Behavior.BeCollision;
+import fr.Behavior.CanPassByBelow;
 import fr.decor.Plateform;
 import fr.game.Game;
 import fr.menus.MenuFinPartie;
 import fr.util.Collisions;
+import fr.util.Entity;
 import fr.util.Movable;
 import fr.util.Rectangle;
 
-//changer movable en hitbox
+
 public class Player extends Movable implements Rectangle {
 	
-	//private double height,width;
+	
 	private boolean colplat;// y a t il eu une coll avec une plateforme a la
 	// derniere frame
 	private boolean vertcolthis;// il  y a eu une plateforme en dessous
 	private boolean upPress, leftPress, rightPress, droitegauche, downPress;
 	private int life;
-	private long timekillableDying=3000;// temps d'invincibilitï¿½ï½¿ï½½ aprï¿½ï½¿ï½½s une mort
+	private long timekillableDying=3000;// temps d'invincibilite d une mort
 	private long timeOfDeath;
 	private double comptkillable;//compteur servant au clignotement durant l'invincibilite suivant la mort
 	protected boolean leftclick=false;
+	protected BeCollision coli = new CanPassByBelow();
 	
 	public Player() {
 		this.x=150;
@@ -63,16 +67,19 @@ public class Player extends Movable implements Rectangle {
 		if(System.currentTimeMillis()-this.timeOfDeath<this.timekillableDying){killable=false;}else{killable=true;}
 		if(!killable){this.comptkillable=0;}else{this.comptkillable+=1;}
 		
-		this.posjump = this.updatePosJump(); //verifie la possibilite de sauter
+		//TODO this.posjump = this.updatePosJump(); //verifie la possibilite de sauter
 		
 		this.newX = x + speedX * delta;
 		this.newY = y + speedY * delta;
+		//FUCK LA PHYSIQUE?? JE FAIS COMMENT DU COUP???
 		this.accelY = (this.accelY + this.gravity)/2;// Pour que le perso redescende quand il saute.
+		//RE FUCK LA PHYSIQUE????
 		this.speedY += accelY;
 		//if(Math.abs(this.speedY) > 1) speedY = 1; // limitation de vitesse.
+		altMove();
 		
 		System.out.println("vy = "+speedY+"; vx = "+speedX+"; y = "+y+"; x = "+x);
-		altMove();
+		
 		System.out.println("----------------------------------------------------");
 		moveX(delta);
 		moveY(delta);
@@ -82,62 +89,50 @@ public class Player extends Movable implements Rectangle {
 
 	// Mouvements************************************************************************
 
-	private boolean updatePosJump() {
+	/*private boolean updatePosJump() {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+*/
 	private void altMove(){
 		int col;
-		boolean colD = false;
-		boolean colG = false;
 		Plateform plat;
 		
 		if (isTooLow()) {
 			//le personnage meurt
 			fr.game.World.game.enterState(MenuFinPartie.ID);//d, new FadeOutTransition(),new FadeInTransition());
 		}
+		System.out.print("avant touche fleche");
+		System.out.println("vy = "+speedY+"; vx = "+speedX+"; y = "+y+"; x = "+x);
 		
-		for (int i = 0; i < fr.game.World.getPlateforms().size(); i++){
-			plat = fr.game.World.getPlateforms().get(i);
-			col = Collisions.altCollisionSide(this, plat);
-			
-			if(this.newY+this.height > plat.getY() && this.newY < plat.getY() + plat.getHeight()){
-				if( this.newX + this.width >= plat.getX() && plat.getX() > this.newX) colD = true;
-				if( this.newX <= plat.getX() + plat.getWidth() && this.newX > plat.getX()) colG = true;
-			}
-			
-			if( col == 2 || col == 6 || col == 5 ){
-				// S'il y a une collision par le bas du joueur, ET par le haut de la plate forme.
-				if(this.newY+this.height <= plat.getY() + plat.getHeight()){
-					speedY = 0;
-					this.y = plat.getY() - this.height; // Juste pour eviter d'avoir les pieds du perso au milieu de la plate forme.
-					posjump = true;
-				}	
-			}
-			
-			System.out.println("Col (ID "+i+") : "+col+"; JUMP : "+posjump+"; UP : "+upPress+"; vertcolthis : "+vertcolthis);
-			
-			
-		}
+		horizontalMove();
+		verticalMove();
+		System.out.print("apres touche fleche");
+		System.out.println("vy = "+speedY+"; vx = "+speedX+"; y = "+y+"; x = "+x);
+		BeCollision.altMoveByCollision(this, this.coli);
+		System.out.print("apres collision");
+		System.out.println("vy = "+speedY+"; vx = "+speedX+"; y = "+y+"; x = "+x);
 		
+		/* Mais qu'est que c'est que ca?
 		if(rightPress && !colD) speedX=0.3;
 		else if(leftPress && !colG) speedX=-.3;
 		else {
 			System.out.println("NOFUNZ");
 			speedX=0;
 		}
+		*/
 		
 		if (this.posjump && upPress) {
 			jump();
 		}
+		
 	}
 
-	private void horizontalMove() {
+	/*private void horizontalMove() {
 		int col;		
 		for (int i = 0; i < fr.game.World.getPlateforms().size(); i++){
-			col = Collisions.altCollisionSide(this, fr.game.World.getPlateforms().get(i));
-			if(col != 0 && col != 2 && col != 4 && col != 0){
+			col = Collisions.isCollisionX(this, fr.game.World.getPlateforms().get(i));
+			if(col == 0){
 				// Si on a une collision, et qu'elle n'est pas directement par le bas ni par le haut.
 				// (les collisions verticales renvoient 2 ou 4, et pas de collision renvoie 0)
 				speedX = 0;
@@ -152,9 +147,9 @@ public class Player extends Movable implements Rectangle {
 		
 	
 	}
+*/
 
-
-	private void verticalMove() {
+/*	private void verticalMove() {
 
 		if (isTooLow()) {
 			//le personnage meurt
@@ -163,9 +158,9 @@ public class Player extends Movable implements Rectangle {
 		
 		int col;
 		for (int i = 0; i < fr.game.World.getPlateforms().size(); i++){
-			col = Collisions.altCollisionSide(this, fr.game.World.getPlateforms().get(i));
+			col = Collisions.isCollisionY(this, fr.game.World.getPlateforms().get(i));
 			
-			if( col == 2 || col == 6 || col == 5 ){
+			if( col == 1 ){
 				// S'il y a une collision par le bas du joueur.
 				speedY = 0;
 				posjump = true;
@@ -180,85 +175,87 @@ public class Player extends Movable implements Rectangle {
 		}
 		
 	}	
-
+*/
 //  Coucou PA, ici Arthur. On me dit dans l'oreille que tu n'es pas PA, mais Aurelien. Desole pour l'accent (et pour l'erreur).
-//	Je comprenais pas ton code (vu que les collisions de PA sont au dela de ma simple condition d'humain), alors je l'ai commente. Bisous.
-//	private void horizontalMove() {
-//		speedX = 0;
-//		if ((leftPress && !rightPress) || (leftPress && rightPress && !droitegauche)) {
-//			speedX = 0;
-//			for (int i = 0; i < fr.game.World.getPlateforms().size(); i++) {
-//				if(Collisions.isCollisionX(this, fr.game.World.getPlateforms().get(i)) != -1){
-//					speedX = -0.5;
-//				}
-//			}	
-//		}
-//		if ((!leftPress && rightPress) || (leftPress && rightPress && droitegauche)) {
-//			speedX = 0;
-//			for (int i = 0; i < fr.game.World.getPlateforms().size(); i++) {
-//				if(Collisions.isCollisionX(this, fr.game.World.getPlateforms().get(i)) != 1){
-//					speedX = 0.5;
-//				}
-//			}	
-//		}
-//		
-//	}
-//
-//	public void verticalMove() {
-//		// verticolthis et posjump sont actualisÃ©s dans updatePosJump qui est appelÃ© dans update
-//		// collisionx(a,b), -1 -> a a gauche de b, 0 rien, 1 : a A droite de b
-//		// collisiony(a,b) , -1 -> a au dessus de b , 0 rien, 1 -> a en dessous de b
-//		
-//		
-//		if (isTooLow()) {
-//			//le personnage meurt
-//			fr.game.World.game.enterState(MenuFinPartie.ID);//d, new FadeOutTransition(),new FadeInTransition());
-//		}
-//		
-//		if (this.posjump && upPress) {
-//			jump();
-//		}
-//		
-//		if (!vertcolthis) {	//si le personnage est en l'air, on accelere sa chute
-//			this.accelY = gravity;
-//		}
-//		
-//		this.speedY += this.accelY;
-//		
-//		if(vertcolthis){
-//			System.out.println("bouh");
-//		}
-//	}
-//	
-//	public boolean updatePosJump(){ //renvoie true si le personnage a la possibilite de sauter
-//		boolean mem = false;
-//		this.vertcolthis = false;
-//		for (int i = 0; i < fr.game.World.getPlateforms().size(); i++) {
-//			this.vertcolthis = Collisions.altCollisionY(this, fr.game.World.getPlateforms().get(i)) || Collisions.altCollisionX(this, fr.game.World.getPlateforms().get(i)) || this.vertcolthis;
-//			
-//			if ((Collisions.isCollisionY(this, fr.game.World.getPlateforms().get(i)) == 1)) {
-//				//si une plateforme au dessus : on saute pas
-//				this.accelY = 0;
-//				this.speedY = 0;
-//				return false;
-//			}
-//			
-//			if ((Collisions.isCollisionY(this, fr.game.World.getPlateforms().get(i)) == -1)) {
-//				//si plateforme en dessous : mem = true
-//				this.accelY = 0;
-//				this.speedY = 0;
-//				mem = true;
-//			} 
-//		}
-//		return mem;
-//	}
-
-	public double getnewY() {
-		return newY;
+//Je comprenais pas ton code (vu que les collisions de PA sont au dela de ma simple condition d'humain), alors je l'ai commente. Bisous.
+	private void horizontalMove() {
+		speedX = 0;
+		if ((leftPress && !rightPress) || (leftPress && rightPress && !droitegauche)) {
+			speedX = 0;
+			for (int i = 0; i < fr.game.World.getPlateforms().size(); i++) {
+				if(Collisions.isCollisionX(this, fr.game.World.getPlateforms().get(i)) != -1){
+					speedX = -0.5;
+				}
+			}	
+		}
+		if ((!leftPress && rightPress) || (leftPress && rightPress && droitegauche)) {
+			speedX = 0;
+			for (int i = 0; i < fr.game.World.getPlateforms().size(); i++) {
+				if(Collisions.isCollisionX(this, fr.game.World.getPlateforms().get(i)) != 1){
+					speedX = 0.5;
+				}
+			}	
+		}
+		
 	}
 
-	public double getnewX() {
-		return newX;
+	public void verticalMove() {
+		// verticolthis et posjump sont actualisÃ©s dans updatePosJump qui est appelÃ© dans update
+		// collisionx(a,b), -1 -> a a gauche de b, 0 rien, 1 : a A droite de b
+		// collisiony(a,b) , -1 -> a au dessus de b , 0 rien, 1 -> a en dessous de b
+		
+		
+		if (isTooLow()) {
+			//le personnage meurt
+			fr.game.World.game.enterState(MenuFinPartie.ID);//d, new FadeOutTransition(),new FadeInTransition());
+		}
+		
+		if (this.posjump && upPress) {
+			jump();
+		}
+		
+		if (!vertcolthis) {	//si le personnage est en l'air, on accelere sa chute
+			this.accelY = gravity;
+		}
+		
+		this.speedY += this.accelY;
+		
+		if(vertcolthis){
+			System.out.println("bouh");
+		}
+	}
+	
+	public boolean updatePosJump(){ //renvoie true si le personnage a la possibilite de sauter
+		boolean mem = false;
+		this.vertcolthis = false;
+		for (int i = 0; i < fr.game.World.getPlateforms().size(); i++) {
+			this.vertcolthis = (Collisions.isCollisionY(this, fr.game.World.getPlateforms().get(i))!=0 || Collisions.isCollisionX(this, fr.game.World.getPlateforms().get(i))!=0 || this.vertcolthis);
+			
+			if ((Collisions.isCollisionY(this, fr.game.World.getPlateforms().get(i)) == 1)) {
+				//si une plateforme au dessus : on saute pas
+				this.accelY = 0;
+				this.speedY = 0;
+				return false;
+			}
+			
+			if ((Collisions.isCollisionY(this, fr.game.World.getPlateforms().get(i)) == -1)) {
+				//si plateforme en dessous : mem = true
+				this.accelY = 0;
+				this.speedY = 0;
+				mem = true;
+			} 
+		}
+		return mem;
+	}
+
+	private boolean isTooLow() { //renvoie true si le personne touche le bas de l'ecran
+		if (this.getSpeedY() < 0) {
+			return false;
+		}
+		if (this.getNewY() + this.getHeight() < 720) {
+			return false;
+		}
+		return true;
 	}
 
 	public boolean getcolplat() {
@@ -270,16 +267,6 @@ public class Player extends Movable implements Rectangle {
 		this.accelY = -this.jumppower;
 		this.vertcolthis = true;
 		this.posjump = false;
-	}
-
-	private boolean isTooLow() { //renvoie true si le personne touche le bas de l'Ã©cran
-		if (speedY < 0) {
-			return false;
-		}
-		if (newY + height < 720) {
-			return false;
-		}
-		return true;
 	}
 
 	// Les touches*******************************************************
@@ -368,13 +355,4 @@ public class Player extends Movable implements Rectangle {
 		this.life=3;
 	}
 
-
-	@Override
-	public double getWidth() {
-		return width;
-	}
-	@Override
-	public double getHeight() {
-		return height;
-	}
 }

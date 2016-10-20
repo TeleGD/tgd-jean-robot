@@ -11,6 +11,7 @@ public abstract class Entity {
 	protected double x,y;
 	protected double newX,newY;
 	protected double speedX,speedY;
+	protected double accelX,accelY;
 	protected double width, height;
 	protected int life;
 	protected boolean killable;
@@ -33,6 +34,24 @@ public abstract class Entity {
 	
 	
 	//Getters***********************************************************************
+	public double getAccelX() {
+		return accelX;
+	}
+	public double getAccelY() {
+		return accelY;
+	}
+	public void setNewX(double newX) {
+		this.newX = newX;
+	}
+	public void setNewY(double newY) {
+		this.newY = newY;
+	}
+	public void setAccelX(double accelX) {
+		this.accelX = accelX;
+	}
+	public void setAccelY(double accelY) {
+		this.accelY = accelY;
+	}
 	public double getY() {
 		return y;
 	}

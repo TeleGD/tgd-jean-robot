@@ -39,9 +39,7 @@ public class World extends BasicGameState {
 		enemies=new ArrayList<Enemy>();
 		
 		if(!chargerNiveau("niveau1")){
-			plateforms.add(new Plateform(0,20,10,1));
-			plateforms.add(new Plateform(10,20,10,1));
-			plateforms.add(new Plateform(10,16,10,1));
+			plateforms.add(new Plateform(4,4,10,1));
 		}
 		enemies.add(new Enemy());
 	}

@@ -42,7 +42,7 @@ public class Player extends Movable implements Rectangle {
 		this.width=32;
 		this.speedX = 0;
 		this.speedY = 0;
-		this.accelY = gravity;
+		this.accelY = 0;
 		this.accelX = 0;
 		this.colplat = false;
 		this.timeOfDeath = -3000;
@@ -67,19 +67,18 @@ public class Player extends Movable implements Rectangle {
 		if(System.currentTimeMillis()-this.timeOfDeath<this.timekillableDying){killable=false;}else{killable=true;}
 		if(!killable){this.comptkillable=0;}else{this.comptkillable+=1;}
 		
-		//TODO this.posjump = this.updatePosJump(); //verifie la possibilite de sauter
+		 this.posjump = this.updatePosJump(); //verifie la possibilite de sauter
 		
-		this.newX = x + speedX * delta;
-		this.newY = y + speedY * delta;
+		
 		//FUCK LA PHYSIQUE?? JE FAIS COMMENT DU COUP???
-		this.accelY = (this.accelY + this.gravity)/2;// Pour que le perso redescende quand il saute.
 		//RE FUCK LA PHYSIQUE????
-		this.speedY += accelY;
+		
 		//if(Math.abs(this.speedY) > 1) speedY = 1; // limitation de vitesse.
 		altMove();
-		
+		this.speedY += accelY;
+		this.newX = x + speedX * delta;
+		this.newY = y + speedY * delta;
 		System.out.println("vy = "+speedY+"; vx = "+speedX+"; y = "+y+"; x = "+x);
-		
 		System.out.println("----------------------------------------------------");
 		moveX(delta);
 		moveY(delta);

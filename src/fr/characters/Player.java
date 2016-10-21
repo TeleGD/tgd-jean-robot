@@ -37,7 +37,7 @@ public class Player extends Movable implements Rectangle {
 	
 	public Player() {
 		this.x=0;
-		this.y=0;
+		this.y=500;
 		this.newX =  this.x;
 		this.newY = this.y;
 		this.height=64;
@@ -123,16 +123,14 @@ public class Player extends Movable implements Rectangle {
 				}
 			}
 		}
+		bougeable = true;
 		if ((!leftPress && rightPress) || (leftPress && rightPress && droitegauche)) {
 			if (this.coli instanceof CanPassByBelow ){
 				speedX=0.3;
 				for (int i = 0; i < tv.length; i++) {
 					if (tv[i][0] == -1){
 						bougeable = false;
-						System.out.println("On a trouvé quelque chose en collision");
-					} else {
-						System.out.println("");
-					}
+					} 
 				}
 				speedX=0;
 				if (bougeable){
@@ -143,6 +141,37 @@ public class Player extends Movable implements Rectangle {
 	}
 
 	public void verticalMove(int[][] tv) {
+		speedY = 0;
+		boolean bougeable = true;
+		if ((upPress && !downPress)) {
+			speedY=-0.3;
+			if (this.coli instanceof CanPassByBelow ){
+				for (int i = 0; i < tv.length; i++) {
+					if (tv[i][1] == 1){
+						bougeable = false;
+					}
+				}
+				speedY=0;
+				if (bougeable){
+					speedY=-0.3;
+				}
+			}
+		}
+		bougeable = true;
+		if ((!upPress && downPress)) {
+			if (this.coli instanceof CanPassByBelow ){
+				speedY=0.3;
+				for (int i = 0; i < tv.length; i++) {
+					if (tv[i][1] == -1){
+						bougeable = false;
+					}
+				}
+				speedY=0;
+				if (bougeable){
+					speedY=0.3;
+				}
+			}
+		}	
 		// verticolthis et posjump sont actualisÃ©s dans updatePosJump qui est appelÃ© dans update
 		// collisionx(a,b), -1 -> a a gauche de b, 0 rien, 1 : a A droite de b
 		// collisiony(a,b) , -1 -> a au dessus de b , 0 rien, 1 -> a en dessous de b
@@ -206,7 +235,7 @@ public class Player extends Movable implements Rectangle {
 			upPress = false;
 			break;
 
-		case Input.KEY_S:
+		case Input.KEY_DOWN:
 			downPress = false;
 			break;
 
@@ -230,7 +259,7 @@ public class Player extends Movable implements Rectangle {
 			upPress = true;
 			break;
 
-		case Input.KEY_S:
+		case Input.KEY_DOWN:
 			downPress = true;
 			break;
 

@@ -17,19 +17,20 @@ public class Collisions {
 	 * @return -1 -> par le haut / 0 -> aucune  / 1 -> par le bas 
 	 */
 	public static int isCollisionY(Entity h1,Entity h2, double delta){
+		int h = 0;
 		//si la Entity est au meme niveau que l autre entity sur l autre axe
-		if (h1.getNewX()+h1.getWidth()>h2.getNewX() && h1.getNewX()<h2.getNewX()+h2.getWidth()){
+		if (h1.getX()+h1.getWidth()>h2.getX() && h1.getX()<h2.getX()+h2.getWidth()){
 			//si la Entity tombe et va plus bas que le haut de l'autre Entity
-			if ( (h1.getSpeedY()>=0) && (h1.getNewY()+h1.getHeight()>=h2.getNewY()+delta) && (h1.getNewY()>=h2.getNewY()+h2.getHeight())){
-				return -1;
+			if ((h1.getSpeedY()>0) && ((h1.getY()+h1.getSpeedY()+h1.getHeight()>=h2.getY()+h2.getSpeedY()) && (h1.getY()+h1.getSpeedY()<=h2.getY()+h2.getSpeedY()+h2.getHeight()))){
+				h= -1;
 			}
 			//si la Entity saute et se cogne sur la Entity du dessus.
-			if ( (h1.getSpeedY()<=0) && (h1.getY()-delta<=h2.getY()+h2.getHeight()) && (h1.getNewY()+h1.getHeight()>= h2.getNewY())){
-				return 1;
+			if ((h1.getSpeedY()<0) && ((h1.getY()+h1.getSpeedY()<=h2.getY()+h2.getHeight()) && (h1.getY()+h1.getSpeedY()+h1.getHeight()>= h2.getY()+ h2.getHeight()))){
+				h = 1;
 			}
 		}
 		//sinon, aucune collision
-		return 0;
+		return h;
 	}
 	
 	/**
@@ -53,19 +54,21 @@ public class Collisions {
 	 * @return -1 -> par la gauche / 0 -> aucune  / 1 -> par la droite 
 	 */
 	public static int isCollisionX(Entity h1,Entity h2, double delta){
+		int h = 0;
 		//si la Entity est au meme niveau que l autre entity sur l autre axe
-		if (h1.getNewY()+h1.getHeight()>h2.getNewY() && h1.getNewY()<h2.getNewY()+h2.getHeight()){
-			//si la Entity va vers la gauche et heurte l'autre
-			if ( (h1.getSpeedX()>=0) && (h1.getNewX()+h1.getWidth()>=h2.getNewX()+delta) && (h1.getnewX()<h2.getNewX()+h2.getWidth() )){
-				return -1;
-			}
+		if (h1.getY()+h1.getSpeedY()+h1.getHeight()>h2.getY()+h2.getSpeedY() && h1.getY()+h1.getSpeedY()<h2.getY()+h2.getSpeedY()+h2.getHeight()){
+			
 			//si la Entity va vers la droite et heurte l'autre
-			if ( (h1.getSpeedX()<=0) && (h1.getNewX()-delta<=h2.getNewX()+h2.getWidth())&& (h1.getNewX()+h1.getWidth()>=h2.getNewX())){
-				return 1;
+			if ( ((h1.getX()+h1.getSpeedX()+h1.getWidth()>=h2.getX()) && (h1.getX()+h1.getSpeedX()<h2.getX()+h2.getWidth() ))){
+				h = -1;
+			}
+			//si la Entity va vers la gauche et heurte l'autre
+			if ( ((h1.getX()+h1.getSpeedX()<=h2.getX()+h2.getSpeedX()+h2.getWidth()) && (h1.getX()+h1.getSpeedX()>=h2.getX()))){
+				h = 1;
 			}	
 		}
 		//sinon, aucune collision
-		return 0;
+		return h;
 	}
 	
 	/**

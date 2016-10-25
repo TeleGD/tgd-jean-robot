@@ -86,7 +86,6 @@ public class World extends BasicGameState {
 	}
 
 	public static void reset(){
-		
 	}
 	
 	

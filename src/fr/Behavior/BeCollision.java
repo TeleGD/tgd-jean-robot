@@ -18,7 +18,7 @@ public interface BeCollision {
 			
 			Plateform plat = fr.game.World.getPlateforms().get(i);
 			
-			int[] v = Collisions.isCollision(e, plat);
+			int[] v = Collisions.isCollision(e, plat );
 			tv[i]=v;
 		}
 		

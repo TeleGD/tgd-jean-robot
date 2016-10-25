@@ -23,7 +23,6 @@ import fr.util.Rectangle;
 
 public class Player extends Movable implements Rectangle {
 	
-	
 	private boolean colplat;// y a t il eu une coll avec une plateforme a la
 	// derniere frame
 	private boolean vertcolthis;// il  y a eu une plateforme en dessous
@@ -34,10 +33,16 @@ public class Player extends Movable implements Rectangle {
 	private double comptkillable;//compteur servant au clignotement durant l'invincibilite suivant la mort
 	protected boolean leftclick=false;
 	protected BeCollision coli = new CanPassByBelow();
+	protected int[][] tv;
+	protected double speed; //Pour unifier la vitesse, delta c'est le mal
+	private double fallTime; //Pour pas avoir besoin de l'accélération et simplifier la gestion de la chûte !
+	private double jumpTime; //Pour gérer les sauts
 	
 	public Player() {
-		this.x=0;
-		this.y=500;
+		this.fallTime=0;
+		this.jumpTime=1000;
+		this.x=200;
+		this.y=0;
 		this.newX =  this.x;
 		this.newY = this.y;
 		this.height=64;
@@ -49,7 +54,8 @@ public class Player extends Movable implements Rectangle {
 		this.colplat = false;
 		this.timeOfDeath = -3000;
 		this.life=3;
-		this.gravity=0.001;
+		this.gravity=0.5;
+		this.speed = 5;
 	}
 
 
@@ -75,9 +81,9 @@ public class Player extends Movable implements Rectangle {
 		// this.posjump = this.updatePosJump(); //verifie la possibilite de sauter		
 		//if(Math.abs(this.speedY) > 1) speedY = 1; // limitation de vitesse.
 		altMove();
-		this.speedY += accelY;
-		this.newX = x + speedX * delta;
-		this.newY = y + speedY * delta;
+		// this.speedY += accelY; on en a pas besoin en utilisant ma gestion de chûte
+		this.newX = x + speedX;
+		this.newY = y + speedY;
 	}
 
 	// Mouvements************************************************************************
@@ -88,29 +94,28 @@ public class Player extends Movable implements Rectangle {
 	}
 */
 	private void altMove(){
-		int col;
-		Plateform plat;
-		int[][] tv = BeCollision.altMoveByCollision(this, this.coli);
+		/**
+		 * Fonction qui gère le mouvement
+		 */
+		//int[][] tv = BeCollision.altMoveByCollision(this, this.coli);
 		if (isTooLow()) {
 			//le personnage meurt
 			fr.game.World.game.enterState(MenuFinPartie.ID);//d, new FadeOutTransition(),new FadeInTransition());
+			reset();
 		}
-		
-		horizontalMove(tv);
-		verticalMove(tv);
-		
-		if (this.posjump && upPress) {
-			jump();
-			System.out.println("JUMPPPPPP");
-		}
-		
+		horizontalMove();
+		verticalMove();
 	}
 
-	private void horizontalMove(int[][] tv) {
+	private void horizontalMove() {
+		/**
+		 * Fonction qui permet de gérer le déplacement latéral
+		 */
 		speedX = 0;
 		boolean bougeable = true;
 		if ((leftPress && !rightPress) || (leftPress && rightPress && !droitegauche)) {
-			speedX=-0.3;
+			speedX=-speed;
+			this.tv = BeCollision.altMoveByCollision(this, this.coli);
 			if (this.coli instanceof CanPassByBelow ){
 				for (int i = 0; i < tv.length; i++) {
 					if (tv[i][0] == 1){
@@ -119,14 +124,14 @@ public class Player extends Movable implements Rectangle {
 				}
 				speedX=0;
 				if (bougeable){
-					speedX=-0.3;
+					speedX=-speed;
 				}
 			}
 		}
-		bougeable = true;
 		if ((!leftPress && rightPress) || (leftPress && rightPress && droitegauche)) {
+			speedX=speed;
+			this.tv = BeCollision.altMoveByCollision(this, this.coli);
 			if (this.coli instanceof CanPassByBelow ){
-				speedX=0.3;
 				for (int i = 0; i < tv.length; i++) {
 					if (tv[i][0] == -1){
 						bougeable = false;
@@ -134,17 +139,22 @@ public class Player extends Movable implements Rectangle {
 				}
 				speedX=0;
 				if (bougeable){
-					speedX=0.3;
+					speedX=speed;
 				}
 			}
 		}	
 	}
 
-	public void verticalMove(int[][] tv) {
+	public void verticalMove() {
+		/**
+		 * Fonction qui permet de gérer la chûte et les sauts 
+		 */
 		speedY = 0;
 		boolean bougeable = true;
-		if ((upPress && !downPress)) {
-			speedY=-0.3;
+		//Ici on gère les sauts
+		if ((upPress && !downPress) && (this.jumpTime<25*this.jumppower)) { //on limite la taille max du saut tout en permettant au joueur de gérer la puissance de ses sauts :D
+			speedY=-speed;
+			this.tv = BeCollision.altMoveByCollision(this, this.coli);
 			if (this.coli instanceof CanPassByBelow ){
 				for (int i = 0; i < tv.length; i++) {
 					if (tv[i][1] == 1){
@@ -153,30 +163,33 @@ public class Player extends Movable implements Rectangle {
 				}
 				speedY=0;
 				if (bougeable){
-					speedY=-0.3;
+					speedY= -speed * Math.sqrt((16/(1+jumpTime))); // pour un saut plus classe
+					this.jumpTime += 1;
 				}
 			}
 		}
-		bougeable = true;
-		if ((!upPress && downPress)) {
+		//La on gère la chûte
+		else {
+			speedY= this.gravity * this.fallTime;
+			this.tv = BeCollision.altMoveByCollision(this, this.coli);
 			if (this.coli instanceof CanPassByBelow ){
-				speedY=0.3;
 				for (int i = 0; i < tv.length; i++) {
 					if (tv[i][1] == -1){
 						bougeable = false;
+						this.jumpTime=0; //On permet les sauts
+						this.fallTime= this.fallTime/2; //On met ça pour donner l'impression que le personnage touche la plateforme ! Faudrait rendre ça plus propre
 					}
 				}
 				speedY=0;
 				if (bougeable){
-					speedY=0.3;
+					speedY = this.gravity * this.fallTime;
+					fallTime += 1.5;
 				}
 			}
 		}	
-		// verticolthis et posjump sont actualisÃƒÂ©s dans updatePosJump qui est appelÃƒÂ© dans update
-		// collisionx(a,b), -1 -> a a gauche de b, 0 rien, 1 : a A droite de b
-		// collisiony(a,b) , -1 -> a au dessus de b , 0 rien, 1 -> a en dessous de b
 	}
 	
+	// BOUH CACA, je sais pas pourquoi on a codé ça avant -_-
 	public boolean updatePosJump(){ //renvoie true si le personnage a la possibilite de sauter
 		/*
 		boolean mem = false;
@@ -204,7 +217,7 @@ public class Player extends Movable implements Rectangle {
 		
 		return true;
 	}
-
+	
 	private boolean isTooLow() { //renvoie true si le personne touche le bas de l'ecran
 		if (this.getSpeedY() < 0) {
 			return false;
@@ -218,13 +231,7 @@ public class Player extends Movable implements Rectangle {
 	public boolean getcolplat() {
 		return this.colplat;
 	}
-
-	public void jump() {
-		this.speedY = 0;
-		this.accelY = -this.jumppower;
-		this.posjump = false;
-	}
-
+	
 	// Les touches*******************************************************
 	public void keyReleased(int key, char c) {
 
@@ -232,6 +239,7 @@ public class Player extends Movable implements Rectangle {
 		case Input.KEY_Z:
 			
 		case Input.KEY_UP:
+			this.jumpTime = 1000*this.jumppower; //Lorsque l'on relache la touche, on ne doit pas pouvoir double jump
 			upPress = false;
 			break;
 
@@ -301,18 +309,23 @@ public class Player extends Movable implements Rectangle {
 	}
 
 	public void reset(){
-		this.x = 150;
-		this.y = 0;// 250-32;
-		this.width = 16;
-		this.height = 32;
+		this.fallTime=0;
+		this.jumpTime=0;
+		this.x=200;
+		this.y=0;
+		this.newX =  this.x;
+		this.newY = this.y;
+		this.height=64;
+		this.width=32;
 		this.speedX = 0;
 		this.speedY = 0;
-		this.accelY = gravity;
+		this.accelY = 0;
 		this.accelX = 0;
-		colplat = false;
-		this.killable = false;
+		this.colplat = false;
 		this.timeOfDeath = -3000;
 		this.life=3;
+		this.gravity=0.1;
+		this.speed = 5;
 	}
 
 }

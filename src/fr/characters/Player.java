@@ -153,15 +153,16 @@ public class Player extends Movable implements Rectangle {
 		boolean bougeable = true;
 		//Ici on gère les sauts
 		if ((upPress && !downPress) && (this.jumpTime<25*this.jumppower)) { //on limite la taille max du saut tout en permettant au joueur de gérer la puissance de ses sauts :D
-			speedY=-speed;
+			speedY= -speed * Math.sqrt((16/(2+jumpTime)));
 			this.tv = BeCollision.altMoveByCollision(this, this.coli);
 			if (this.coli instanceof CanPassByBelow ){
 				for (int i = 0; i < tv.length; i++) {
 					if (tv[i][1] == 1){
 						bougeable = false;
+						this.jumpTime = 25*this.jumppower;
+						speedY=this.gravity;
 					}
 				}
-				speedY=0;
 				if (bougeable){
 					speedY= -speed * Math.sqrt((16/(1+jumpTime))); // pour un saut plus classe
 					this.jumpTime += 1;
@@ -183,7 +184,7 @@ public class Player extends Movable implements Rectangle {
 				speedY=0;
 				if (bougeable){
 					speedY = this.gravity * this.fallTime;
-					fallTime += 1.5;
+					fallTime += 3;
 				}
 			}
 		}	

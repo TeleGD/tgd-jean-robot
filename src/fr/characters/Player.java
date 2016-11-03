@@ -12,8 +12,11 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import fr.Behavior.BeCollision;
 import fr.Behavior.CanPassByBelow;
+import fr.Behavior.CanBounce;
+import fr.Behavior.CanPassBySide;
 import fr.decor.Plateform;
 import fr.game.Game;
+import fr.game.World;
 import fr.menus.MenuFinPartie;
 import fr.util.Collisions;
 import fr.util.Entity;
@@ -23,18 +26,16 @@ import fr.util.Rectangle;
 
 public class Player extends Movable implements Rectangle {
 	
-	private boolean colplat;// y a t il eu une coll avec une plateforme a la
-	// derniere frame
-	private boolean vertcolthis;// il  y a eu une plateforme en dessous
 	private boolean upPress, leftPress, rightPress, droitegauche, downPress;
 	private int life;
 	private long timekillableDying=3000;// temps d'invincibilite d une mort
 	private long timeOfDeath;
 	private double comptkillable;//compteur servant au clignotement durant l'invincibilite suivant la mort
 	protected boolean leftclick=false;
-	protected BeCollision coli = new CanPassByBelow();
+	protected BeCollision coli = new CanBounce();
 	protected int[][] tv;
-	protected double speed; //Pour unifier la vitesse, delta c'est le mal
+	protected double speed; 
+	//Pour unifier la vitesse, delta c'est le mal
 	private double fallTime; //Pour pas avoir besoin de l'acc�l�ration et simplifier la gestion de la ch�te !
 	private double jumpTime; //Pour g�rer les sauts
 	
@@ -51,7 +52,6 @@ public class Player extends Movable implements Rectangle {
 		this.speedY = 0;
 		this.accelY = 0;
 		this.accelX = 0;
-		this.colplat = false;
 		this.timeOfDeath = -3000;
 		this.life=3;
 		this.gravity=0.5;
@@ -61,14 +61,8 @@ public class Player extends Movable implements Rectangle {
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-		/*if((System.currentTimeMillis()-this.timeOfDeath<this.timekillableDying)&&(this.comptkillable>=5)){
-			if((this.comptkillable>=10)){
-				this.comptkillable=0;
-			}
-		}else{*/
 			g.setColor(Color.green);
 			g.fillRect((float) x, (float) y, (float) width, (float) height);
-		//	}
 	}
 
 	@Override
@@ -77,29 +71,18 @@ public class Player extends Movable implements Rectangle {
 		this.y = this.newY;
 		if(System.currentTimeMillis()-this.timeOfDeath<this.timekillableDying){killable=false;}else{killable=true;}
 		if(!killable){this.comptkillable=0;}else{this.comptkillable+=1;}
-
-		// this.posjump = this.updatePosJump(); //verifie la possibilite de sauter		
-		//if(Math.abs(this.speedY) > 1) speedY = 1; // limitation de vitesse.
 		altMove();
-		// this.speedY += accelY; on en a pas besoin en utilisant ma gestion de ch�te
 		this.newX = x + speedX;
 		this.newY = y + speedY;
 	}
 
 	// Mouvements************************************************************************
 
-	/*private boolean updatePosJump() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-*/
 	private void altMove(){
 		/**
 		 * Fonction qui g�re le mouvement
 		 */
-		//int[][] tv = BeCollision.altMoveByCollision(this, this.coli);
 		if (isTooLow()) {
-			//le personnage meurt
 			fr.game.World.game.enterState(MenuFinPartie.ID);//d, new FadeOutTransition(),new FadeInTransition());
 			reset();
 		}
@@ -116,7 +99,7 @@ public class Player extends Movable implements Rectangle {
 		if ((leftPress && !rightPress) || (leftPress && rightPress && !droitegauche)) {
 			speedX=-speed;
 			this.tv = BeCollision.altMoveByCollision(this, this.coli);
-			if (this.coli instanceof CanPassByBelow ){
+			if (true){
 				for (int i = 0; i < tv.length; i++) {
 					if (tv[i][0] == 1){
 						bougeable = false;
@@ -131,7 +114,7 @@ public class Player extends Movable implements Rectangle {
 		if ((!leftPress && rightPress) || (leftPress && rightPress && droitegauche)) {
 			speedX=speed;
 			this.tv = BeCollision.altMoveByCollision(this, this.coli);
-			if (this.coli instanceof CanPassByBelow ){
+			if (true){
 				for (int i = 0; i < tv.length; i++) {
 					if (tv[i][0] == -1){
 						bougeable = false;
@@ -155,25 +138,42 @@ public class Player extends Movable implements Rectangle {
 		if ((upPress && !downPress) && (this.jumpTime<25*this.jumppower)) { //on limite la taille max du saut tout en permettant au joueur de g�rer la puissance de ses sauts :D
 			speedY= -speed * Math.sqrt((16/(2+jumpTime)));
 			this.tv = BeCollision.altMoveByCollision(this, this.coli);
-			if (this.coli instanceof CanPassByBelow ){
+			// On gère ici le fait que le joueur ne peut pas sauter à travers une plateforme
+			if (true){
 				for (int i = 0; i < tv.length; i++) {
 					if (tv[i][1] == 1){
 						bougeable = false;
-						this.jumpTime = 25*this.jumppower;
-						speedY=this.gravity;
+						if (!(this.coli instanceof CanPassByBelow)){
+							speedY=0;
+							this.jumpTime = 25*this.jumppower;
+						}
+						else{
+							speedY=-speed * Math.sqrt((16/(1+jumpTime)));
+							this.jumpTime += 1;
+						}
 					}
 				}
 				if (bougeable){
 					speedY= -speed * Math.sqrt((16/(1+jumpTime))); // pour un saut plus classe
 					this.jumpTime += 1;
 				}
-			}
+			}	
 		}
-		//La on g�re la ch�te
+		//La on gere la chute
 		else {
+			//Deplace l'entity en bas de la plateforme si elle est bloquée
+			if(true){
+				for (int i = 0; i < fr.game.World.getPlateforms().size(); i++) {
+					if (Collisions.inCollision(this, fr.game.World.getPlateforms().get(i))){
+						speedY = 0;
+						this.y = fr.game.World.getPlateforms().get(i).getY()+fr.game.World.getPlateforms().get(i).getHeight();
+						this.jumpTime = 1000;
+					}
+				}
+			}
 			speedY= this.gravity * this.fallTime;
 			this.tv = BeCollision.altMoveByCollision(this, this.coli);
-			if (this.coli instanceof CanPassByBelow ){
+			if (true){
 				for (int i = 0; i < tv.length; i++) {
 					if (tv[i][1] == -1){
 						bougeable = false;
@@ -188,36 +188,9 @@ public class Player extends Movable implements Rectangle {
 				}
 			}
 		}	
+
 	}
 	
-	// BOUH CACA, je sais pas pourquoi on a cod� �a avant -_-
-	public boolean updatePosJump(){ //renvoie true si le personnage a la possibilite de sauter
-		/*
-		boolean mem = false;
-		this.vertcolthis = false;
-		for (int i = 0; i < fr.game.World.getPlateforms().size(); i++) {
-			this.vertcolthis = (Collisions.isCollisionY(this, fr.game.World.getPlateforms().get(i))!=0 || Collisions.isCollisionX(this, fr.game.World.getPlateforms().get(i))!=0 || this.vertcolthis);
-			
-			/*
-			if ((Collisions.isCollisionY(this, fr.game.World.getPlateforms().get(i)) == 1)) {
-				//si une plateforme au dessus : on saute pas
-				this.accelY = 0;
-				this.speedY = 0;
-				return false;
-			}
-			*/
-			
-			/* l'autre gère ça
-			if ((Collisions.isCollisionY(this, fr.game.World.getPlateforms().get(i)) == -1)) {
-				//si plateforme en dessous : mem = true
-				this.accelY = 0;
-				this.speedY = 0;
-				mem = true;
-			} 
-			*/
-		
-		return true;
-	}
 	
 	private boolean isTooLow() { //renvoie true si le personne touche le bas de l'ecran
 		if (this.getSpeedY() < 0) {
@@ -229,9 +202,6 @@ public class Player extends Movable implements Rectangle {
 		return true;
 	}
 
-	public boolean getcolplat() {
-		return this.colplat;
-	}
 	
 	// Les touches*******************************************************
 	public void keyReleased(int key, char c) {
@@ -322,10 +292,9 @@ public class Player extends Movable implements Rectangle {
 		this.speedY = 0;
 		this.accelY = 0;
 		this.accelX = 0;
-		this.colplat = false;
 		this.timeOfDeath = -3000;
 		this.life=3;
-		this.gravity=0.1;
+		this.gravity=0.5;
 		this.speed = 5;
 		this.upPress = false;
 		this.downPress = false;

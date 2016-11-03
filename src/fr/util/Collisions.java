@@ -106,5 +106,12 @@ public class Collisions {
 	public static int[] isCollision(Entity h1, Entity h2){
 		return Collisions.isCollision(h1, h2, delta);
 	}
+	
+	public static boolean inCollision(Entity h1, Entity h2){
+		if ((h1.getY()+h1.getSpeedY()+h1.getHeight()>h2.getY()+h2.getSpeedY() && h1.getY()+h1.getSpeedY()<h2.getY()+h2.getSpeedY()+h2.getHeight()) & (h1.getX()+h1.getWidth()>h2.getX() && h1.getX()<h2.getX()+h2.getWidth())){
+			return true;
+		}
+		return false;
+	}
 
 }

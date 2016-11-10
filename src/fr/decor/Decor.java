@@ -113,7 +113,6 @@ public class Decor extends BasicGameState {
 		
 		//TODO
 		
-		plateforms.add(new Plateform(4,4,10,1));
 		negativeLimit = -1;
 		positiveLimit = 1;
 		

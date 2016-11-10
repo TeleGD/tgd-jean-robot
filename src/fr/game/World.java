@@ -29,6 +29,7 @@ public class World extends BasicGameState {
 	private static ArrayList<Enemy> enemies = null;
 	public static StateBasedGame game;
 	private static Plateform plateform;
+	private int score; //entier corespondant au score
 	
 	
 	@Override
@@ -37,6 +38,7 @@ public class World extends BasicGameState {
 		Nico = new Player();
 		plateforms= new ArrayList<Plateform>();
 		enemies=new ArrayList<Enemy>();
+		this.score = 0;
 		
 		if(!chargerNiveau("niveau1")){
 			plateforms.add(new Plateform(4,4,10,1));
@@ -100,9 +102,21 @@ public class World extends BasicGameState {
 		return plateforms;
 	}
 
-	public static String getScore() {
+	public int getScore() {
 		// C'est pour le menu de fin de partie surtout
-		return null;
+		return score;
+	}
+	
+	//Setters*******************************************************************************
+	
+	public void setScore(int i) {
+		this.score = i;
+	}
+	
+	//Modified*******************************************************************************
+	public void plus50score()
+	{
+		
 	}
 	
 	private boolean chargerNiveau(String niveau) {

@@ -38,7 +38,9 @@ public class Player extends Movable implements Rectangle {
 	//Pour unifier la vitesse, delta c'est le mal
 	private double fallTime; //Pour pas avoir besoin de l'acc�l�ration et simplifier la gestion de la ch�te !
 	private double jumpTime; //Pour g�rer les sauts
-	private boolean allowJump=false; //pour eviter de sauter en boucle si la touche reste enfoncee
+	
+	private int maxJumps=2;
+	private int jumpsLeft=maxJumps; //nombre de sauts du perso (2 = double saut)
 	
 	public Player() {
 		this.fallTime=0;
@@ -64,6 +66,7 @@ public class Player extends Movable implements Rectangle {
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 			g.setColor(Color.green);
 			g.fillRect((float) x, (float) y, (float) width, (float) height);
+			
 	}
 
 	@Override
@@ -133,17 +136,18 @@ public class Player extends Movable implements Rectangle {
 			}
 		}	
 	}
+	
 
 	public void verticalMove() {
 		/**
 		 * Fonction qui permet de g�rer la ch�te et les sauts 
 		 */
+		
 		speedY = 0;
 		boolean bougeable = true;
 		//Ici on g�re les sauts
-		if ((upPress && !downPress) && (this.jumpTime<25*this.jumppower) && (allowJump)) { //on limite la taille max du saut tout en permettant au joueur de g�rer la puissance de ses sauts :D
-			//speedY= -speed * Math.sqrt((16/(2+jumpTime)));
-			speedY= -speed * Math.sqrt((20/(1+jumpTime)));
+		if ( ((jumpTime > 0 && jumpTime < 12)||(upPress && !downPress)) && (this.jumpTime<25*this.jumppower) && (jumpsLeft >=0)) { //on limite la taille max du saut tout en permettant au joueur de g�rer la puissance de ses sauts :D
+			
 			this.tv = BeCollision.altMoveByCollision(this, this.coli);
 			// On gère ici le fait que le joueur ne peut pas sauter à travers une plateforme
 			if (true){
@@ -155,13 +159,13 @@ public class Player extends Movable implements Rectangle {
 							this.jumpTime = 25*this.jumppower;
 						}
 						else{
-							speedY=-speed * Math.sqrt((16/(1+jumpTime)));
+							speedY=-speed * Math.sqrt((20/(1.5*jumpTime+1)));
 							this.jumpTime += 1;
 						}
 					}
 				}
 				if (bougeable){
-					speedY= -speed * Math.sqrt((16/(1+jumpTime))); // pour un saut plus classe
+					speedY= -speed * Math.sqrt((20/(1.5*jumpTime+1))); // pour un saut plus classe
 					this.jumpTime += 1;
 				}
 			}	
@@ -186,12 +190,16 @@ public class Player extends Movable implements Rectangle {
 						bougeable = false;
 						this.jumpTime=0; //On permet les sauts
 						this.fallTime= this.fallTime/2; //On met �a pour donner l'impression que le personnage touche la plateforme ! Faudrait rendre �a plus propre
+						
+						//on reset le nombre de sauts
+						if(!upPress)
+							jumpsLeft = maxJumps;
 					}
 				}
 				speedY=0;
 				if (bougeable){
 					speedY = this.gravity * this.fallTime;
-					fallTime += 3;
+					fallTime += 2.5;
 					
 				}
 			}
@@ -210,9 +218,12 @@ public class Player extends Movable implements Rectangle {
 		return true;
 	}
 	
-	//appelee lors du relachement de la touche saut : empeche les double sauts
-	private void jumped(){ 
-		this.jumpTime = 1000*this.jumppower;
+	private void jump(){
+		if(!upPress && jumpsLeft >=0){
+			jumpsLeft--;
+			jumpTime=0;
+		}
+		upPress = true;
 	}
 	
 
@@ -224,7 +235,6 @@ public class Player extends Movable implements Rectangle {
 		case Input.KEY_Z:
 		case Input.KEY_UP:
 			upPress = false;
-			allowJump=true;
 			break;
 
 		case Input.KEY_DOWN:
@@ -268,18 +278,15 @@ public class Player extends Movable implements Rectangle {
 			break;
 		//haut + gauche
 		case Input.KEY_NUMPAD7:
-			jumped();
 			upPress = false;
 			leftPress = false;
 			break;
 		//haut
 		case Input.KEY_NUMPAD8:
-			jumped();
 			upPress = false;
 			break;
 		//haut+droite
 		case Input.KEY_NUMPAD9:
-			jumped();
 			upPress = false;
 			rightPress = false;
 			break;
@@ -292,7 +299,7 @@ public class Player extends Movable implements Rectangle {
 		//mouvement
 		case Input.KEY_Z:
 		case Input.KEY_UP:	
-			upPress = true;
+			jump();
 			break;
 
 		case Input.KEY_DOWN:
@@ -339,20 +346,17 @@ public class Player extends Movable implements Rectangle {
 			break;
 		//haut + gauche
 		case Input.KEY_NUMPAD7:
-			if(!upPress)
-				upPress = true;
+			jump();
 			leftPress = true;
 			droitegauche = false;;
 			break;
 		//haut
 		case Input.KEY_NUMPAD8:
-			if(!upPress)
-				upPress = true;
+			jump();
 			break;
 		//haut+droite
 		case Input.KEY_NUMPAD9:
-			if(!upPress)
-				upPress = true;
+			jump();
 			rightPress = true;
 			droitegauche = true;
 			break;

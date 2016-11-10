@@ -27,6 +27,10 @@ public class Background extends BasicGameState {
 		
 	}
 	
+	Image getImage(){
+		return texture;
+	}
+	
 	void setPosition(float newPositionX,float newPositionY)
 	{
 		positionX = newPositionX;
@@ -52,8 +56,8 @@ public class Background extends BasicGameState {
 		for (int i=idImage-2;i<idImage+2;i++)
 			g.drawImage(texture, (float)positionX/1.2f+i*800, (float)positionY-300);*/
 		
-		for(int i = (int)((positionX/800)-2);i<(positionX/800)+1;i++){
-			g.drawImage(texture, (800*i), (float)positionY-300);
+		for(int i = (int)((positionX/texture.getWidth())-2);i<(positionX/texture.getWidth())+1;i++){
+			g.drawImage(texture, (texture.getWidth()*i), (float)positionY-texture.getHeight()/2);
 		}
 	}
 

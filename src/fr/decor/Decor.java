@@ -64,7 +64,7 @@ public class Decor extends BasicGameState {
 	
 	public void updateCharacterPosition(int posX, int posY)
 	{
-		characterPosX = posX;
+		characterPosX = posX+500;
 		characterPosY = posY;
 	}
 	
@@ -150,16 +150,16 @@ public class Decor extends BasicGameState {
 		//maj du fond d'écran
 		background.setPosition(characterPosX, characterPosY);
 		
-		if (characterPosX > positiveLimit * 800)
+		/*if (characterPosX > positiveLimit * background.getImage().getHeight())
 		{
 			positiveLimit++;
 			generatePlateform(800 * positiveLimit);
 		}
-		else if (characterPosX < (negativeLimit + 1) * 800)
+		else if (characterPosX < (negativeLimit + 1) * background.getImage().getHeight())
 		{
 			negativeLimit--;
 			generatePlateform(800 * negativeLimit);
-		}
+		}*/
 	}
 	
 	public void keyReleased(int key, char c) {

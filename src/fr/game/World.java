@@ -18,9 +18,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import fr.characters.Player;
 import fr.characters.enemies.Enemy;
-import fr.decor.Plateform;
-import fr.decor.Decor;
-import fr.decor.DeathBloc;
+import fr.decor.*;
 
 public class World extends BasicGameState {
 
@@ -144,6 +142,11 @@ public class World extends BasicGameState {
 				else if(ligne.startsWith("DeathBloc"))
 				{
 					DeathBloc p =new DeathBloc(ligne);
+					plateforms.add(p);
+				}
+				
+				else if(ligne.startsWith("ElevatorTrap")){
+					ElevatorTrap p= new ElevatorTrap(ligne);
 					plateforms.add(p);
 				}
 			}

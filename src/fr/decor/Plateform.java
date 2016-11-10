@@ -81,7 +81,6 @@ public class Plateform extends Entity implements Rectangle {
 		// TODO
 		this.newX = this.x;
 		this.newY = this.y;
-
 	}
 	
 

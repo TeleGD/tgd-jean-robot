@@ -12,6 +12,7 @@ public class DeathBloc extends Plateform {
 		super(indexX, indexY, sizeX, sizeY);
 	}
 	
+	//test
 	//construteur appele pour charger de niveau.
 	public DeathBloc(String ligne) 
 	{

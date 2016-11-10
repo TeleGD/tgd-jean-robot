@@ -19,6 +19,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import fr.characters.Player;
 import fr.characters.enemies.Enemy;
 import fr.decor.Plateform;
+import fr.decor.DeathBloc;
 
 public class World extends BasicGameState {
 
@@ -29,7 +30,7 @@ public class World extends BasicGameState {
 	private static ArrayList<Enemy> enemies = null;
 	public static StateBasedGame game;
 	private static Plateform plateform;
-	private int score; //entier corespondant au score
+	private static int score; //entier corespondant au score
 	
 	
 	@Override
@@ -38,7 +39,7 @@ public class World extends BasicGameState {
 		Nico = new Player();
 		plateforms= new ArrayList<Plateform>();
 		enemies=new ArrayList<Enemy>();
-		this.score = 0;
+		score = 0;
 		
 		if(!chargerNiveau("niveau1")){
 			plateforms.add(new Plateform(4,4,10,1));
@@ -102,7 +103,7 @@ public class World extends BasicGameState {
 		return plateforms;
 	}
 
-	public int getScore() {
+	public static int getScore() {
 		// C'est pour le menu de fin de partie surtout
 		return score;
 	}
@@ -110,13 +111,13 @@ public class World extends BasicGameState {
 	//Setters*******************************************************************************
 	
 	public void setScore(int i) {
-		this.score = i;
+		score = i;
 	}
 	
 	//Modified*******************************************************************************
 	public void plus50score()
 	{
-		
+		score += 50;
 	}
 	
 	private boolean chargerNiveau(String niveau) {
@@ -131,6 +132,11 @@ public class World extends BasicGameState {
 			while((ligne=br.readLine())!=null){
 				if(ligne.startsWith("Plateform")){
 					Plateform p=new Plateform(ligne);
+					plateforms.add(p);
+				}
+				else if(ligne.startsWith("DeathBloc"))
+				{
+					DeathBloc p =new DeathBloc(ligne);
 					plateforms.add(p);
 				}
 			}

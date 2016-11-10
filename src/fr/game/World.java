@@ -19,6 +19,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import fr.characters.Player;
 import fr.characters.enemies.Enemy;
 import fr.decor.Plateform;
+import fr.decor.Decor;
 
 public class World extends BasicGameState {
 
@@ -30,6 +31,7 @@ public class World extends BasicGameState {
 	public static StateBasedGame game;
 	private static Plateform plateform;
 	private static int score; //entier corespondant au score
+	private Decor decor;
 	
 	
 	@Override
@@ -39,6 +41,8 @@ public class World extends BasicGameState {
 		plateforms= new ArrayList<Plateform>();
 		enemies=new ArrayList<Enemy>();
 		score = 0;
+		decor = new Decor("img/brick.png","img/background.png");
+		decor.init(arg0,arg1);
 		
 		if(!chargerNiveau("niveau1")){
 			plateforms.add(new Plateform(4,4,10,1));
@@ -50,6 +54,7 @@ public class World extends BasicGameState {
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {
+		decor.render(arg0,arg1,arg2);
 		Nico.render(arg0, arg1, arg2);
 		for (int i=0; i<plateforms.size();i++){
 			plateforms.get(i).render(arg0, arg1, arg2);
@@ -60,6 +65,8 @@ public class World extends BasicGameState {
 	@Override
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException {
 		Nico.update(arg0, arg1, arg2);
+		decor.updateCharacterPosition((int)Nico.getX(), (int)Nico.getY());
+		decor.update(arg0,arg1,arg2);
 		for (int i=0; i<plateforms.size();i++){
 			plateforms.get(i).update(arg0, arg1, arg2);
 		}

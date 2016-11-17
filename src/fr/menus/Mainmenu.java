@@ -1,6 +1,5 @@
 package fr.menus;
 
-import java.awt.Font;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -21,10 +20,6 @@ public class Mainmenu extends Menu {
 		super.setTitrePrincipal("TELE-ARCADE DESIGN");
 		super.setTitreSecondaire("Menu Principal");
 		super.setItems("Jouer","Editeur", "Quitter");
-
-		super.setFontTitrePrincipal("font/PressStart2P.ttf",Font.BOLD,40,false);
-		super.setFontTitreSecondaire("Kalinga",Font.BOLD,14,true);
-		super.setFontItem("Kalinga",Font.BOLD,14,true);
 		
 		super.setEnableClignote(true);
 		super.setCouleurClignote(Color.red);

@@ -5,16 +5,10 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import fr.characters.Player;
+
 public class InvisibleEnnemy extends Bonus{
 
-	@Override
-	/**
-	 * Faire clignoter un ennemy le prochaine ennemie qui pop
-	 */
-	public void comportment() {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
@@ -24,6 +18,12 @@ public class InvisibleEnnemy extends Bonus{
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void comportment(Player player) {
 		// TODO Auto-generated method stub
 		
 	}

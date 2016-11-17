@@ -26,6 +26,7 @@ import fr.characters.enemies.*;
 import fr.decor.Plateform;
 import fr.game.Game;
 import fr.menus.Mainmenu;
+import fr.menus.MenuEditor;
 import fr.util.Button;
 import fr.util.Button.OnClickListener;
 
@@ -230,7 +231,7 @@ public class Editor extends BasicGameState{
 			gridEnabled=!gridEnabled;
 		
 		}else if(key==Input.KEY_ESCAPE){
-			game.enterState(Mainmenu.ID, new FadeOutTransition(),
+			game.enterState(MenuEditor.ID, new FadeOutTransition(),
 					new FadeInTransition());
 		}else if(key==Input.KEY_K ){
 			if(plateformEnCours!=null){

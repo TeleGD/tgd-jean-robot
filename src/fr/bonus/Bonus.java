@@ -6,7 +6,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import fr.Behavior.BeCollision;
-import fr.characters.Player;
+import fr.characters.BasicPlayer;
 import fr.util.*;
 
 public abstract class Bonus extends Entity implements BeCollision{
@@ -37,6 +37,6 @@ public abstract class Bonus extends Entity implements BeCollision{
 		g.fillRect((float) x,(float) y, (float) width,(float) height);
 	}
 	
-	abstract public void comportment(Player player);
+	abstract public void comportment(BasicPlayer player);
 
 }

@@ -16,8 +16,12 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import fr.characters.BasicPlayer;
+import fr.characters.Gun;
 import fr.characters.Player;
-import fr.characters.enemies.Enemy;
+import fr.characters.enemies.BasicEnnemy;
+import fr.characters.enemies.Enemy1;
+import fr.characters.enemies.Ennemy;
 import fr.decor.*;
 
 public class World extends BasicGameState {
@@ -26,7 +30,7 @@ public class World extends BasicGameState {
 	public static int ID = 0;
 	private static Player Nico;
 	private static ArrayList<Plateform> plateforms = null;
-	private static ArrayList<Enemy> enemies = null;
+	private static ArrayList<Ennemy> enemies = null;
 	public static StateBasedGame game;
 	private static Plateform plateform;
 	private static int score; //entier corespondant au score
@@ -36,17 +40,19 @@ public class World extends BasicGameState {
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
 		game = arg1;
-		Nico = new Player();
+		Nico = new Gun(new BasicPlayer());
 		plateforms= new ArrayList<Plateform>();
-		enemies=new ArrayList<Enemy>();
+		enemies=new ArrayList<Ennemy>();
 		score = 0;
 		decor = new Decor("img/brick.png","img/background.png");
 		decor.init(arg0,arg1);
-		
+		plateforms.add(new Plateform(1,4, 10, 1));
 		if(!chargerNiveau("niveau1")){
 			plateforms.add(new Plateform(4,4,10,1));
 		}
-		enemies.add(new Enemy());
+		//enemies.add(new Enemy1(new BasicEnnemy(plateforms.get(0))));
+		
+		
 	}
 
 	
@@ -59,6 +65,9 @@ public class World extends BasicGameState {
 			plateforms.get(i).render(arg0, arg1, arg2);
 			
 		}
+		for (int i=0; i<enemies.size();i++){
+			enemies.get(i).render(arg0, arg1, arg2);
+		}
 	}
 
 	@Override
@@ -69,7 +78,9 @@ public class World extends BasicGameState {
 		for (int i=0; i<plateforms.size();i++){
 			plateforms.get(i).update(arg0, arg1, arg2);
 		}
-		
+		for (int i=0; i<enemies.size();i++){
+			enemies.get(i).update(arg0, arg1, arg2);
+		}
 	}
 
 	//Souris*****************************************************************************
@@ -101,7 +112,7 @@ public class World extends BasicGameState {
 	public static Player getPlayer(){
 		return Nico;
 	}
-	public ArrayList<Enemy> getEnemies(){
+	public ArrayList<Ennemy> getEnemies(){
 		return enemies;
 	}
 	public static ArrayList<Plateform> getPlateforms(){

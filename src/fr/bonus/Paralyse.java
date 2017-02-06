@@ -5,7 +5,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import fr.characters.Player;
+import fr.characters.BasicPlayer;
 
 public class Paralyse extends Bonus{
 
@@ -13,7 +13,7 @@ public class Paralyse extends Bonus{
 	/**
 	 * met la vitesse du joueur à 0 en x et en y pendant la durée duration
 	 */
-	public void comportment(Player player) {
+	public void comportment(BasicPlayer player) {
 		double speed = player.getSpeedX();
 		player.setSpeedX(0);
 		while (this.tempsActivation+this.duration>System.currentTimeMillis()){

@@ -17,7 +17,7 @@ public interface BeCollision {
 	//void effet(Entity e,int a,int b);
 	
 	
-	static int[][] altMoveByCollision(Entity e,BeCollision be) {
+	static int[][] altMoveByCollision(Player e,BeCollision be) {
 		boolean encolli = false;
 		ArrayList<DeathBloc> listeDeathEnColl = new ArrayList<DeathBloc>(); 
 		ArrayList<ElevatorTrap> listeElevatorEnColl = new ArrayList<ElevatorTrap>();
@@ -37,10 +37,10 @@ public interface BeCollision {
 			
 			//Ici mettre toutes les plateformes de type mouvement
 			if(plat instanceof ElevatorTrap && (v[1] == -1) && (encolli == false)){
-				((Player)e).setY(((Player)e).getY() + ((ElevatorTrap)plat).getVitesse());
+				((BasicPlayer)e).setY(((BasicPlayer)e).getY() + ((ElevatorTrap)plat).getVitesse());
 				((ElevatorTrap)plat).setY(((ElevatorTrap)plat).getVitesse()+((ElevatorTrap)plat).getY());
 				((ElevatorTrap)plat).setMvmnt(true);
-				((Player)e).setSpeedY(((ElevatorTrap)plat).getVitesse());
+				((BasicPlayer)e).setSpeedY(((ElevatorTrap)plat).getVitesse());
 			}
 			tv[i]=v;
 		}
@@ -49,7 +49,7 @@ public interface BeCollision {
 		for(DeathBloc d : listeDeathEnColl){
 			if (Collisions.inCollision(e, d)){
 				fr.game.World.game.enterState(MenuFinPartie.ID);//d, new FadeOutTransition(),new FadeInTransition());
-				((Player)e).reset();
+				((BasicPlayer)e).reset();
 			}
 		}
 		

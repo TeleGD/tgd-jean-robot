@@ -13,7 +13,7 @@ public class MenuFinPartie extends Menu {
 	
 	public static int ID=4;
 	public MenuFinPartie(){
-		super();
+		//super();
 		super.setTitrePrincipal("GAME OVER");
 		
 	}

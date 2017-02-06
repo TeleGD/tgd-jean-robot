@@ -39,7 +39,7 @@ public class Editor extends BasicGameState{
 	private static final String REPERTOIRE_LEVELS = "levels";
 	private ArrayList<Bonus> bonus=new ArrayList<Bonus>();
 	private ArrayList<Plateform> plateforms=new ArrayList<Plateform>();
-	private ArrayList<Enemy> enemys=new ArrayList<Enemy>();
+	private ArrayList<BasicEnnemy> enemys=new ArrayList<BasicEnnemy>();
 	//private Player player=new Player((int)(Game.longueur*0.15f),(int)(Game.hauteur*0.7f));
 	private static boolean ouvrirMenu;
 	private static boolean fermerMenu;
@@ -51,7 +51,7 @@ public class Editor extends BasicGameState{
 	
 	//Faudra voir pour le constructeur des plateformes (Nico)
 	private Plateform plateformMenu=new Plateform(5,1,3,1);
-	private Enemy enemyMenu=new Enemy();
+	//private Enemy enemyMenu=new Enemy();
 	private AddMunition addMunitionMenu=new AddMunition();
 	private DecreaseAmmo decreaseAmmoMenu=new DecreaseAmmo();
 	private IncreaseJump increaseJumpMenu=new IncreaseJump();

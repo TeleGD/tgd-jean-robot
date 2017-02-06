@@ -13,7 +13,6 @@ public abstract class Entity {
 	protected double speedX,speedY;
 	protected double accelX,accelY;
 	protected double width, height;
-	protected int life;
 	protected boolean killable;
 	protected double gravity;
 	
@@ -34,24 +33,11 @@ public abstract class Entity {
 
 	
 	
-	//Getters***********************************************************************
-	public double getAccelX() {
-		return accelX;
-	}
-	public double getAccelY() {
-		return accelY;
-	}
 	public void setNewX(double newX) {
 		this.newX = newX;
 	}
 	public void setNewY(double newY) {
 		this.newY = newY;
-	}
-	public void setAccelX(double accelX) {
-		this.accelX = accelX;
-	}
-	public void setAccelY(double accelY) {
-		this.accelY = accelY;
 	}
 	public double getY() {
 		return y;
@@ -77,30 +63,26 @@ public abstract class Entity {
 	public void setKillable(boolean killable) {
 		this.killable = killable;
 	}
-	public double getNewX() {
-		return newX;
-	}
-	public void setNewx(double newx) {
-		this.newX = newx;
-	}
-	public double getNewY() {
-		return newY;
-	}
 	public void setNewy(double newy) {
 		this.newY = newy;
 	}
+
+	
 	public double getSpeedX() {
 		return speedX;
-	}
-	public void setSpeedX(double speedx) {
-		this.speedX = speedx;
 	}
 	public double getSpeedY() {
 		return speedY;
 	}
+	
+	public void setSpeedX(double speedx) {
+		this.speedX = speedx;
+	}
+	
 	public void setSpeedY(double speedy) {
 		this.speedY = speedy;
 	}
+	
 	public double getWidth() {
 		return width;
 	}
@@ -113,13 +95,6 @@ public abstract class Entity {
 	public void setHeight(double height) {
 		this.height = height;
 	}
-	public int getLife() {
-		return life;
-	}
-	public void setLife(int life) {
-		this.life = life;
-	}
-	
 	@Override
 	public String toString(){
 		return "x="+x+" y="+y+" width="+width+" height="+height;

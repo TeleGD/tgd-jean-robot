@@ -7,7 +7,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import fr.characters.Player;
+import fr.characters.BasicPlayer;
 import fr.game.Game;
 import fr.util.Entity;
 import fr.util.Rectangle;
@@ -94,7 +94,7 @@ public class Plateform extends Entity implements Rectangle {
 		return y;
 	}
 
-	public boolean collPlayer(Player player){
+	public boolean collPlayer(BasicPlayer player){
 		if(player.getSpeedY()<0){return false;}
 		if(player.getnewY()+player.getHeight()<this.y){return false;}
 		if(player.getY()>this.y){return false;}

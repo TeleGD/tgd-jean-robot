@@ -42,7 +42,7 @@ public class Decor extends BasicGameState {
 	public Decor(String plateformTexturePath, String backgroundTexturePath) throws SlickException
 	{
 		plateforms = new ArrayList<Plateform>();	//ensemble des plateformes crées
-		characterPosX=0;	//variable servant pour la caméra
+		characterPosX=200;	//variable servant pour la caméra
 		characterPosY=0;	//variable servant pour la caméra
 		cameraDirection = Direction.HAUT;	//Direction du défilement de caméra
 		cameraMove = false;		// caméra en train de bouger dans cameraDirection
@@ -64,11 +64,11 @@ public class Decor extends BasicGameState {
 	
 	public void updateCharacterPosition(int posX, int posY)
 	{
-		characterPosX = posX+500;
+		characterPosX = posX;
 		characterPosY = posY;
 	}
 	
-	public void generatePlateform(float charPosX)
+	/*public void generatePlateform(float charPosX)
 	{
 		Random rand = new Random();
 		Vector<Integer> positions = new Vector<Integer>();
@@ -106,7 +106,7 @@ public class Decor extends BasicGameState {
 				}
 			}
 		}
-	}
+	}*/
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {

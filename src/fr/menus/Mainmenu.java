@@ -69,6 +69,7 @@ public class Mainmenu extends Menu {
 	public void onOptionItemFocusedChanged(int position){
 		time=System.currentTimeMillis();
 	}
+	
 	@Override
 	public void onOptionItemSelected(int position) {
 		switch (position) {

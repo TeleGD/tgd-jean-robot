@@ -5,7 +5,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import fr.characters.Player;
+import fr.characters.BasicPlayer;
 
 public class DecreaseAmmo extends Bonus{
 
@@ -24,7 +24,7 @@ public class DecreaseAmmo extends Bonus{
 	}
 
 	@Override
-	public void comportment(Player player) {
+	public void comportment(BasicPlayer player) {
 		// TODO Auto-generated method stub
 		
 	}

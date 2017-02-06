@@ -5,7 +5,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import fr.characters.Player;
+import fr.characters.BasicPlayer;
 
 public class InverseControl extends Bonus{
 
@@ -13,7 +13,7 @@ public class InverseControl extends Bonus{
 	/**
 	 * multiplie par -1 la vitesse celon l'axe x
 	 */
-	public void comportment(Player player) {
+	public void comportment(BasicPlayer player) {
 		player.setSpeedX(-player.getSpeedX());
 		while (this.tempsActivation+this.duration>System.currentTimeMillis()){
 			//la boucle permet d'attendre la durée duration

@@ -8,4 +8,6 @@ public interface Rectangle {
 	public double getX();
 	public double getnewX();
 	public double getnewY();
+	public double getSpeedX();
+	public double getSpeedY();
 }

@@ -21,25 +21,6 @@ public abstract class Movable extends Entity{
 		return posjump;
 	}
 	
-	//Modifier**************************************************
-	public void modifyX(int a){
-		x+=a;
-	}
-	public void modifyY(int a){
-		y+=a;
-	}
-	public void modifyAccelX(int a){
-		accelX+=a;
-	}
-	public void modifyAccelY(int a){
-		accelY+=a;
-	}
-	public void modifySpeedX(int a){
-		speedX+=a;
-	}
-	public void modifySpeedY(int a){
-		speedY+=a;
-	}
 	public void setPosJump(boolean b){
 		posjump = b;
 	}

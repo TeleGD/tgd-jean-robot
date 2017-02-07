@@ -134,7 +134,7 @@ public class Collisions {
 		return true;
 	}
 	
-	/*public static boolean colCharacterBotEntity(Character c,Entity e){
+	public static boolean colCharacterBotEntity(Character c,Entity e){
 		if(c.getSpeedY()>=0){return false;}
 		if(c.getnewY()>e.getY()+e.getHeight()){return false;}
 		if(c.getY()<e.getY()){return false;}
@@ -143,7 +143,7 @@ public class Collisions {
 		return true;
 	}
 	
-	
+	/*
 	public static int isCollisionY(Player c1, Character c2){
 		return 0;
 	}

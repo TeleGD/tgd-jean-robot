@@ -3,8 +3,11 @@ import fr.bonus.*;
 
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,6 +26,8 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 import org.newdawn.slick.util.ResourceLoader;
 
 import fr.characters.enemies.*;
+import fr.decor.DeathBloc;
+import fr.decor.ElevatorTrap;
 import fr.decor.Plateform;
 import fr.game.Game;
 import fr.menus.Mainmenu;
@@ -38,7 +43,7 @@ public class Editor extends BasicGameState{
 
 	private static final String REPERTOIRE_LEVELS = "levels";
 	private ArrayList<Bonus> bonus=new ArrayList<Bonus>();
-	private ArrayList<Plateform> plateforms=new ArrayList<Plateform>();
+	private static ArrayList<Plateform> plateforms=new ArrayList<Plateform>();
 	private ArrayList<BasicEnnemy> enemys=new ArrayList<BasicEnnemy>();
 	//private Player player=new Player((int)(Game.longueur*0.15f),(int)(Game.hauteur*0.7f));
 	private static boolean ouvrirMenu;
@@ -103,7 +108,7 @@ public class Editor extends BasicGameState{
 
 			@Override
 			public void onClicked(Button b) {
-				enregistrer("niveau1");
+				enregistrer("niveau",0);
 				
 			}});
 	}
@@ -407,10 +412,17 @@ public class Editor extends BasicGameState{
 		return ID;
 	}
 	
-	public boolean enregistrer(String nom){
-		File f=new File(REPERTOIRE_LEVELS+File.separator+nom);
+	public boolean enregistrer(String nom,int version){
+
+		File f;
+		if(version==0){
+			f=new File(REPERTOIRE_LEVELS+File.separator+nom);
+		}else{
+			f=new File(REPERTOIRE_LEVELS+File.separator+nom+version);
+		}
 		if(f.exists()){
-			//enregistrer(nom+"2");
+			
+			enregistrer(nom,version+1);
 			return false;
 		}
 		try {
@@ -428,6 +440,37 @@ public class Editor extends BasicGameState{
 			e.printStackTrace();
 		}
 		return true;
+	}
+
+	public static void loadLevel(String niveau) {
+		File f=new File(niveau);
+		try {
+			BufferedReader br=new BufferedReader(new FileReader("levels/"+File.separator+niveau));
+			String ligne;
+			while((ligne=br.readLine())!=null){
+				if(ligne.startsWith("Plateform")){
+					Plateform p=new Plateform(ligne);
+					plateforms.add(p);
+				}
+				else if(ligne.startsWith("DeathBloc"))
+				{
+					DeathBloc p =new DeathBloc(ligne);
+					plateforms.add(p);
+				}
+				
+				else if(ligne.startsWith("ElevatorTrap")){
+					ElevatorTrap p= new ElevatorTrap(ligne);
+					plateforms.add(p);
+				}
+			}
+			br.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

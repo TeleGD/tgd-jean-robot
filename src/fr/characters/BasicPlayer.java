@@ -30,8 +30,11 @@ public class BasicPlayer extends Movable implements Player {
 	private int jumpLeft;
 	
 	//variables d'image
-	private Image imgDroite1,imgDroite2,imgDroite3,imgGauche1,imgGauche2,imgGauche3,currentImage;
-	private int currentImg,lastImg,compt;
+	private Image[] imageDroite=new Image[3];
+	private Image[] imageGauche=new Image[3];
+
+	private Image currentImage;
+	private int currentIndexImage,lastImg,compt;
 	
 	public BasicPlayer() {
 		this.x=100;
@@ -50,18 +53,20 @@ public class BasicPlayer extends Movable implements Player {
 		this.posjump=false;
 		jumpLeft=0;
 		this.compt =0;
-		this.currentImg=2;
+		this.currentIndexImage=2;
 		this.lastImg=1;
 		try{
-			imgDroite1= new Image("img/Player/droite_piedDroit.png");
-			imgDroite2= new Image("img/Player/droite_Central.png");
-			imgDroite3= new Image("img/Player/droite_piedGauche.png");
-			imgGauche1= new Image("img/Player/gauche-piedDroit.png");
-			imgGauche2= new Image("img/Player/gauche-Central.png");
-			imgGauche3= new Image("img/Player/gauche-piedGauche.png");
-			currentImage=imgDroite2;
+			imageDroite[0]= new Image("img/Player/droite_piedDroit.png");
+			imageDroite[1]= new Image("img/Player/droite_Central.png");
+			imageDroite[2]= new Image("img/Player/droite_piedGauche.png");
+			
+			imageGauche[0]= new Image("img/Player/gauche-piedDroit.png");
+			imageGauche[1]= new Image("img/Player/gauche-Central.png");
+			imageGauche[2]= new Image("img/Player/gauche-piedGauche.png");
+			
+			currentImage=imageDroite[currentIndexImage];
 		}catch (Exception e){
-			System.out.println("Attention les images ne peuvent être chargées correctement pour le player");
+			System.out.println("Attention les images ne peuvent Ãªtre chargÃ©es correctement pour le player");
 		}
 	}
 
@@ -69,10 +74,8 @@ public class BasicPlayer extends Movable implements Player {
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 			g.setColor(Color.green);
-			//g.fillRect((float) x, (float) y, (float) width, (float) height);
 			g.drawImage(currentImage, (float)x, (float)y);
-			g.drawString(""+life+"vies", (float)x, (float)y-40);
-			
+			g.drawString(""+life+" vies", (float)x, (float)y-40);
 			
 	}
 
@@ -87,10 +90,12 @@ public class BasicPlayer extends Movable implements Player {
 		//verticalMove(game);
 		verticalMove2(game);
 		moveY(delta);
-		if(compt>=10){
-			chooseImg();
-			compt=0;
-		}else {compt+=1;}
+		
+		
+		compt++;
+		compt=compt%4;
+		if(compt==0)chooseImg();
+
 	}
 	
 	public void loose(StateBasedGame game){
@@ -378,42 +383,27 @@ public class BasicPlayer extends Movable implements Player {
 	//chooseimg pour choisir l'image a afficher en fonction de la direction
 	private void chooseImg(){
 		if (speedX>0){
-			if(currentImg==1 || currentImg==3){
-				currentImage=imgDroite2;
-				lastImg=currentImg;
-				currentImg=2;
-			}else{
-				if(lastImg==1){
-					currentImage=imgDroite3;
-					lastImg=2;
-					currentImg=3;
-				}
-				if(lastImg==3){
-					currentImage=imgDroite1;
-					lastImg=2;
-					currentImg=1;
-				}
+			currentIndexImage++;
+			if(currentIndexImage==3){
+				currentImage=imageDroite[1];
+				currentIndexImage=-1;
 			}
-			
+			else{
+				currentImage=imageDroite[currentIndexImage];
+			}
+
 		}
 		if (speedX<0){
-			if(currentImg==1 || currentImg==3){
-				currentImage=imgGauche2;
-				lastImg=currentImg;
-				currentImg=2;
-			}else{
-				if(lastImg==1){
-					currentImage=imgGauche3;
-					lastImg=2;
-					currentImg=3;
-				}
-				if(lastImg==3){
-					currentImage=imgGauche1;
-					lastImg=2;
-					currentImg=1;
-				}
+			currentIndexImage++;
+			if(currentIndexImage==3){
+				currentImage=imageGauche[1];
+				currentIndexImage=-1;
+			}
+			else{
+				currentImage=imageGauche[currentIndexImage];
 			}
 			
+
 		}
 	}
 }

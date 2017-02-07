@@ -47,7 +47,10 @@ public class World extends BasicGameState {
 		decor = new Decor("img/brick.png","img/background.png");
 		decor.init(arg0,arg1);
 		plateforms.add(new Plateform(1,4, 10, 1));
-		if(!chargerNiveau("niveau1")){
+		
+		boolean chargerOk=chargerNiveau("niveau1");
+		if(!chargerOk){
+			System.out.println("niveau 1 non charge");
 			plateforms.add(new Plateform(4,4,10,1));
 		}
 		//enemies.add(new Enemy1(new BasicEnnemy(plateforms.get(0))));

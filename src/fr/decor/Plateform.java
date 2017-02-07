@@ -30,10 +30,10 @@ public class Plateform extends Entity implements Rectangle {
 	// Constructeur***********************************************
 	/**
 	 * 
-	 * @param indexX  : indice du placement de la plateforme horizontal 0->0 1->32 2->64,...
-	 * @param indexY  : indice du placement de la plateforme vertical 0->0 1->32 2->64,...
-	 * @param sizeX
-	 * @param sizeY
+	 * @param indexX  : indice du placement de la plateforme horizontal 0->0 1->32px 2->64px,...
+	 * @param indexY  : indice du placement de la plateforme vertical 0->0 1->32px 2->64px,...
+	 * @param sizeX : largeur en echelon de 32 pix de la plateforme
+	 * @param sizeY : hauteur en echelon de 32 pix de la plateforme
 	 */
 	public Plateform(int indexX, int indexY, int sizeX, int sizeY) {
 		this.x = indexX*Game.DENSITE_X;

@@ -6,6 +6,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import fr.game.Game;
+
 public class DeathBloc extends Plateform {
 
 	public DeathBloc(int indexX, int indexY, int sizeX, int sizeY) {
@@ -24,7 +26,18 @@ public class DeathBloc extends Plateform {
 		g.setColor(Color.red);
 		g.fillRect((float) x, (float) y, (float) width, (float) height);
 	}
-		
-		
+	
+	@Override
+	public String parseString() {
+		return "DeathBloc "+getX()+ ";"+ getY()+";"+getWidth()+";"+getHeight();
+	}
+	
+	@Override
+	public Plateform copy() {
+		DeathBloc p=new DeathBloc((int)x/Game.DENSITE_X,(int)y/Game.DENSITE_Y,(int)newX/Game.DENSITE_X,(int) (newY/Game.DENSITE_Y));
+		p.height=this.height;
+		p.width=this.width;
+		return p;
+	}
 
 }

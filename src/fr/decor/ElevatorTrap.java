@@ -7,22 +7,23 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import fr.characters.BasicPlayer;
 import fr.characters.Player;
+import fr.game.Game;
 import fr.util.Collisions;
 
 public class ElevatorTrap extends Plateform {
 	
-	double vitesse;
+	double vitesse=3;
 	boolean mvmnt;
 	
-	ElevatorTrap(int a, int b, int c, int d){
-		super(a,b,c,d);
+	public ElevatorTrap(int indexX, int indexY, int sizeX, int sizeY){
+		super(indexX,indexY,sizeX,sizeY);
 	}
 	
 	public ElevatorTrap(String ligne) {
 		super(ligne);
 		String[] s=ligne.substring(ligne.indexOf(" ")+1).split(";");
 		vitesse = Double.parseDouble(s[4]);
-		mvmnt = false;
+		mvmnt = Boolean.parseBoolean(s[5]);
 	}
 	
 	
@@ -60,6 +61,17 @@ public class ElevatorTrap extends Plateform {
 		this.mvmnt = mvmnt;
 	}
 	
-	
-	
+	@Override
+	public String parseString() {
+		return "ElevatorTrap "+getX()+ ";"+ getY()+";"+getWidth()+";"+getHeight()+";"+vitesse+";"+mvmnt;
+	}
+	@Override
+	public Plateform copy() {
+		ElevatorTrap p=new ElevatorTrap((int)x/Game.DENSITE_X,(int)y/Game.DENSITE_Y,(int)newX/Game.DENSITE_X,(int) (newY/Game.DENSITE_Y));
+		p.height=this.height;
+		p.width=this.width;
+		p.vitesse=this.vitesse;
+		p.mvmnt=this.mvmnt;
+		return p;
+	}
 }

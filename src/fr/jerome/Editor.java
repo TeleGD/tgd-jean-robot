@@ -50,12 +50,13 @@ public class Editor extends BasicGameState{
 	private static boolean fermerMenu;
 	private boolean menuRentre;
 
-	private static boolean menuLocked;
+	private static boolean menuLocked=true;
 	private static int tailleMenu=(int) (Game.hauteur*0.2f);
 	private static int yMenu=Game.hauteur-tailleMenu;
 	
 	//Faudra voir pour le constructeur des plateformes (Nico)
-	private Plateform plateformMenu=new Plateform(5,1,3,1);
+	private Plateform[] plateformsMenu={new Plateform(5,1,3,1),new DeathBloc(5,2,3,1),new ElevatorTrap(5,3,3,1)};
+	
 	//private Enemy enemyMenu=new Enemy();
 	private AddMunition addMunitionMenu=new AddMunition();
 	private DecreaseAmmo decreaseAmmoMenu=new DecreaseAmmo();
@@ -73,7 +74,7 @@ public class Editor extends BasicGameState{
 	private static StateBasedGame game;
 	private static long time;
 
-	private static boolean gridEnabled;
+	private static boolean gridEnabled=true;
 	
 	private Plateform plateformEnCours;
 	
@@ -90,6 +91,10 @@ public class Editor extends BasicGameState{
 	private boolean flecheBackVisible=true;
 	private boolean flecheForwardVisible=true;
 			
+	private boolean decalageEnCours=false;
+
+	private int direction=1;
+	
 	public Editor(){
 		Font titreFont;
 		try {
@@ -101,8 +106,12 @@ public class Editor extends BasicGameState{
 			e.printStackTrace();
 		}
 		
-		plateformMenu.setY(yMenu+50);
-		plateformMenu.setX(Game.longueur*0.2);
+		for(int i=0;i<plateformsMenu.length;i++){
+
+			plateformsMenu[i].setY(yMenu+10+40*i);
+			plateformsMenu[i].setX(Game.longueur*0.2);
+		}
+		
 		
 		enregistrer.setOnClickListener(new OnClickListener(){
 
@@ -115,13 +124,16 @@ public class Editor extends BasicGameState{
 	
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-
-		
 		
 		if(gridEnabled)renderGrid(container,game,g);
 
 		for(int i=0;i<plateforms.size();i++){
+
+			double oldX=plateforms.get(i).getX();
+			plateforms.get(i).setX(oldX-decalage);
 			plateforms.get(i).render(container, game, g);
+			plateforms.get(i).setX(oldX);
+
 		}
 
 		renderFleches(container,game,g);
@@ -173,8 +185,8 @@ public class Editor extends BasicGameState{
 		for(int i=0;i<nbCaseHori;i++){
 			for(int j=0;j<nbCaseVert;j++){
 				for(int k=0;k<3;k++){
-					g.fillRect(i*32+k*32/3, j*32, 32/5, 1);
-					g.fillRect(i*32, j*32+k*32/3, 1, 32/5);
+					g.fillRect(i*32-decalage%32+k*32/3, j*32, 32/5, 1);
+					g.fillRect(i*32-decalage%32, j*32+k*32/3, 1, 32/5);
 				}
 			}
 		}
@@ -189,12 +201,18 @@ public class Editor extends BasicGameState{
 		g.setColor(Color.darkGray);
 		g.fillRect(0, yMenu+6, Game.longueur,(Game.hauteur-yMenu)-5);
 		
-		plateformMenu.render(container, game, g);
-	
+		for(int i=0;i<plateformsMenu.length;i++){
+			plateformsMenu[i].render(container, game, g);
+		}
 		if(plateformEnCours!=null){
+
+			double oldX=plateformEnCours.getX();
+			plateformEnCours.setX(oldX-decalage%Game.DENSITE_X);
 			plateformEnCours.render(container, game, g);
+			plateformEnCours.setX(oldX);
+
 			g.setColor(Color.red);
-			g.drawRect((float)plateformEnCours.getX(),(float)plateformEnCours.getY(),(float)plateformEnCours.getWidth(),(float)plateformEnCours.getHeight());
+			g.drawRect((float)plateformEnCours.getX()-decalage%32,(float)plateformEnCours.getY(),(float)plateformEnCours.getWidth(),(float)plateformEnCours.getHeight());
 		}
 		
 		renderOptions(container,game,g);
@@ -218,6 +236,14 @@ public class Editor extends BasicGameState{
 			g.setColor(Color.white);
 			g.drawString("Press G for 32x32 grid",15,yMenu+30);
 		}
+		
+
+		g.setColor(Color.white);
+		g.drawString("Press Z to undo",15,yMenu+60);
+		g.drawString("Press U to Height++",15,yMenu+75);
+		g.drawString("Press J to Height--",15,yMenu+90);
+		g.drawString("Press H to Width--",15,yMenu+105);
+		g.drawString("Press K to Width++",15,yMenu+120);
 
 		
 	}
@@ -254,6 +280,11 @@ public class Editor extends BasicGameState{
 			if(plateformEnCours!=null){
 				plateformEnCours.setHeight(Game.DENSITE_Y*((int)(plateformEnCours.getHeight()/Game.DENSITE_Y)-1));
 			}
+		}else if(key==Input.KEY_W){
+			if(plateforms.size()>0){
+				plateforms.remove(plateforms.size()-1);
+			}
+			
 		}
 		
 	    
@@ -288,8 +319,13 @@ public class Editor extends BasicGameState{
 		for(int i=0;i<plateforms.size();i++){
 			plateforms.get(i).update(container, game, delta);
 		}
-		plateformMenu.setY(yMenu+50);
-		plateformMenu.update(container, game, delta);
+		for(int i=0;i<plateformsMenu.length;i++){
+			plateformsMenu[i].setY(yMenu+10+40*i);
+			plateformsMenu[i].update(container, game, delta);
+		}
+		if(decalageEnCours){
+			decalage+=direction*1;
+		}
 	}
 
 	@Override
@@ -304,16 +340,24 @@ public class Editor extends BasicGameState{
 		if(newy<Game.hauteur-tailleMenu && !menuRentre){
 			fermerMenu=true;
 		}
+
+		System.out.println("oldX="+oldx+"  newx="+newx);
+		
+		mouseMoved(oldx,oldy,newx,newy);
+		mouseReleased(0,newx,newy);
 		
 		
 	}
 	public void mouseMoved(int oldx,int  oldy, int newx,int  newy){
 		enregistrer.mouseMoved(newx,newy);
 		
+		
+		decalageEnCours=false;
+
 		if(newy<Game.hauteur-tailleMenu && !menuRentre){
 			fermerMenu=true;
 		}
-		
+			
 		if(newy>Game.hauteur-50 && menuRentre){
 			ouvrirMenu=true;
 		}
@@ -321,13 +365,19 @@ public class Editor extends BasicGameState{
 			plateformEnCours.setPosition((int)((newx-plateformEnCours.getWidth()/2)/Game.DENSITE_X),(int) ((newy-plateformEnCours.getHeight()/2)/Game.DENSITE_Y));
 		}
 		
-		if(newx>Game.longueur-40){
+		if(newx>Game.longueur-50){
 			flecheForwardVisible=true;
 			time=0;
+			
+			decalageEnCours=true;
+			direction=1*(newx-(Game.longueur-50))/2;
 		}
-		if(newx<40 && decalage>0){
+		if(newx<50 && decalage>0){
 			flecheBackVisible=true;
 			time=0;
+			
+			decalageEnCours=true;
+			direction=-1*(50-newx)/2;
 		}
 		
 		
@@ -343,8 +393,8 @@ public class Editor extends BasicGameState{
 		for(int i=0;i<plateforms.size();i++){
 			for(int k=0;k<width/Game.DENSITE_X;k++){
 				for(int l=0;l<height/Game.DENSITE_Y;l++){
-					if(newx+k*Game.DENSITE_X>=plateforms.get(i).getX()
-					&& newx+k*Game.DENSITE_X<plateforms.get(i).getX()+plateforms.get(i).getWidth()
+					if(newx+k*Game.DENSITE_X>=plateforms.get(i).getX()-decalage
+					&& newx+k*Game.DENSITE_X<plateforms.get(i).getX()-decalage+plateforms.get(i).getWidth()
 					&& newy+l*Game.DENSITE_Y>=plateforms.get(i).getY()
 				    && newy+l*Game.DENSITE_Y<plateforms.get(i).getY()+plateforms.get(i).getHeight())
 							{
@@ -366,41 +416,44 @@ public class Editor extends BasicGameState{
 			return;
 		}
 		
-		if(plateformMenu.containsPoint(x, y)){
-			plateformEnCours=new Plateform(plateformMenu);
-		}else if(plateformEnCours!=null){
-			plateforms.add(plateformEnCours);
-			plateformEnCours=new Plateform(plateformMenu);
+		boolean changePlateforme=false;
+		for(Plateform p:plateformsMenu){
+			if(p.containsPoint(x, y)){
+				plateformEnCours=p.copy();
+				changePlateforme=true;
+			}
 		}
+		
+		if(!changePlateforme && plateformEnCours!=null){
+			createPlateforme();
+		}
+		
 		
 		
 	}
 	
+	private void createPlateforme() {
+		double oldX=plateformEnCours.getX();
+		plateformEnCours.setPosition((int)((plateformEnCours.getX()+decalage)/Game.DENSITE_X),(int) (plateformEnCours.getY()/Game.DENSITE_Y));
+		plateforms.add(plateformEnCours);
+		
+		plateformEnCours=plateformEnCours.copy();
+		plateformEnCours.setX(oldX);		
+	}
+
 	@Override
 	public void mousePressed(int button, int x,int y){
 		enregistrer.moussePressed(button,x,y);
+		showTitle=false;
 	}
+
 	
-	@Override
-	public void mouseWheelMoved(int val){
-		System.out.println("decalage="+val);
-		decalage=((int)(val/Game.DENSITE_X))*Game.DENSITE_X;
-		
-		decalerEcran();
-	}
-	
-	private void decalerEcran() {
-		for(int i=0;i<plateforms.size();i++){
-			plateforms.get(i).setX(plateforms.get(i).getX()-decalage);
-		}
-		
-	}
 
 	public static void reset(){
 		time=0;
 		showTitle=true;
-		menuLocked=false;
-		gridEnabled=false;
+		menuLocked=true;
+		gridEnabled=true;
 		ouvrirMenu=false;
 		fermerMenu=false;
 		yMenu=Game.hauteur-tailleMenu;
@@ -414,17 +467,8 @@ public class Editor extends BasicGameState{
 	
 	public boolean enregistrer(String nom,int version){
 
-		File f;
-		if(version==0){
-			f=new File(REPERTOIRE_LEVELS+File.separator+nom);
-		}else{
-			f=new File(REPERTOIRE_LEVELS+File.separator+nom+version);
-		}
-		if(f.exists()){
-			
-			enregistrer(nom,version+1);
-			return false;
-		}
+		File f=new File(REPERTOIRE_LEVELS+File.separator+nom);
+		
 		try {
 			BufferedWriter bw=new BufferedWriter(new FileWriter(f));
 			bw.write("// PLATEFORMES");

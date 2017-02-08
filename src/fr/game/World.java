@@ -46,13 +46,9 @@ public class World extends BasicGameState {
 		score = 0;
 		decor = new Decor("img/brick.png","img/background.png");
 		decor.init(arg0,arg1);
-		plateforms.add(new Plateform(1,4, 10, 1));
 		
-		boolean chargerOk=chargerNiveau("niveau1");
-		if(!chargerOk){
-			System.out.println("niveau 1 non charge");
-			plateforms.add(new Plateform(4,4,10,1));
-		}
+		chargerNiveau("niveau");
+		
 		//enemies.add(new Enemy1(new BasicEnnemy(plateforms.get(0))));
 		
 		
@@ -108,6 +104,19 @@ public class World extends BasicGameState {
 	}
 
 	public static void reset(){
+		Nico = new Gun(new BasicPlayer());
+		plateforms= new ArrayList<Plateform>();
+		enemies=new ArrayList<Ennemy>();
+		score = 0;
+		plateforms.add(new Plateform(1,4, 10, 1));
+		
+		boolean chargerOk=chargerNiveau("niveau");
+		if(!chargerOk){
+			System.out.println("niveau 1 non charge");
+			plateforms.add(new Plateform(4,4,10,1));
+		}
+		//enemies.add(new Enemy1(new BasicEnnemy(plateforms.get(0))));
+
 	}
 	
 	
@@ -139,7 +148,7 @@ public class World extends BasicGameState {
 		score += 50;
 	}
 	
-	private boolean chargerNiveau(String niveau) {
+	private static boolean chargerNiveau(String niveau) {
 		File f=new File(niveau);
 		if(f.exists()){
 			System.out.println("Le niveau "+niveau+" n'existe pas dans le repertoire "+REPERTOIRE_NIVEAU);

@@ -34,7 +34,7 @@ public class BasicPlayer extends Movable implements Player {
 	private Image[] imageGauche=new Image[3];
 
 	private Image currentImage;
-	private int currentIndexImage,lastImg,compt;
+	private int currentIndexImage,compt;
 	
 	public BasicPlayer() {
 		this.x=100;
@@ -51,10 +51,11 @@ public class BasicPlayer extends Movable implements Player {
 		this.gravity=0.1;
 		this.jumppower=1;
 		this.posjump=false;
-		jumpLeft=0;
+		this.jumpLeft=0;
 		this.compt =0;
 		this.currentIndexImage=2;
-		this.lastImg=1;
+		
+		
 		try{
 			imageDroite[0]= new Image("img/Player/droite_piedDroit.png");
 			imageDroite[1]= new Image("img/Player/droite_Central.png");
@@ -73,27 +74,27 @@ public class BasicPlayer extends Movable implements Player {
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-			g.setColor(Color.green);
-			g.drawImage(currentImage, (float)x, (float)y);
-			g.drawString(""+life+" vies", (float)x, (float)y-40);
+		g.setColor(Color.green);
+		g.drawImage(currentImage, (float)x, (float)y);
+		g.drawString(""+life+" vies", (float)x, (float)y-40);
 			
 	}
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-		//horizontalMove();
-		horizontalMove2();
-		moveX(delta);
 		this.newX = x + speedX * delta;
 		this.newY = y + speedY * delta;
 		this.speedY += accelY;
-		//verticalMove(game);
+		
+		horizontalMove2();
 		verticalMove2(game);
+		
+		moveX(delta);
 		moveY(delta);
 		
 		
 		compt++;
-		compt=compt%4;
+		compt=compt%6;
 		if(compt==0)chooseImg();
 
 	}

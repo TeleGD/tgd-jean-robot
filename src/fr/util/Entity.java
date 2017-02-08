@@ -99,6 +99,7 @@ public abstract class Entity {
 	public String toString(){
 		return "x="+x+" y="+y+" width="+width+" height="+height;
 	}
+	
 	//methode qui determine si un point(x,y) est contenu dans la inbox de l'entity
 	public boolean containsPoint(int x,int y){
 		return this.x<=x &&  x<=this.x+width && this.y<=y && y<=this.y+height;

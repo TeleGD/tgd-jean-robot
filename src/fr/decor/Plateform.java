@@ -46,17 +46,6 @@ public class Plateform extends Entity implements Rectangle {
 		
 		
 	}
-	
-	public Plateform(Plateform p){
-		this.x = p.x;
-		this.y = p.y;
-		this.newX = p.newX;
-		this.newY = p.newY;
-		this.width = p.width;
-		this.height = p.height;
-		
-	}
-	
 	//construteur appele pour charger de niveau.
 	public Plateform(String ligne) {
 		String[] s=ligne.substring(ligne.indexOf(" ")+1).split(";");
@@ -105,8 +94,14 @@ public class Plateform extends Entity implements Rectangle {
 	}
 	
 	public String parseString() {
-		// TODO Auto-generated method stub
 		return "Plateform "+getX()+ ";"+ getY()+";"+getWidth()+";"+getHeight();
+	}
+
+	public Plateform copy() {
+		Plateform p=new Plateform((int)x/Game.DENSITE_X,(int)y/Game.DENSITE_Y,(int)newX/Game.DENSITE_X,(int) (newY/Game.DENSITE_Y));
+		p.height=this.height;
+		p.width=this.width;
+		return p;
 	}
 	
 

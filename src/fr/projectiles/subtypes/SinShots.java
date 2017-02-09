@@ -42,9 +42,5 @@ public class SinShots extends Projectile implements Rectangle {
 		moveY(delta);
 		moveX(delta);
 		sprite.rotate((float) (angle + 2*Math.PI*distance/period));
-		if(x>container.getWidth()||y>container.getHeight()||x<0||y<0){
-			destruct();
-		}
-		
 	}
 }

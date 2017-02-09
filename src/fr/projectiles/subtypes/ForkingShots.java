@@ -57,8 +57,5 @@ public class ForkingShots extends Projectile implements Rectangle {
 		for(Projectile p : children){
 			p.update(container, game, delta);
 		}
-		if(x>container.getWidth()||y>container.getHeight()||x<0||y<0){
-			destruct();
-		}
 	}
 }

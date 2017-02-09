@@ -75,9 +75,6 @@ public class Projectile extends Movable implements Rectangle{
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		moveX(delta);
 		moveY(delta);
-		if(x>container.getWidth()||y>container.getHeight()||x<0||y<0){
-			destruct();
-		}
 	}
 	
 	public void destruct(){

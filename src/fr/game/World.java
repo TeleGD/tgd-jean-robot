@@ -23,6 +23,7 @@ import fr.characters.enemies.BasicEnnemy;
 import fr.characters.enemies.Enemy1;
 import fr.characters.enemies.Ennemy;
 import fr.decor.*;
+import fr.projectiles.Projectile;
 
 public class World extends BasicGameState {
 
@@ -31,6 +32,7 @@ public class World extends BasicGameState {
 	private static Player Nico;
 	private static ArrayList<Plateform> plateforms = null;
 	private static ArrayList<Ennemy> enemies = null;
+	private static ArrayList<Projectile> projectiles = null;
 	public static StateBasedGame game;
 	private static Plateform plateform;
 	private static int score; //entier corespondant au score
@@ -43,6 +45,7 @@ public class World extends BasicGameState {
 		Nico = new Gun(new BasicPlayer());
 		plateforms= new ArrayList<Plateform>();
 		enemies=new ArrayList<Ennemy>();
+		projectiles = new ArrayList<Projectile>();
 		score = 0;
 		decor = new Decor("img/brick.png","img/background.png");
 		decor.init(arg0,arg1);
@@ -130,6 +133,10 @@ public class World extends BasicGameState {
 	public static ArrayList<Plateform> getPlateforms(){
 		return plateforms;
 	}
+	
+	public static ArrayList<Projectile> getProjectiles(){
+		return projectiles;
+	}
 
 	public static int getScore() {
 		// C'est pour le menu de fin de partie surtout
@@ -140,6 +147,10 @@ public class World extends BasicGameState {
 	
 	public void setScore(int i) {
 		score = i;
+	}
+	
+	public static void addProjectile(Projectile p){
+		if(p!=null) projectiles.add(p);
 	}
 	
 	//Modified*******************************************************************************

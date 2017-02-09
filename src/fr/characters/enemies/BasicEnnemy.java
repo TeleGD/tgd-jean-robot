@@ -15,6 +15,7 @@ import fr.util.Movable;
 public class BasicEnnemy extends Movable implements Ennemy{
 		protected double width, height;
 		int bas = 600;
+		int score ;
 		
 		private int life;
 		// une vie par exemple)
@@ -33,6 +34,7 @@ public class BasicEnnemy extends Movable implements Ennemy{
 			this.speedY = 0;
 			this.life=1;
 			this.destructed = false;
+			this.score = 50;
 		}
 		
 		public BasicEnnemy(Plateform plat) {
@@ -94,6 +96,14 @@ public class BasicEnnemy extends Movable implements Ennemy{
 		this.life-=1;
 		if (this.life<=0)
 				this.destructed=true;
+	}
+	
+	public void setScore(int s){
+		this.score = s;
+	}
+	
+	public int getScore(){
+		return this.score;
 	}
 	
 }

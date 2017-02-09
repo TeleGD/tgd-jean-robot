@@ -28,10 +28,13 @@ public class BasicPlayer extends Movable implements Player {
 	protected int[][] tv;
 	protected double speed; 
 	private int jumpLeft;
+	private int score;
+	public int lifeLostScore = 1000; //constante pour g�rer le score
+	
 	
 	//variables d'image
-	private Image[] imageDroite=new Image[3];
-	private Image[] imageGauche=new Image[3];
+	private Image[] imageDroite=new Image[8];
+	private Image[] imageGauche=new Image[8];
 
 	private Image currentImage;
 	private int currentIndexImage,compt;
@@ -54,17 +57,17 @@ public class BasicPlayer extends Movable implements Player {
 		this.jumpLeft=0;
 		this.compt =0;
 		this.currentIndexImage=2;
+		this.score = 0;
 		
 		
 		try{
-			imageDroite[0]= new Image("img/Player/droite_piedDroit.png");
-			imageDroite[1]= new Image("img/Player/droite_Central.png");
-			imageDroite[2]= new Image("img/Player/droite_piedGauche.png");
+			for (int i=0; i<imageDroite.length; i++){
+				imageDroite[i] = new Image("img/Player/herobotWALK/jeanrobot_marche" + (i+1) + ".png");
+			}
 			
-			imageGauche[0]= new Image("img/Player/gauche-piedDroit.png");
-			imageGauche[1]= new Image("img/Player/gauche-Central.png");
-			imageGauche[2]= new Image("img/Player/gauche-piedGauche.png");
-			
+			for (int i=0; i<imageGauche.length; i++){
+				imageGauche[i] = new Image("img/Player/herobotWALK/jeanrobot_marcheg" + (i+1) + ".png");
+			}
 			currentImage=imageDroite[currentIndexImage];
 		}catch (Exception e){
 			System.out.println("Attention les images ne peuvent être chargées correctement pour le player");
@@ -74,10 +77,10 @@ public class BasicPlayer extends Movable implements Player {
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-		g.setColor(Color.green);
+		g.setColor(Color.red);
 		g.drawImage(currentImage, (float)x, (float)y);
 		g.drawString(""+life+" vies", (float)x, (float)y-40);
-			
+		g.drawString("score = " + score, (float)x+500, (float)y-300);		
 	}
 
 	@Override
@@ -340,6 +343,7 @@ public class BasicPlayer extends Movable implements Player {
 	// **************************************************************************
 	public void lifelost() {
 		this.life -= 1;
+		addScore(-lifeLostScore); //
 		this.timeOfDeath = System.currentTimeMillis();
 		if (life == 0) {
 			fr.game.World.game.enterState(MenuFinPartie.ID, new FadeOutTransition(),
@@ -373,7 +377,8 @@ public class BasicPlayer extends Movable implements Player {
 		this.upPress = false;
 		this.rightPress = false;
 		this.leftPress = false;
-	}
+		this.score = 0;
+		}
 	
 	
 	public int getType(){
@@ -385,7 +390,7 @@ public class BasicPlayer extends Movable implements Player {
 	private void chooseImg(){
 		if (speedX>0){
 			currentIndexImage++;
-			if(currentIndexImage==3){
+			if(currentIndexImage==8){
 				currentImage=imageDroite[1];
 				currentIndexImage=-1;
 			}
@@ -396,7 +401,7 @@ public class BasicPlayer extends Movable implements Player {
 		}
 		if (speedX<0){
 			currentIndexImage++;
-			if(currentIndexImage==3){
+			if(currentIndexImage==8){
 				currentImage=imageGauche[1];
 				currentIndexImage=-1;
 			}
@@ -406,5 +411,18 @@ public class BasicPlayer extends Movable implements Player {
 			
 
 		}
+	}
+	
+	public void addScore(int s){
+		if (-s>score){
+			this.score = 0;
+		}
+		else{
+			this.score += s;
+		}
+	}
+	
+	public int getScore(){
+		return this.score;
 	}
 }

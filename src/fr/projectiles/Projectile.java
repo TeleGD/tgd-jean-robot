@@ -10,17 +10,24 @@ import fr.util.Movable;
 import fr.util.Rectangle;
 
 public class Projectile extends Movable implements Rectangle{
+// Base projectile : straight trajectory.
+	
+	
 	private boolean destructed;
 	private boolean allied;
-	private Image sprite;
+	protected Image sprite;
+	protected int angle;
+	protected double speed;
 	
 	public Projectile(double x, double y, double speedX, double speedY){
 		this.x = x;
 		this.y = y;
 		this.speedX = speedX;
 		this.speedY = speedY;
+		speed = Math.sqrt(Math.pow(speedX, 2)+Math.pow(speedY, 2));
 		loadImage("img/proj2");
 		destructed = false;
+		angle = 0;
 		setAllied(false);
 		
 	}
@@ -30,10 +37,25 @@ public class Projectile extends Movable implements Rectangle{
 		this.y = y;
 		this.speedX = speedX;
 		this.speedY = speedY;
+		speed = Math.sqrt(Math.pow(speedX, 2)+Math.pow(speedY, 2));
 		this.setAllied(allied);
 		if(allied) loadImage("img/proj1");
 		else loadImage("img/proj2");
 		destructed = false;
+		angle = 0;
+	}
+	
+	public Projectile(double x,double y, double speed, int angle, boolean allied){
+		this.x = x;
+		this.y = y;
+		this.speedX = speed*Math.cos(angle);
+		this.speedY = speed*Math.sin(angle);
+		this.setAllied(allied);
+		if(allied) loadImage("img/proj1.png");
+		else loadImage("img/proj2.png");
+		destructed = false;
+		this.angle = angle;
+		sprite.rotate(angle);
 	}
 	
 	private void loadImage(String path){
@@ -53,7 +75,7 @@ public class Projectile extends Movable implements Rectangle{
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		moveX(delta);
 		moveY(delta);
-		if(x>800||y>600||x<0||y<0){
+		if(x>container.getWidth()||y>container.getHeight()||x<0||y<0){
 			destruct();
 		}
 	}

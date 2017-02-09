@@ -50,5 +50,15 @@ public class EnnemyToppingDecorator extends Movable implements Ennemy{
 	@Override
 	public void collPlayer() {
 	}
+	
+	@Override
+	public double getWidth(){
+		return this.tempEnnemy.getWidth();
+	}
 
+	
+	@Override
+	public double getHeight(){
+		return this.tempEnnemy.getHeight();
+	}
 }

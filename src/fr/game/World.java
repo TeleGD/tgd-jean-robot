@@ -22,6 +22,7 @@ import fr.characters.Player;
 import fr.characters.enemies.BasicEnnemy;
 import fr.characters.enemies.Enemy1;
 import fr.characters.enemies.Ennemy;
+import fr.characters.enemies.EnnemyShooter;
 import fr.decor.*;
 import fr.projectiles.Projectile;
 
@@ -124,8 +125,7 @@ public class World extends BasicGameState {
 			System.out.println("niveau 1 non charge");
 			plateforms.add(new Plateform(4,4,10,1));
 		}
-		//enemies.add(new Enemy1(new BasicEnnemy(plateforms.get(0))));
-
+		enemies.add(new EnnemyShooter(new BasicEnnemy(plateforms.get(0))));
 	}
 	
 	

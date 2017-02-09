@@ -61,4 +61,15 @@ public class EnnemyToppingDecorator extends Movable implements Ennemy{
 	public double getHeight(){
 		return this.tempEnnemy.getHeight();
 	}
+	
+	@Override
+	public double getX(){
+		return this.tempEnnemy.getX();
+	}
+
+	
+	@Override
+	public double getY(){
+		return this.tempEnnemy.getY();
+	}
 }

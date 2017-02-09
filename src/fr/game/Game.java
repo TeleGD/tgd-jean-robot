@@ -11,7 +11,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import fr.menus.Mainmenu;
 import fr.menus.MenuEditor;
 import fr.menus.MenuFinPartie;
-import fr.menus.MenuLevelEditor;
+//import fr.menus.MenuLevelEditor;
 import fr.menus.MenuSortie;
 import fr.game.World;
 import fr.jerome.Editor;
@@ -52,7 +52,7 @@ public class Game extends StateBasedGame {
 		addState(new MenuSortie());
 		addState(new MenuFinPartie());
 		addState(new MenuEditor());
-		addState(new MenuLevelEditor());
+		//addState(new MenuLevelEditor());
 		addState(new Editor());
 	    
 	    

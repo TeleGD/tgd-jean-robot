@@ -20,8 +20,9 @@ public class MenuFinPartie extends Menu {
 	
 
 	@Override
-	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
+	public void init(GameContainer container, StateBasedGame game) throws SlickException {
 		System.out.println("score mis a jour");
+		this.game=game;
 		super.setTitreSecondaire("Ton score n'est que de "+fr.game.World.getScore());
 	}
 

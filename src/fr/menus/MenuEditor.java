@@ -34,7 +34,7 @@ public class MenuEditor extends Menu {
 				break;
 			case 1:
 				Editor.reset();
-				//game.enterState(MenuLevelEditor.ID, new FadeOutTransition(),new FadeInTransition());
+				game.enterState(MenuLevelEditor.ID, new FadeOutTransition(),new FadeInTransition());
 				break;
 			case 2:
 				game.enterState(Mainmenu.ID, new FadeOutTransition(),new FadeInTransition());

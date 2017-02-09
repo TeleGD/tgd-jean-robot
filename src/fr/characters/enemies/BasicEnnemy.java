@@ -13,7 +13,7 @@ import fr.util.Collisions;
 import fr.util.Movable;
 
 public class BasicEnnemy extends Movable implements Ennemy{
-		protected double width, height;
+		
 		int bas = 600;
 		int score ;
 		

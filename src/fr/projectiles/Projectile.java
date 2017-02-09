@@ -21,7 +21,7 @@ public class Projectile extends Movable implements Rectangle{
 		this.speedY = speedY;
 		loadImage("img/proj2");
 		destructed = false;
-		allied = false;
+		setAllied(false);
 		
 	}
 	
@@ -30,7 +30,7 @@ public class Projectile extends Movable implements Rectangle{
 		this.y = y;
 		this.speedX = speedX;
 		this.speedY = speedY;
-		this.allied = allied;
+		this.setAllied(allied);
 		if(allied) loadImage("img/proj1");
 		else loadImage("img/proj2");
 		destructed = false;
@@ -46,13 +46,31 @@ public class Projectile extends Movable implements Rectangle{
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-		// TODO Auto-generated method stub
-		
+		if(!destructed) g.drawImage(sprite,(float)x,(float)y);
 	}
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-		// TODO Auto-generated method stub
-		
+		moveX(delta);
+		moveY(delta);
+		if(x>800||y>600||x<0||y<0){
+			destruct();
+		}
+	}
+	
+	public void destruct(){
+		this.destructed = true;
+	}
+	
+	public boolean isDestructed(){
+		return destructed;
+	}
+
+	public boolean isAllied() {
+		return allied;
+	}
+
+	public void setAllied(boolean allied) {
+		this.allied = allied;
 	}
 }

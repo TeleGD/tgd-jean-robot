@@ -70,6 +70,9 @@ public class World extends BasicGameState {
 		for (int i=0; i<enemies.size();i++){
 			enemies.get(i).render(arg0, arg1, arg2);
 		}
+		for(Projectile p : projectiles){
+			p.render(arg0, arg1, arg2);
+		}
 	}
 
 	@Override
@@ -82,6 +85,9 @@ public class World extends BasicGameState {
 		}
 		for (int i=0; i<enemies.size();i++){
 			enemies.get(i).update(arg0, arg1, arg2);
+		}
+		for(Projectile p : projectiles){
+			p.update(arg0, arg1, arg2);
 		}
 	}
 

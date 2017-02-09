@@ -25,7 +25,7 @@ public class Projectile extends Movable implements Rectangle{
 		this.speedX = speedX;
 		this.speedY = speedY;
 		speed = Math.sqrt(Math.pow(speedX, 2)+Math.pow(speedY, 2));
-		loadImage("img/proj2");
+		loadImage("img/proj2.png");
 		destructed = false;
 		angle = 0;
 		setAllied(false);
@@ -39,8 +39,8 @@ public class Projectile extends Movable implements Rectangle{
 		this.speedY = speedY;
 		speed = Math.sqrt(Math.pow(speedX, 2)+Math.pow(speedY, 2));
 		this.setAllied(allied);
-		if(allied) loadImage("img/proj1");
-		else loadImage("img/proj2");
+		if(allied) loadImage("img/proj1.png");
+		else loadImage("img/proj2.png");
 		destructed = false;
 		angle = 0;
 	}

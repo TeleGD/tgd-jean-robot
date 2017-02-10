@@ -85,15 +85,23 @@ public class Editor extends BasicGameState{
 
 	private Button enregistrer=new Button("ENREGISTRER",Game.longueur-130,5);
 
-	private int decalage=0;
 
 
 	private boolean flecheBackVisible=true;
 	private boolean flecheForwardVisible=true;
-			
-	private boolean decalageEnCours=false;
+	private boolean flecheUpVisible=true;
+	private boolean flecheDownVisible=true;
+
+	private boolean decalXEnCours=false;
+	private boolean decalYEnCours=false;
 
 	private int direction=1;
+	private int directionY=1;
+	
+	private int decalage=0;
+	private int decalageY=0;
+
+
 	
 	public Editor(){
 		Font titreFont;
@@ -130,9 +138,15 @@ public class Editor extends BasicGameState{
 		for(int i=0;i<plateforms.size();i++){
 
 			double oldX=plateforms.get(i).getX();
+			double oldY=plateforms.get(i).getY();
+
 			plateforms.get(i).setX(oldX-decalage);
+			plateforms.get(i).setY(oldY-decalageY);
+
 			plateforms.get(i).render(container, game, g);
 			plateforms.get(i).setX(oldX);
+			plateforms.get(i).setY(oldY);
+
 
 		}
 
@@ -170,6 +184,16 @@ public class Editor extends BasicGameState{
 			path2.lineTo(10,Game.hauteur/2+1);
 			path2.lineTo(10,Game.hauteur/2-1);
 			path2.lineTo(35,3*Game.hauteur/5);
+			
+			g.draw(path2);
+
+		}
+		
+		if(flecheUpVisible){
+			Path path2 = new Path(6*Game.longueur/11,35);
+			path2.lineTo(Game.longueur/2+1,10);
+			path2.lineTo(Game.longueur/2-1,10);
+			path2.lineTo(5*Game.longueur/11,35);
 
 			g.draw(path2);
 
@@ -185,8 +209,8 @@ public class Editor extends BasicGameState{
 		for(int i=0;i<nbCaseHori;i++){
 			for(int j=0;j<nbCaseVert;j++){
 				for(int k=0;k<3;k++){
-					g.fillRect(i*32-decalage%32+k*32/3, j*32, 32/5, 1);
-					g.fillRect(i*32-decalage%32, j*32+k*32/3, 1, 32/5);
+					g.fillRect(i*Game.DENSITE_X-decalage%Game.DENSITE_X+k*32/3, j*32-decalageY%Game.DENSITE_Y, 32/5, 1);
+					g.fillRect(i*Game.DENSITE_X-decalage%Game.DENSITE_X, j*32+k*32/3-decalageY%Game.DENSITE_Y, 1, 32/5);
 				}
 			}
 		}
@@ -207,12 +231,18 @@ public class Editor extends BasicGameState{
 		if(plateformEnCours!=null){
 
 			double oldX=plateformEnCours.getX();
+			double oldY=plateformEnCours.getY();
+
 			plateformEnCours.setX(oldX-decalage%Game.DENSITE_X);
+			plateformEnCours.setY(oldY-decalageY%Game.DENSITE_Y);
+
 			plateformEnCours.render(container, game, g);
 			plateformEnCours.setX(oldX);
+			plateformEnCours.setY(oldY);
+
 
 			g.setColor(Color.red);
-			g.drawRect((float)plateformEnCours.getX()-decalage%32,(float)plateformEnCours.getY(),(float)plateformEnCours.getWidth(),(float)plateformEnCours.getHeight());
+			g.drawRect((float)plateformEnCours.getX()-decalage%Game.DENSITE_Y,(float)plateformEnCours.getY()-decalageY%Game.DENSITE_Y,(float)plateformEnCours.getWidth(),(float)plateformEnCours.getHeight());
 		}
 		
 		renderOptions(container,game,g);
@@ -244,6 +274,9 @@ public class Editor extends BasicGameState{
 		g.drawString("Press J to Height--",15,yMenu+90);
 		g.drawString("Press H to Width--",15,yMenu+105);
 		g.drawString("Press K to Width++",15,yMenu+120);
+		
+		g.drawString("("+decalage+"px ,"+decalageY+"px )",Game.longueur-150,yMenu+60);
+		g.drawString("("+decalage/Game.DENSITE_X+"bloc ,"+decalageY/Game.DENSITE_Y+"bloc )",Game.longueur-150,yMenu+75);
 
 		
 	}
@@ -298,6 +331,8 @@ public class Editor extends BasicGameState{
 			showTitle=false;
 			flecheForwardVisible=false;
 			flecheBackVisible=false;
+			flecheUpVisible=false;
+
 		}
 		
 		if(fermerMenu && !menuRentre && !menuLocked){
@@ -323,8 +358,11 @@ public class Editor extends BasicGameState{
 			plateformsMenu[i].setY(yMenu+10+40*i);
 			plateformsMenu[i].update(container, game, delta);
 		}
-		if(decalageEnCours){
+		if(decalXEnCours){
 			decalage+=direction*1;
+		}
+		if(decalYEnCours){
+			decalageY+=directionY*1;
 		}
 	}
 
@@ -352,7 +390,8 @@ public class Editor extends BasicGameState{
 		enregistrer.mouseMoved(newx,newy);
 		
 		
-		decalageEnCours=false;
+		decalXEnCours=false;
+		decalYEnCours=false;
 
 		if(newy<Game.hauteur-tailleMenu && !menuRentre){
 			fermerMenu=true;
@@ -369,17 +408,32 @@ public class Editor extends BasicGameState{
 			flecheForwardVisible=true;
 			time=0;
 			
-			decalageEnCours=true;
+			decalXEnCours=true;
 			direction=1*(newx-(Game.longueur-50))/2;
 		}
-		if(newx<50 && decalage>0){
+		if(newx<50){
 			flecheBackVisible=true;
 			time=0;
 			
-			decalageEnCours=true;
+			decalXEnCours=true;
 			direction=-1*(50-newx)/2;
 		}
+		if(decalage<0)decalage=0;
+
+		if(newy<50){
+			flecheUpVisible=true;
+			time=0;
+			decalYEnCours=true;
+			directionY=-1*(50-newy)/2;
+		}
 		
+		if(newy>Game.hauteur-50){
+			flecheDownVisible=true;
+			time=0;
+			
+			decalYEnCours=true;
+			directionY=1*(newy-(Game.hauteur-50))/2;
+		}
 		
 	}
 	private boolean isTherePlatform(int newx, int newy) {	
@@ -395,8 +449,8 @@ public class Editor extends BasicGameState{
 				for(int l=0;l<height/Game.DENSITE_Y;l++){
 					if(newx+k*Game.DENSITE_X>=plateforms.get(i).getX()-decalage
 					&& newx+k*Game.DENSITE_X<plateforms.get(i).getX()-decalage+plateforms.get(i).getWidth()
-					&& newy+l*Game.DENSITE_Y>=plateforms.get(i).getY()
-				    && newy+l*Game.DENSITE_Y<plateforms.get(i).getY()+plateforms.get(i).getHeight())
+					&& newy+l*Game.DENSITE_Y>=plateforms.get(i).getY()-decalageY
+				    && newy+l*Game.DENSITE_Y<plateforms.get(i).getY()-decalageY+plateforms.get(i).getHeight())
 							{
 								return true;
 							}
@@ -408,8 +462,9 @@ public class Editor extends BasicGameState{
 	}
 
 	public void mouseReleased(int button, int x,int y){
-		if(plateformEnCours!=null){
+		if(plateformEnCours!=null && enregistrer.containsPoint(x, y)){
 			enregistrer.mouseReleased(button,x,y);
+			return;
 		}
 		if(button==1){
 			plateformEnCours=null;
@@ -434,7 +489,7 @@ public class Editor extends BasicGameState{
 	
 	private void createPlateforme() {
 		double oldX=plateformEnCours.getX();
-		plateformEnCours.setPosition((int)((plateformEnCours.getX()+decalage)/Game.DENSITE_X),(int) (plateformEnCours.getY()/Game.DENSITE_Y));
+		plateformEnCours.setPosition((int)((plateformEnCours.getX()+decalage)/Game.DENSITE_X),(int) ((plateformEnCours.getY()+decalageY)/Game.DENSITE_Y));
 		plateforms.add(plateformEnCours);
 		
 		plateformEnCours=plateformEnCours.copy();

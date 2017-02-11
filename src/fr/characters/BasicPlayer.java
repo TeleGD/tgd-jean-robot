@@ -12,23 +12,24 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import fr.Behavior.BeCollision;
 import fr.Behavior.CanBounce;
+import fr.characters.enemies.Ennemy;
 import fr.menus.MenuFinPartie;
 import fr.util.Movable;
 
 
 public class BasicPlayer extends Movable implements Player {
 	
-	private boolean pad1,pad2,pad3,pad4,pad6,pad7,pad8,pad9,leftright,downup;
+	private boolean pad1,pad3,pad4,pad6,pad7,pad8,pad9,leftright;
 	private boolean inCol;
-	private boolean upPress, leftPress, rightPress, droitegauche;
 	private int life;
 	private long timeOfDeath;
 	protected boolean leftclick=false;
 	protected BeCollision coli = new CanBounce();
 	protected int[][] tv;
 	protected double speed; 
-	private int jumpLeft;
 	private int score;
+	private double jumpPower = -1.2;
+	private double gravity= 0.05;
 	public int lifeLostScore = 1000; //constante pour gérer le score
 	
 	
@@ -40,21 +41,15 @@ public class BasicPlayer extends Movable implements Player {
 	private int currentIndexImage,compt;
 	
 	public BasicPlayer() {
-		this.x=100;
-		this.y=0;
+		super(100,0,32,64);
 		this.newX =  this.x;
 		this.newY = this.y;
-		this.height=64;
-		this.width=32;
 		this.speedX = 0;
 		this.speedY = 0;
 		this.accelY = 0;
 		this.timeOfDeath = -3000;
 		this.life=3;
-		this.gravity=0.1;
-		this.jumppower=1;
 		this.posjump=false;
-		this.jumpLeft=0;
 		this.compt =0;
 		this.currentIndexImage=2;
 		this.score = 0;
@@ -122,35 +117,21 @@ public class BasicPlayer extends Movable implements Player {
 	}
 	
 	
-	private void horizontalMove() {
-		speedX = 0;
-		if ((leftPress && !rightPress) || (leftPress && rightPress && !droitegauche)) {
-			if (x > 0) {
-				speedX = -0.5;
-			}
-
-		}
-		if ((!leftPress && rightPress) || (leftPress && rightPress && droitegauche)) {
-			if (x < 1280 - width) {
-
-				speedX = 0.5;
-			}
-		}
-	}
-	
 	private void verticalMove2(StateBasedGame game) {
 		posjump = false;
 		inCol=false;
 		for (int i = 0; i < fr.game.World.getPlateforms().size(); i++) {
 			
-			if (fr.util.Collisions.isCollisionY(this, fr.game.World.getPlateforms().get(i), 0)==-1) {
+			if (fr.util.Collisions.isCollisionY(this, fr.game.World.getPlateforms().get(i))==-1) {
 				this.y = fr.game.World.getPlateforms().get(i).getY() - this.height;
 				this.accelY = 0;
 				this.speedY = 0;
-				jumpLeft=1;
 				inCol=true;
 				posjump = true;
 			}
+		}
+		for (Ennemy e : fr.game.World.getEnemies()){
+			e.collPlayer(this);
 		}
 		if (isTooLow()) {
 			loose(game);
@@ -159,47 +140,20 @@ public class BasicPlayer extends Movable implements Player {
 			jump();
 		} else if (!inCol) {
 			this.accelY = gravity;
-		} else if ((pad7 || pad8 || pad9) && jumpLeft>=0){
+		} /*else if ((pad7 || pad8 || pad9) && jumpLeft>=0){
 			jumpLeft-=1;
 			jump();
-		}
+		}*/
 		this.speedY += this.accelY;
 		
 	}
 	
 	
-	public void verticalMove(StateBasedGame game) {
-		posjump = false;
-		inCol=false;
-		for (int i = 0; i < fr.game.World.getPlateforms().size(); i++) {
-			
-			if (fr.util.Collisions.isCollisionY(this, fr.game.World.getPlateforms().get(i), 0)==-1) {
-				this.y = fr.game.World.getPlateforms().get(i).getY() - this.height;
-				this.accelY = 0;
-				this.speedY = 0;
-				jumpLeft=1;
-				inCol=true;
-				posjump = true;
-			}
-		}
-		if (isTooLow()) {
-			loose(game);
-		}
-		if (posjump && upPress ) {
-			jump();
-		} else if (!inCol) {
-			this.accelY = gravity;
-		} else if (upPress && jumpLeft>=0){
-			jumpLeft-=1;
-			jump();
-		}
-		this.speedY += this.accelY;
-	}
 	
 	public void jump() {
-		this.speedY = 0;
-		this.accelY = -this.jumppower;
+		this.speedY = jumpPower;
 		inCol=false;
+		//posjump=false;
 	}
 	
 	private boolean isTooLow() { //renvoie true si le personne touche le bas de l'ecran
@@ -217,32 +171,14 @@ public class BasicPlayer extends Movable implements Player {
 	public void keyReleased(int key, char c) {
 
 		switch (key) {
-		case Input.KEY_UP:
-			upPress = false;
-			break;
-
-		case Input.KEY_DOWN:
-			break;
-
-		case Input.KEY_LEFT:
-			leftPress = false;
-			break;
-
-		case Input.KEY_RIGHT:
-			rightPress = false;
-			break;
 		case Input.KEY_NUMPAD1:
 			pad1 = false;
-			downup=true;
 			leftright=false;
 			break;
 		case Input.KEY_NUMPAD2:
-			pad2 = false;
-			downup=true;
 			break;
 		case Input.KEY_NUMPAD3:
 			pad3 = false;
-			downup=true;
 			leftright=true;
 			break;
 		case Input.KEY_NUMPAD4:
@@ -255,16 +191,13 @@ public class BasicPlayer extends Movable implements Player {
 			break;
 		case Input.KEY_NUMPAD7:
 			leftright=false;
-			downup=false;
 			pad7 = false;
 			break;
 		case Input.KEY_NUMPAD8:
-			downup=false;
 			pad8 = false;
 			break;
 		case Input.KEY_NUMPAD9:
 			pad9 = false;
-			downup=false;
 			leftright=true;
 			break;
 
@@ -277,26 +210,10 @@ public class BasicPlayer extends Movable implements Player {
 		switch (key) {
 		
 		//mouvement
-		case Input.KEY_UP:	
-			upPress=true;
-			break;
-
-		case Input.KEY_DOWN:
-			break;
-
-		case Input.KEY_LEFT:
-			leftPress = true;
-			droitegauche = false;
-			break;
-		case Input.KEY_RIGHT:
-			rightPress = true;
-			droitegauche = true;
-			break;
 		case Input.KEY_NUMPAD1:
 			pad1 = true;
 			break;
 		case Input.KEY_NUMPAD2:
-			pad2 = true;
 			break;
 		case Input.KEY_NUMPAD3:
 			pad3 = true;
@@ -374,9 +291,6 @@ public class BasicPlayer extends Movable implements Player {
 		this.life=3;
 		this.gravity=0.5;
 		this.speed = 5;
-		this.upPress = false;
-		this.rightPress = false;
-		this.leftPress = false;
 		this.score = 0;
 		}
 	

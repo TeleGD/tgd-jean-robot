@@ -14,5 +14,7 @@ public interface Player extends Character {
 	public int getType();
 	
 	public void jump();
+	public void setY(double y);
+	public void setX(double x);
 	
 }

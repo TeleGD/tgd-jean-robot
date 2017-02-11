@@ -6,8 +6,6 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import fr.characters.Player;
 import fr.game.World;
-import fr.util.Collisions;
-import fr.util.Entity;
 
 public class EnemyVolant extends EnnemyToppingDecorator implements Ennemy{
 	
@@ -17,7 +15,7 @@ public class EnemyVolant extends EnnemyToppingDecorator implements Ennemy{
 	public EnemyVolant(BasicEnnemy newEnnemy) {
 		super(newEnnemy);
 		tempEnnemy.setSpeedX(0.1);
-		tempEnnemy.setSpeedY(0.2);
+		tempEnnemy.setSpeedX(0.2);
 		tempEnnemy.setY(tempEnnemy.getY()-100);
 		this.maxHeight=tempEnnemy.getY()-100;
 		this.minHeigth=tempEnnemy.getY();
@@ -33,31 +31,22 @@ public class EnemyVolant extends EnnemyToppingDecorator implements Ennemy{
 		
 		//si trop haut
 		if(tempEnnemy.getY()<this.maxHeight)
-			tempEnnemy.setSpeedY(0.1);
+			tempEnnemy.setSpeedX(0.1);
 		//si trop bas
 		if(tempEnnemy.getY()>this.minHeigth)
-			tempEnnemy.setSpeedY(-0.1);
-		
-		System.out.println(tempEnnemy.getY());
-		
-		
-		collPlayer(fr.game.World.getPlayer(),delta);
+			tempEnnemy.setSpeedX(-0.1);
 		tempEnnemy.update(container, game, delta);
 	}
 	
-	public void collPlayer(Player player,double delta)  {
-		isCollisionX=Collisions.isCollisionX(player,tempEnnemy, delta)	;
-		//System.out.println("collX="+this.isCollisionX);	
-		isCollisionY=Collisions.isCollisionY(player,tempEnnemy, delta)	;
-		System.out.println("collY="+this.isCollisionY);
-		if (isCollisionX == -1|| isCollisionX == 1 || isCollisionY == -1){
-				//point de vue de l'ennemi
+	public void collPlayer(Player player)  {
+		colPlayer=fr.util.Collisions.colPlayerEnnemy(player,tempEnnemy);
+		System.out.println("coll = "+colPlayer);
+		if (colPlayer == 1|| colPlayer == 3 || colPlayer == 4){
 			World.getPlayer().lifelost();
-			}
-			else if (isCollisionY == 1){
+			}else if (colPlayer == 2){
 				tempEnnemy.looseLife();
+				player.setY(tempEnnemy.getY()-player.getHeight());
 				player.jump();
-				System.out.println("bouh");
 			}
 	}
 }

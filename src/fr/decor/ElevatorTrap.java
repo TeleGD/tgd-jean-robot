@@ -67,7 +67,7 @@ public class ElevatorTrap extends Plateform {
 	}
 	@Override
 	public Plateform copy() {
-		ElevatorTrap p=new ElevatorTrap((int)x/Game.DENSITE_X,(int)y/Game.DENSITE_Y,(int)newX/Game.DENSITE_X,(int) (newY/Game.DENSITE_Y));
+		ElevatorTrap p=new ElevatorTrap((int)x/Game.DENSITE_X,(int)y/Game.DENSITE_Y,(int)x/Game.DENSITE_X,(int) (y/Game.DENSITE_Y));
 		p.height=this.height;
 		p.width=this.width;
 		p.vitesse=this.vitesse;

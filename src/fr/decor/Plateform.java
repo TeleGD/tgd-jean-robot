@@ -41,8 +41,6 @@ public class Plateform extends Entity implements Rectangle {
 		this.width = sizeX*Game.DENSITE_X;
 		this.height = sizeY*Game.DENSITE_Y;
 		
-		this.newX = this.x;
-		this.newY = this.y;
 		
 		
 	}
@@ -67,18 +65,13 @@ public class Plateform extends Entity implements Rectangle {
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-		// TODO
-		this.newX = this.x;
-		this.newY = this.y;
 	}
 	
 
-	@Override
 	public double getnewX() {
 		return x;
 	}
 
-	@Override
 	public double getnewY() {
 		return y;
 	}
@@ -98,11 +91,12 @@ public class Plateform extends Entity implements Rectangle {
 	}
 
 	public Plateform copy() {
-		Plateform p=new Plateform((int)x/Game.DENSITE_X,(int)y/Game.DENSITE_Y,(int)newX/Game.DENSITE_X,(int) (newY/Game.DENSITE_Y));
+		Plateform p=new Plateform((int)x/Game.DENSITE_X,(int)y/Game.DENSITE_Y,(int)x/Game.DENSITE_X,(int) (y/Game.DENSITE_Y));
 		p.height=this.height;
 		p.width=this.width;
 		return p;
 	}
+
 	
 
 

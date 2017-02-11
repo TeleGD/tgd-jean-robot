@@ -7,7 +7,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import fr.util.Movable;
 
-public class ToppingDecorator extends Movable implements Player{
+public class ToppingDecorator implements Player{
 
 	protected Player tempPlayer;
 	
@@ -94,6 +94,26 @@ public class ToppingDecorator extends Movable implements Player{
 	@Override
 	public void jump() {
 		tempPlayer.jump();
+	}
+
+	@Override
+	public double getSpeedX() {
+		return tempPlayer.getSpeedX();
+	}
+
+	@Override
+	public double getSpeedY() {
+		return tempPlayer.getSpeedY();
+	}
+
+	@Override
+	public void setY(double y) {
+		tempPlayer.setY(y);
+	}
+
+	@Override
+	public void setX(double x) {
+		tempPlayer.setX(x);
 	}
 
 }

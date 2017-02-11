@@ -6,8 +6,4 @@ public interface Rectangle {
 	public double getHeight();
 	public double getY();
 	public double getX();
-	public double getnewX();
-	public double getnewY();
-	public double getSpeedX();
-	public double getSpeedY();
 }

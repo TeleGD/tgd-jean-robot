@@ -10,8 +10,7 @@ import fr.util.Movable;
 public class Camera extends Movable{
 	
 	public Camera(){
-		this.x=fr.game.World.getPlayer().getX();
-		this.y=fr.game.World.getPlayer().getY();
+		super(fr.game.World.getPlayer().getX(),fr.game.World.getPlayer().getY(),0,0);
 	}
 	
 	@Override

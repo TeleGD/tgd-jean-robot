@@ -1,14 +1,10 @@
 package fr.characters.enemies;
 
-import java.util.ArrayList;
-
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.Graphics;
 import fr.characters.Player;
 import fr.game.World;
-import fr.util.Collisions;
 import fr.projectiles.Projectile;
 
 public class EnnemyShooter extends EnnemyToppingDecorator implements Ennemy{
@@ -46,22 +42,17 @@ public class EnnemyShooter extends EnnemyToppingDecorator implements Ennemy{
 			this.timeToShoot=0;
 		}
 		tempEnnemy.update(container, game, delta);
-		collPlayer(fr.game.World.getPlayer(),delta);
 	}
 	
-	public void collPlayer(Player player,double delta)  {
-		isCollisionX=Collisions.isCollisionX(player,tempEnnemy, delta)	;
-		//System.out.println("collX="+this.isCollisionX);	
-		isCollisionY=Collisions.isCollisionY(player,tempEnnemy, delta)	;
-		System.out.println("collY="+this.isCollisionY);
-		if (isCollisionX == -1|| isCollisionX == 1 || isCollisionY == -1){
-				//point de vue de l'ennemi
+	public void collPlayer(Player player)  {
+		colPlayer=fr.util.Collisions.colPlayerEnnemy(player,tempEnnemy);
+		System.out.println("coll = "+colPlayer);
+		if (colPlayer == 1|| colPlayer == 3 || colPlayer == 4){
 			World.getPlayer().lifelost();
-			}
-			else if (isCollisionY == 1){
+			}else if (colPlayer == 2){
 				tempEnnemy.looseLife();
+				player.setY(tempEnnemy.getY()-player.getHeight());
 				player.jump();
-				System.out.println("bouh");
 			}
 	}
 }

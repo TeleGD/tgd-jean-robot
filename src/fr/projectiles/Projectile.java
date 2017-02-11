@@ -20,8 +20,7 @@ public class Projectile extends Movable implements Rectangle{
 	protected double speed;
 	
 	public Projectile(double x, double y, double speedX, double speedY){
-		this.x = x;
-		this.y = y;
+		super(x,y,3,3);
 		this.speedX = speedX;
 		this.speedY = speedY;
 		speed = Math.sqrt(Math.pow(speedX, 2)+Math.pow(speedY, 2));
@@ -33,8 +32,7 @@ public class Projectile extends Movable implements Rectangle{
 	}
 	
 	public Projectile(double x, double y, double speedX, double speedY, boolean allied){
-		this.x = x;
-		this.y = y;
+		super(x,y,3,3);
 		this.speedX = speedX;
 		this.speedY = speedY;
 		speed = Math.sqrt(Math.pow(speedX, 2)+Math.pow(speedY, 2));
@@ -46,8 +44,7 @@ public class Projectile extends Movable implements Rectangle{
 	}
 	
 	public Projectile(double x,double y, double speed, int angle, boolean allied){
-		this.x = x;
-		this.y = y;
+		super(x,y,3,3);
 		this.speedX = speed*Math.cos(angle);
 		this.speedY = speed*Math.sin(angle);
 		this.setAllied(allied);

@@ -5,20 +5,17 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import fr.util.Movable;
+import fr.characters.Player;
+import fr.decor.Plateform;
 
-public class EnnemyToppingDecorator extends Movable implements Ennemy{
+public class EnnemyToppingDecorator implements Ennemy{
 
-	protected BasicEnnemy tempEnnemy; 
-	protected int isCollisionX;// y a t il eu une coll
-	// sur l'axe X (gauche ou droite)
-	protected int isCollisionY; // y a t il eu une coll
-	// sur l'axe Y en haut ou en bas
+	protected Ennemy tempEnnemy; 
+	protected int colPlayer;
 	
-	public EnnemyToppingDecorator(BasicEnnemy newEnnemy){
+	public EnnemyToppingDecorator(Ennemy newEnnemy){
 		this.tempEnnemy=newEnnemy;
-		this.isCollisionX = 0;
-		this.isCollisionY = 0;
+		this.colPlayer=0;
 
 	}
 	
@@ -48,10 +45,6 @@ public class EnnemyToppingDecorator extends Movable implements Ennemy{
 	}
 
 	@Override
-	public void collPlayer() {
-	}
-	
-	@Override
 	public double getWidth(){
 		return this.tempEnnemy.getWidth();
 	}
@@ -71,5 +64,49 @@ public class EnnemyToppingDecorator extends Movable implements Ennemy{
 	@Override
 	public double getY(){
 		return this.tempEnnemy.getY();
+	}
+
+	@Override
+	public double getSpeedX() {
+		return tempEnnemy.getSpeedX();
+	}
+
+	@Override
+	public double getSpeedY() {
+		return tempEnnemy.getSpeedY();
+	}
+
+	@Override
+	public double getnewX() {
+		return tempEnnemy.getnewX();
+	}
+
+	@Override
+	public double getnewY() {
+		return tempEnnemy.getnewY();
+	}
+
+	@Override
+	public void collPlayer(Player player) {
+	}
+
+	@Override
+	public void looseLife() {
+		tempEnnemy.looseLife();
+	}
+
+	@Override
+	public void setSpeedX(double d) {
+		tempEnnemy.setSpeedX(d);
+	}
+
+	@Override
+	public void setY(double d) {
+		tempEnnemy.setY(d);
+	}
+
+	@Override
+	public Plateform getInitPlat() {
+		return tempEnnemy.getInitPlat();
 	}
 }

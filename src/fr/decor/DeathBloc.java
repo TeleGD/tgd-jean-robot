@@ -34,7 +34,7 @@ public class DeathBloc extends Plateform {
 	
 	@Override
 	public Plateform copy() {
-		DeathBloc p=new DeathBloc((int)x/Game.DENSITE_X,(int)y/Game.DENSITE_Y,(int)newX/Game.DENSITE_X,(int) (newY/Game.DENSITE_Y));
+		DeathBloc p=new DeathBloc((int)x/Game.DENSITE_X,(int)y/Game.DENSITE_Y,(int)x/Game.DENSITE_X,(int) (y/Game.DENSITE_Y));
 		p.height=this.height;
 		p.width=this.width;
 		return p;

@@ -125,7 +125,7 @@ public class World extends BasicGameState {
 			System.out.println("niveau 1 non charge");
 			plateforms.add(new Plateform(4,4,10,1));
 		}
-		enemies.add(new EnnemyShooter(new BasicEnnemy(plateforms.get(0))));
+		enemies.add(new Enemy1(new EnnemyShooter(new BasicEnnemy(plateforms.get(0)))));
 	}
 	
 	
@@ -133,7 +133,7 @@ public class World extends BasicGameState {
 	public static Player getPlayer(){
 		return Nico;
 	}
-	public ArrayList<Ennemy> getEnemies(){
+	public static ArrayList<Ennemy> getEnemies(){
 		return enemies;
 	}
 	public static ArrayList<Plateform> getPlateforms(){

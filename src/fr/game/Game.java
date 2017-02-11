@@ -12,7 +12,6 @@ import fr.menus.Mainmenu;
 import fr.menus.MenuEditor;
 import fr.menus.MenuFinPartie;
 import fr.menus.MenuLevelEditor;
-//import fr.menus.MenuLevelEditor;
 import fr.menus.MenuSortie;
 import fr.game.World;
 import fr.jerome.Editor;

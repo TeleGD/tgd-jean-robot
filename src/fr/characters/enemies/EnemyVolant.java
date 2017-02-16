@@ -10,25 +10,33 @@ import fr.game.World;
 public class EnemyVolant extends EnnemyToppingDecorator implements Ennemy{
 	
 	public double maxHeight;
-	public double minHeigth;
+	public double minHeight;
+	public boolean monte = true;
 
 	public EnemyVolant(BasicEnnemy newEnnemy) {
 		super(newEnnemy);
-		tempEnnemy.setSpeedX(0.1);
-		tempEnnemy.setSpeedX(0.2);
-		tempEnnemy.setY(tempEnnemy.getY()-100);
-		this.maxHeight=tempEnnemy.getY()-100;
-		this.minHeigth=tempEnnemy.getY();
+		tempEnnemy.setSpeedY(0.1);
+		tempEnnemy.setY(tempEnnemy.getY()-20);
+		this.maxHeight=tempEnnemy.getY()-120;
+		this.minHeight=tempEnnemy.getY();
 	}
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+		
 		//si trop haut
-		if(tempEnnemy.getY()<this.maxHeight)
-			tempEnnemy.setSpeedX(0.1);
+		if(tempEnnemy.getY()<this.maxHeight+1)
+			 monte = false;
 		//si trop bas
-		if(tempEnnemy.getY()>this.minHeigth)
-			tempEnnemy.setSpeedX(-0.1);
+		if(tempEnnemy.getY()>this.minHeight-1)
+			 monte = true;
+		
+		if(monte)
+			tempEnnemy.setSpeedY(Math.sin((this.getY()-maxHeight)/maxHeight)/4);
+		else
+			tempEnnemy.setSpeedY(Math.sin((minHeight-this.getY())/maxHeight)/-4);
+		
+		
 		tempEnnemy.update(container, game, delta);
 	}
 	

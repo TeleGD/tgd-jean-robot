@@ -6,6 +6,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import fr.characters.BasicPlayer;
+import fr.characters.Player;
 
 public class IncreaseJump extends Bonus{
 
@@ -13,7 +14,7 @@ public class IncreaseJump extends Bonus{
 	/**
 	 * augmente le vitesse sur l'axe des y
 	 */
-	public void comportment(BasicPlayer player) {
+	public void comportment(Player player) {
 		this.tempsActivation = System.currentTimeMillis();
 		player.jumppower = player.jumppower*2;
 		while (this.tempsActivation+this.duration>System.currentTimeMillis()){
@@ -35,5 +36,6 @@ public class IncreaseJump extends Bonus{
 		// TODO Auto-generated method stub
 		
 	}
+
 
 }

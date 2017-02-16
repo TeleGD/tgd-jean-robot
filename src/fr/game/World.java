@@ -26,6 +26,9 @@ import fr.characters.enemies.Ennemy;
 import fr.characters.enemies.EnnemyShooter;
 import fr.decor.*;
 import fr.projectiles.Projectile;
+import fr.bonus.Bonus;
+import fr.bonus.GunBonus;
+import fr.bonus.BatBonus;
 
 public class World extends BasicGameState {
 
@@ -35,6 +38,7 @@ public class World extends BasicGameState {
 	private static ArrayList<Plateform> plateforms = null;
 	private static ArrayList<Ennemy> enemies = null;
 	private static ArrayList<Projectile> projectiles = null;
+	private static ArrayList<Bonus> bonuss = null;
 	public static StateBasedGame game;
 	private static Plateform plateform;
 	private static int score; //entier corespondant au score
@@ -48,6 +52,7 @@ public class World extends BasicGameState {
 		plateforms= new ArrayList<Plateform>();
 		enemies=new ArrayList<Ennemy>();
 		projectiles = new ArrayList<Projectile>();
+		bonuss = new ArrayList<Bonus>();
 		score = 0;
 		decor = new Decor("img/brick.png","img/background.png");
 		decor.init(arg0,arg1);
@@ -75,6 +80,10 @@ public class World extends BasicGameState {
 		for(Projectile p : projectiles){
 			p.render(arg0, arg1, arg2);
 		}
+		for(Bonus b : bonuss)
+		{
+			b.render(arg0, arg1, arg2);
+		}
 	}
 
 	@Override
@@ -90,6 +99,10 @@ public class World extends BasicGameState {
 		}
 		for(Projectile p : projectiles){
 			p.update(arg0, arg1, arg2);
+		}
+		for(Bonus b : bonuss)
+		{
+			b.update(arg0, arg1, arg2);
 		}
 	}
 
@@ -127,6 +140,9 @@ public class World extends BasicGameState {
 			plateforms.add(new Plateform(4,4,10,1));
 		}
 		enemies.add(new BasicEnnemy(plateforms.get(0)));
+		enemies.add(new Enemy1(new EnnemyShooter(new BasicEnnemy(plateforms.get(0)))));
+		bonuss.add(new BatBonus(50.0,0.0,10,10,Nico));
+		bonuss.add(new GunBonus(0.0,0.0,10,10,Nico));
 	}
 	
 	
@@ -143,6 +159,10 @@ public class World extends BasicGameState {
 	
 	public static ArrayList<Projectile> getProjectiles(){
 		return projectiles;
+	}
+	
+	public static ArrayList<Bonus> getBonus(){
+		return bonuss;
 	}
 
 	public static int getScore() {

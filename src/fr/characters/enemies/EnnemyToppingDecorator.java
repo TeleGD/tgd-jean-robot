@@ -101,6 +101,11 @@ public class EnnemyToppingDecorator implements Ennemy{
 	}
 
 	@Override
+	public void setSpeedY(double d) {
+		tempEnnemy.setSpeedY(d);
+	}
+	
+	@Override
 	public void setY(double d) {
 		tempEnnemy.setY(d);
 	}

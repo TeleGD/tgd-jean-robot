@@ -17,6 +17,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import fr.characters.BasicPlayer;
+import fr.characters.Bat;
 import fr.characters.Gun;
 import fr.characters.Player;
 import fr.characters.enemies.BasicEnnemy;
@@ -43,7 +44,7 @@ public class World extends BasicGameState {
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
 		game = arg1;
-		Nico = new Gun(new BasicPlayer());
+		Nico = new Bat(new BasicPlayer());
 		plateforms= new ArrayList<Plateform>();
 		enemies=new ArrayList<Ennemy>();
 		projectiles = new ArrayList<Projectile>();
@@ -114,7 +115,7 @@ public class World extends BasicGameState {
 	}
 
 	public static void reset(){
-		Nico = new Gun(new BasicPlayer());
+		Nico = new Bat(new BasicPlayer());
 		plateforms= new ArrayList<Plateform>();
 		enemies=new ArrayList<Ennemy>();
 		score = 0;
@@ -125,7 +126,7 @@ public class World extends BasicGameState {
 			System.out.println("niveau 1 non charge");
 			plateforms.add(new Plateform(4,4,10,1));
 		}
-		enemies.add(new Enemy1(new EnnemyShooter(new BasicEnnemy(plateforms.get(0)))));
+		enemies.add(new BasicEnnemy(plateforms.get(0)));
 	}
 	
 	

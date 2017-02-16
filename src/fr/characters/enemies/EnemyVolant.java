@@ -23,12 +23,6 @@ public class EnemyVolant extends EnnemyToppingDecorator implements Ennemy{
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-		//si trop à gauche
-		if((tempEnnemy.getX()<tempEnnemy.getInitPlat().getX()) && (tempEnnemy.getSpeedX()<0))
-			tempEnnemy.setSpeedX(0.1);
-		if((tempEnnemy.getX()+tempEnnemy.getWidth()>tempEnnemy.getInitPlat().getX()+tempEnnemy.getInitPlat().getWidth()) && (tempEnnemy.getSpeedX()>0))
-			tempEnnemy.setSpeedX(-0.1);
-		
 		//si trop haut
 		if(tempEnnemy.getY()<this.maxHeight)
 			tempEnnemy.setSpeedX(0.1);

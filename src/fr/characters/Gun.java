@@ -11,6 +11,7 @@ public class Gun extends ToppingDecorator implements Player{
 	
 	public Gun(Player newPlayer) {
 		super(newPlayer);
+		tempPlayer.setImages("img/Player/herobotWALK/gun/marcheGun");
 	}
 	
 	@Override

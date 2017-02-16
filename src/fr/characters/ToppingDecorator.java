@@ -115,5 +115,16 @@ public class ToppingDecorator implements Player{
 	public void setX(double x) {
 		tempPlayer.setX(x);
 	}
+	
+	@Override
+	public void setImages(String path){
+		tempPlayer.setImages(path);
+	}
+	
+	@Override
+	public int getDirerction()
+	{
+		return tempPlayer.getDirerction();
+	}
 
 }

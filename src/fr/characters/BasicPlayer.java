@@ -31,12 +31,11 @@ public class BasicPlayer extends Movable implements Player {
 	private double jumpPower = -1.2;
 	private double gravity= 0.05;
 	public int lifeLostScore = 1000; //constante pour gérer le score
-	
+	protected int direction ; // 1 = droite, -1 = gauche
 	
 	//variables d'image
 	private Image[] imageDroite=new Image[8];
 	private Image[] imageGauche=new Image[8];
-
 	private Image currentImage;
 	private int currentIndexImage,compt;
 	
@@ -53,20 +52,8 @@ public class BasicPlayer extends Movable implements Player {
 		this.compt =0;
 		this.currentIndexImage=2;
 		this.score = 0;
-		
-		
-		try{
-			for (int i=0; i<imageDroite.length; i++){
-				imageDroite[i] = new Image("img/Player/herobotWALK/jeanrobot_marche" + (i+1) + ".png");
-			}
-			
-			for (int i=0; i<imageGauche.length; i++){
-				imageGauche[i] = new Image("img/Player/herobotWALK/jeanrobot_marcheg" + (i+1) + ".png");
-			}
-			currentImage=imageDroite[currentIndexImage];
-		}catch (Exception e){
-			System.out.println("Attention les images ne peuvent Ãªtre chargÃ©es correctement pour le player");
-		}
+		this.setImages("img/Player/herobotWALK/jeanrobot_marche");
+		this.direction = 1;
 	}
 
 
@@ -94,7 +81,18 @@ public class BasicPlayer extends Movable implements Player {
 		compt++;
 		compt=compt%6;
 		if(compt==0)chooseImg();
-
+		
+		if (speedX > 0)
+		{
+			direction = 1;
+		}
+		else
+		{
+			if (speedX < 0)
+			{
+				direction = -1;
+			}
+		}
 	}
 	
 	public void loose(StateBasedGame game){
@@ -334,6 +332,33 @@ public class BasicPlayer extends Movable implements Player {
 		else{
 			this.score += s;
 		}
+	}
+	
+	/**
+	 * @param path : le path de l'image avec le début de son nom, par exemple "img/Player/herobotWALK/jeanrobot_marche"
+	 */
+	public void setImages(String path)
+	{
+		try{
+			for (int i=0; i<imageDroite.length; i++){
+				imageDroite[i] = new Image(path + (i+1) + ".png");
+			}
+			for (int i=0; i<imageGauche.length; i++){
+				imageGauche[i] = new Image(path + (i+1) + "g" + ".png");
+			}
+			currentImage=imageDroite[currentIndexImage];
+		}catch (Exception e){
+			System.out.println("Attention les images ne peuvent etre chargees correctement, le path etant : " + path);
+		}
+	}
+	
+	/**
+	 * 
+	 * @return nombre entier : 1 si le personnage est tourn& vers la droite, -1 si il est tourn& vers la gauche
+	 */
+	public int getDirerction()
+	{
+		return this.direction;
 	}
 	
 	public int getScore(){

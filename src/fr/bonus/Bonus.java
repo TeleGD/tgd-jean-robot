@@ -6,13 +6,15 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import fr.Behavior.BeCollision;
-import fr.characters.BasicPlayer;
 import fr.util.*;
+import fr.characters.Player;
+
 
 public abstract class Bonus extends Entity implements BeCollision{
 	
 	protected int duration;
 	protected double tempsActivation;
+	protected Player player;
 	
 	public int getDuration(){
 		return duration;
@@ -37,6 +39,7 @@ public abstract class Bonus extends Entity implements BeCollision{
 		g.fillRect((float) x,(float) y, (float) width,(float) height);
 	}
 	
-	abstract public void comportment(BasicPlayer player);
+	
+	abstract public void comportment(Player player);
 
 }

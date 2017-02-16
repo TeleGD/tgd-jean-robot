@@ -6,6 +6,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import fr.characters.BasicPlayer;
+import fr.characters.Player;
 
 public class IncreaseScore extends Bonus{
 
@@ -22,8 +23,9 @@ public class IncreaseScore extends Bonus{
 		
 	}
 
+
 	@Override
-	public void comportment(BasicPlayer player) {
+	public void comportment(Player player) {
 		// TODO Auto-generated method stub
 		
 	}

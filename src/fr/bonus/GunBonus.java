@@ -26,7 +26,7 @@ public class GunBonus extends Bonus {
 	@Override
 	public void comportment(Player player) {
 		// TODO Auto-generated method stub
-		
+		player=new fr.characters.Gun(player);
 	}
 	
 

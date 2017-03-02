@@ -123,7 +123,6 @@ public class BasicPlayer extends Movable implements Player {
 		posjump = false;
 		inCol=false;
 		for (int i = 0; i < fr.game.World.getPlateforms().size(); i++) {
-	
 			if (fr.util.Collisions.isCollisionY(this, fr.game.World.getPlateforms().get(i))==-1) {
 				this.y = fr.game.World.getPlateforms().get(i).getY() - this.height;
 				this.accelY = 0;
@@ -340,12 +339,7 @@ public class BasicPlayer extends Movable implements Player {
 	}
 	
 	public void addScore(int s){
-		if (-s>score){
-			this.score = 0;
-		}
-		else{
-			this.score += s;
-		}
+		this.score += s;
 	}
 	
 	/**

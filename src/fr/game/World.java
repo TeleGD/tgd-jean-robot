@@ -98,6 +98,7 @@ public class World extends BasicGameState {
 		while (i<enemies.size()){
 			enemies.get(i).update(arg0, arg1, arg2);
 			if (enemies.get(i).isDestructed()){
+				Nico.addScore(enemies.get(i).getScore());
 				enemies.remove(i);
 			}
 			else{

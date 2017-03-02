@@ -54,4 +54,8 @@ public class EnnemyShooter extends EnnemyToppingDecorator implements Ennemy{
 				player.jump();
 			}
 	}
+	
+	public int getScore(){
+		return tempEnnemy.getScore() + 50;
+	}
 }

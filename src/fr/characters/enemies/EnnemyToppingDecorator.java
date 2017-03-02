@@ -114,4 +114,10 @@ public class EnnemyToppingDecorator implements Ennemy{
 	public Plateform getInitPlat() {
 		return tempEnnemy.getInitPlat();
 	}
+
+	@Override
+	public int getScore() {
+		// TODO Auto-generated method stub
+		return tempEnnemy.getScore();
+	}
 }

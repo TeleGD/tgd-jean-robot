@@ -13,7 +13,7 @@ import fr.util.Movable;
 public class BasicEnnemy extends Movable implements Ennemy{
 		
 		int bas = 600;
-		int score ;
+		int score  ;
 		
 		private int life;
 		// une vie par exemple)
@@ -23,6 +23,7 @@ public class BasicEnnemy extends Movable implements Ennemy{
 		//Pour attacher l'ennemi a une plateforme (histoire de reperer sa position par rapport a elle)
 		private Plateform initialPlat;
 		
+		/*
 		public BasicEnnemy(double x,double y) {
 			super(x,y,32,32);
 			this.speedX = 0;
@@ -31,6 +32,7 @@ public class BasicEnnemy extends Movable implements Ennemy{
 			this.destructed = false;
 			this.score = 50;
 		}
+		*/
 		
 		public BasicEnnemy(Plateform plat) {
 			super(plat.getX()+plat.getWidth()/2,plat.getY()-32,64,32);
@@ -39,6 +41,7 @@ public class BasicEnnemy extends Movable implements Ennemy{
 			this.speedY = 0;
 			this.life=1;
 			this.destructed = false;
+			this.score = 50;
 		}
 		
 	public int getLife() {

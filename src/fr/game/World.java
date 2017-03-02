@@ -94,8 +94,15 @@ public class World extends BasicGameState {
 		for (int i=0; i<plateforms.size();i++){
 			plateforms.get(i).update(arg0, arg1, arg2);
 		}
-		for (int i=0; i<enemies.size();i++){
+		int i = 0;
+		while (i<enemies.size()){
 			enemies.get(i).update(arg0, arg1, arg2);
+			if (enemies.get(i).isDestructed()){
+				enemies.remove(i);
+			}
+			else{
+				i++;
+			}
 		}
 		for(Projectile p : projectiles){
 			p.update(arg0, arg1, arg2);

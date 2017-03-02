@@ -14,6 +14,7 @@ import fr.Behavior.BeCollision;
 import fr.Behavior.CanBounce;
 import fr.characters.enemies.Ennemy;
 import fr.menus.MenuFinPartie;
+import fr.projectiles.Projectile;
 import fr.util.Movable;
 
 
@@ -93,6 +94,8 @@ public class BasicPlayer extends Movable implements Player {
 				direction = -1;
 			}
 		}
+		
+		
 	}
 	
 	public void loose(StateBasedGame game){
@@ -119,7 +122,7 @@ public class BasicPlayer extends Movable implements Player {
 		posjump = false;
 		inCol=false;
 		for (int i = 0; i < fr.game.World.getPlateforms().size(); i++) {
-			
+	
 			if (fr.util.Collisions.isCollisionY(this, fr.game.World.getPlateforms().get(i))==-1) {
 				this.y = fr.game.World.getPlateforms().get(i).getY() - this.height;
 				this.accelY = 0;
@@ -130,6 +133,9 @@ public class BasicPlayer extends Movable implements Player {
 		}
 		for (Ennemy e : fr.game.World.getEnemies()){
 			e.collPlayer(this);
+		}
+		for (Projectile p : fr.game.World.getProjectiles()){
+			p.collPlayer(this);
 		}
 		if (isTooLow()) {
 			loose(game);

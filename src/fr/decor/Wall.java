@@ -1,23 +1,23 @@
 package fr.decor;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
-
+import fr.characters.BasicPlayer;
 import fr.characters.Player;
 import fr.game.Game;
+import fr.util.Collisions;
 
-public class DeathBloc extends Plateform {
-
-	public DeathBloc(int indexX, int indexY, int sizeX, int sizeY) {
+public class Wall extends Plateform  {
+	
+	public Wall(int indexX, int indexY, int sizeX, int sizeY) {
 		super(indexX, indexY, sizeX, sizeY);
 	}
 	
 	//test
 	//construteur appele pour charger de niveau.
-	public DeathBloc(String ligne) 
+	public Wall(String ligne) 
 	{
 		super(ligne);
 	}
@@ -29,29 +29,20 @@ public class DeathBloc extends Plateform {
 	}
 	
 	@Override
+	public void collPlayer(Player player){
+		
+	}
+	
+	@Override
 	public String parseString() {
 		return "DeathBloc "+getX()+ ";"+ getY()+";"+getWidth()+";"+getHeight();
 	}
 	
 	@Override
-	public void collPlayer(Player player){
-
-		if(fr.util.Collisions.colPlayerPlateform(player,this)!=0){
-			player.setY(this.getY() - player.getHeight());
-			player.setAccY(0);
-			player.setSpeedY(0);
-			player.setInCol(true);
-			player.setposJump(true);
-			player.lifelost();
-		}
-	}
-	
-	@Override
 	public Plateform copy() {
-		DeathBloc p=new DeathBloc((int)x/Game.DENSITE_X,(int)y/Game.DENSITE_Y,(int)x/Game.DENSITE_X,(int) (y/Game.DENSITE_Y));
+		Wall p=new Wall((int)x/Game.DENSITE_X,(int)y/Game.DENSITE_Y,(int)x/Game.DENSITE_X,(int) (y/Game.DENSITE_Y));
 		p.height=this.height;
 		p.width=this.width;
 		return p;
 	}
-
 }

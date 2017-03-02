@@ -85,8 +85,6 @@ public class Plateform extends Entity implements Rectangle {
 			player.setInCol(true);
 			player.setposJump(true);
 		}
-			
-
 	}
 	
 	public String parseString() {

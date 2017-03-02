@@ -28,6 +28,7 @@ import fr.decor.*;
 import fr.projectiles.Projectile;
 import fr.bonus.Bonus;
 import fr.bonus.GunBonus;
+import fr.bonus.LevelEnd;
 import fr.bonus.BatBonus;
 
 public class World extends BasicGameState {
@@ -145,7 +146,7 @@ public class World extends BasicGameState {
 	}
 
 	public static void reset(){
-		Nico = new Bat(new BasicPlayer());
+		Nico = new BasicPlayer();
 		plateforms= new ArrayList<Plateform>();
 		bonuss=new ArrayList<Bonus>();
 		enemies=new ArrayList<Ennemy>();
@@ -161,6 +162,7 @@ public class World extends BasicGameState {
 		enemies.add(new Enemy1(new EnnemyShooter(new BasicEnnemy(plateforms.get(0)))));
 		bonuss.add(new BatBonus(50.0,0.0,10,10,Nico));
 		bonuss.add(new GunBonus(0.0,0.0,10,10,Nico));
+		bonuss.add(new LevelEnd(50.0, 0.0, 10, 10, Nico));
 	}
 	
 	

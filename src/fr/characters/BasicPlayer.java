@@ -13,6 +13,7 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 import fr.Behavior.BeCollision;
 import fr.Behavior.CanBounce;
 import fr.characters.enemies.Ennemy;
+import fr.decor.Plateform;
 import fr.menus.MenuFinPartie;
 import fr.projectiles.Projectile;
 import fr.util.Movable;
@@ -122,14 +123,8 @@ public class BasicPlayer extends Movable implements Player {
 	private void verticalMove2(StateBasedGame game) {
 		posjump = false;
 		inCol=false;
-		for (int i = 0; i < fr.game.World.getPlateforms().size(); i++) {
-			if (fr.util.Collisions.isCollisionY(this, fr.game.World.getPlateforms().get(i))==-1) {
-				this.y = fr.game.World.getPlateforms().get(i).getY() - this.height;
-				this.accelY = 0;
-				this.speedY = 0;
-				inCol=true;
-				posjump = true;
-			}
+		for (Plateform p : fr.game.World.getPlateforms()){
+			p.collPlayer(this);
 		}
 		for (Ennemy e : fr.game.World.getEnemies()){
 			e.collPlayer(this);
@@ -380,28 +375,28 @@ public class BasicPlayer extends Movable implements Player {
 
 
 	@Override
-	public void setAccY(int i) {
-		this.setAccelY(i);
+	public void setAccY(double i) {
+		accelY=i;
 	}
 
 
 	@Override
-	public void setSpeedY(int i) {
-		this.setSpeedY(i);
+	public void setSpeedY(double i) {
+		speedY=i;
 		
 	}
 
 
 	@Override
 	public void setInCol(boolean b) {
-		this.setInCol(b);
+		inCol=b;
 		
 	}
 
 
 	@Override
 	public void setposJump(boolean b) {
-		this.setposJump(b);
+		posjump=b;
 		
 	}
 }

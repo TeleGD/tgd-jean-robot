@@ -29,8 +29,8 @@ public interface Player extends Character {
 	 */
 	public int getDirerction();
 	
-	public void setAccY(int i);
-	public void setSpeedY(int i);
+	public void setAccY(double i);
+	public void setSpeedY(double i);
 	public void setInCol(boolean b);
 	public void setposJump(boolean b);
 	

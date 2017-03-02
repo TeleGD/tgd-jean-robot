@@ -16,6 +16,7 @@ public interface Player extends Character {
 	public void jump();
 	public void setY(double y);
 	public void setX(double x);
+	public void addScore(int s);
 	
 	/**
 	 * @param path : le path de l'image avec le début de son nom, par exemple "img/Player/herobotWALK/jeanrobot_marche"

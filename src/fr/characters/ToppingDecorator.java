@@ -151,4 +151,10 @@ public class ToppingDecorator implements Player{
 		
 	}
 
+	@Override
+	public void addScore(int s) {
+		tempPlayer.addScore(s);
+		
+	}
+
 }

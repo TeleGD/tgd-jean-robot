@@ -37,6 +37,7 @@ public class BasicPlayer extends Movable implements Player {
 	//variables d'image
 	private Image[] imageDroite=new Image[8];
 	private Image[] imageGauche=new Image[8];
+	private Image[] imageIdle = new Image[2];
 	private Image currentImage;
 	private int currentIndexImage,compt;
 	
@@ -326,8 +327,15 @@ public class BasicPlayer extends Movable implements Player {
 			else{
 				currentImage=imageGauche[currentIndexImage];
 			}
-			
-
+		}
+		if (speedX == 0){
+			currentIndexImage=0;
+			if (this.getDirerction() == 1){
+				currentImage=imageIdle[0];
+			}
+			else {
+				currentImage=imageIdle[1];
+			}	
 		}
 	}
 	
@@ -352,6 +360,11 @@ public class BasicPlayer extends Movable implements Player {
 			for (int i=0; i<imageGauche.length; i++){
 				imageGauche[i] = new Image(path + (i+1) + "g" + ".png");
 			}
+			{
+				imageIdle[0] = new Image(path + "Idle.png");
+				imageIdle[1] = new Image (path + "Idleg.png");
+			}
+			
 			currentImage=imageDroite[currentIndexImage];
 		}catch (Exception e){
 			System.out.println("Attention les images ne peuvent etre chargees correctement, le path etant : " + path);
@@ -369,5 +382,32 @@ public class BasicPlayer extends Movable implements Player {
 	
 	public int getScore(){
 		return this.score;
+	}
+
+
+	@Override
+	public void setAccY(int i) {
+		this.setAccelY(i);
+	}
+
+
+	@Override
+	public void setSpeedY(int i) {
+		this.setSpeedY(i);
+		
+	}
+
+
+	@Override
+	public void setInCol(boolean b) {
+		this.setInCol(b);
+		
+	}
+
+
+	@Override
+	public void setposJump(boolean b) {
+		this.setposJump(b);
+		
 	}
 }

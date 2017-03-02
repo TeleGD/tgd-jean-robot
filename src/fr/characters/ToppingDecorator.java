@@ -127,4 +127,28 @@ public class ToppingDecorator implements Player{
 		return tempPlayer.getDirerction();
 	}
 
+	@Override
+	public void setAccY(int i) {
+		tempPlayer.setAccY(i);
+		
+	}
+
+	@Override
+	public void setSpeedY(int i) {
+		tempPlayer.setSpeedY(i);
+		
+	}
+
+	@Override
+	public void setInCol(boolean b) {
+		tempPlayer.setInCol(b);
+		
+	}
+
+	@Override
+	public void setposJump(boolean b) {
+		tempPlayer.setposJump(b);
+		
+	}
+
 }

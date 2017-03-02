@@ -101,6 +101,7 @@ public class Projectile extends Movable implements Rectangle{
 		System.out.println("coll = "+colPlayer);
 		if (colPlayer != 0){
 			World.getPlayer().lifelost();
+			this.destructed = true;
 		}
 	}
 }

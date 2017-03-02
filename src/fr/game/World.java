@@ -104,9 +104,18 @@ public class World extends BasicGameState {
 				i++;
 			}
 		}
-		for(Projectile p : projectiles){
-			p.update(arg0, arg1, arg2);
+		
+		i = 0;
+		while (i < projectiles.size()){
+			projectiles.get(i).update(arg0, arg1, arg2);
+			if (projectiles.get(i).isDestructed()){
+				projectiles.remove(i);
+			}
+			else{
+				i++;
+			}
 		}
+		
 		for(Bonus b : bonuss)
 		{
 			b.update(arg0, arg1, arg2);

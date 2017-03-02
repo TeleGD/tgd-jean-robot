@@ -6,6 +6,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import fr.characters.Player;
+import fr.game.World;
 import fr.util.Movable;
 import fr.util.Rectangle;
 
@@ -88,5 +90,17 @@ public class Projectile extends Movable implements Rectangle{
 
 	public void setAllied(boolean allied) {
 		this.allied = allied;
+	}
+
+	/**
+	 * Est appellée pendant l'update de player
+	 * @param Le player actuel
+	 */
+	public void collPlayer(Player player) {
+		int colPlayer = fr.util.Collisions.colPlayerProjectile(player,this);
+		System.out.println("coll = "+colPlayer);
+		if (colPlayer != 0){
+			World.getPlayer().lifelost();
+		}
 	}
 }

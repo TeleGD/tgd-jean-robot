@@ -14,7 +14,9 @@ public class ElevatorTrap extends Plateform {
 	
 	double vitesse=3;
 	boolean mvmnt;
-	
+	private int timeToFall;
+	private boolean falling=false;
+	private boolean isInCollision=false;
 	public ElevatorTrap(int indexX, int indexY, int sizeX, int sizeY){
 		super(indexX,indexY,sizeX,sizeY);
 	}
@@ -35,9 +37,33 @@ public class ElevatorTrap extends Plateform {
 	
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-		// TODO
-		//this.newX = this.x;
-		//this.newY = this.y;
+		if(isInCollision){
+			timeToFall+=1;
+		}
+		if(timeToFall==20)
+		{
+			this.setY(this.getVitesse()+(this.getY()));
+			this.setMvmnt(true);
+			this.falling=true;
+		}
+		if(falling)
+		{
+			this.setY(this.getVitesse()+(this.getY()));
+		}
+	}
+	
+	@Override
+	public void collPlayer(Player player){
+		if(fr.util.Collisions.colPlayerPlateform(player,this)==2&&!falling){
+			this.isInCollision=true;
+			player.setY(this.getY() - player.getHeight());
+			player.setAccY(0);
+			player.setSpeedY(0);
+			player.setInCol(true);
+			player.setposJump(true);
+		}
+			
+
 	}
 	
 	private boolean activate(){

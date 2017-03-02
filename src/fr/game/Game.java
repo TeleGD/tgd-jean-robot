@@ -48,21 +48,21 @@ public class Game extends StateBasedGame {
 	@Override
 	public void initStatesList(GameContainer container) throws SlickException {
 		long time=System.currentTimeMillis();
-		System.out.println("time MenuMain="+(System.currentTimeMillis()-time));
+		//System.out.println("time MenuMain="+(System.currentTimeMillis()-time));
 		addState(new Mainmenu());
-		System.out.println("time MenuMain="+(System.currentTimeMillis()-time));
+		//System.out.println("time MenuMain="+(System.currentTimeMillis()-time));
 		addState(new World());
-		System.out.println("time World="+(System.currentTimeMillis()-time));
+		//System.out.println("time World="+(System.currentTimeMillis()-time));
 		addState(new MenuSortie());
-		System.out.println("time MenuSortie="+(System.currentTimeMillis()-time));
+		//System.out.println("time MenuSortie="+(System.currentTimeMillis()-time));
 		addState(new MenuFinPartie());
-		System.out.println("time MenuFinPartie="+(System.currentTimeMillis()-time));
+		//System.out.println("time MenuFinPartie="+(System.currentTimeMillis()-time));
 		addState(new MenuEditor());
-		System.out.println("time MenuEditor="+(System.currentTimeMillis()-time));
+		//System.out.println("time MenuEditor="+(System.currentTimeMillis()-time));
 		addState(new MenuLevelEditor());
-		System.out.println("time MenuLevelEditor="+(System.currentTimeMillis()-time));
+		//System.out.println("time MenuLevelEditor="+(System.currentTimeMillis()-time));
 		addState(new Editor());
-		System.out.println("time Editor="+(System.currentTimeMillis()-time));
+		//System.out.println("time Editor="+(System.currentTimeMillis()-time));
 	    
 	    
 	    this.enterState(Mainmenu.ID);

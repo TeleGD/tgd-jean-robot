@@ -42,7 +42,6 @@ public class EnemyVolant extends EnnemyToppingDecorator implements Ennemy{
 	
 	public void collPlayer(Player player)  {
 		colPlayer=fr.util.Collisions.colPlayerEnnemy(player,tempEnnemy);
-		System.out.println("coll = "+colPlayer);
 		if (colPlayer == 1|| colPlayer == 3 || colPlayer == 4){
 			World.getPlayer().lifelost();
 			}else if (colPlayer == 2){

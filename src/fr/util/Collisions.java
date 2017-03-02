@@ -4,6 +4,7 @@ import fr.characters.BasicPlayer;
 import fr.characters.Character;
 import fr.characters.Player;
 import fr.characters.enemies.Ennemy;
+import fr.decor.Plateform;
 import fr.projectiles.Projectile;
 
 
@@ -158,6 +159,19 @@ public class Collisions {
 	
 	public static int colPlayerProjectile(Player c,Projectile e){
 		if(!intersect(c,e) && !intersect(new Movable(c.getnewX(), c.getnewY(), c.getWidth(), c.getHeight()) ,new Movable(e.getnewX(), e.getnewY(), e.getWidth(), e.getHeight()))){
+			return 0;
+		}
+		if((c.getX()+c.getWidth()/4>e.getX())&&(c.getX()<e.getX()+e.getWidth()-c.getWidth()/4)){
+			if(c.getY()>e.getY()) return 4;
+			return 2;
+		}else {
+			if(c.getX()<e.getX()) return 1;
+			return 3;
+		}
+	}
+	
+	public static int colPlayerPlateform(Player c,Plateform e){
+		if(!intersect(c,e) && !intersect(new Movable(c.getnewX(), c.getnewY(), c.getWidth(), c.getHeight()) ,e)){
 			return 0;
 		}
 		if((c.getX()+c.getWidth()/4>e.getX())&&(c.getX()<e.getX()+e.getWidth()-c.getWidth()/4)){

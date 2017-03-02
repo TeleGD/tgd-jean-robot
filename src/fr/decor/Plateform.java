@@ -8,6 +8,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import fr.characters.BasicPlayer;
+import fr.characters.Player;
 import fr.game.Game;
 import fr.util.Entity;
 import fr.util.Rectangle;
@@ -76,13 +77,15 @@ public class Plateform extends Entity implements Rectangle {
 		return y;
 	}
 
-	public boolean collPlayer(BasicPlayer player){
-		if(player.getSpeedY()<0){return false;}
-		if(player.getnewY()+player.getHeight()<this.y){return false;}
-		if(player.getY()>this.y){return false;}
-		if(player.getX()>this.x+this.width){return false;}
-		if(player.getX()+player.getWidth()<this.x){return false;}
-		return true;
+	public void collPlayer(Player player){
+		if(fr.util.Collisions.colPlayerPlateform(player,this)==2){
+			player.setY(this.getY() - player.getHeight());
+			player.setAccY(0);
+			player.setSpeedY(0);
+			player.setInCol(true);
+			player.setposJump(true);
+		}
+			
 
 	}
 	

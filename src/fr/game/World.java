@@ -146,6 +146,7 @@ public class World extends BasicGameState {
 	public static void reset(){
 		Nico = new Bat(new BasicPlayer());
 		plateforms= new ArrayList<Plateform>();
+		bonuss=new ArrayList<Bonus>();
 		enemies=new ArrayList<Ennemy>();
 		score = 0;
 		plateforms.add(new Plateform(1,4, 10, 1));

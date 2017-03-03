@@ -163,7 +163,7 @@ public class World extends BasicGameState {
 		enemies.add(new Enemy1(new EnnemyShooter(new BasicEnnemy(plateforms.get(0)))));
 		bonuss.add(new BatBonus(50.0,0.0,10,10,Nico));
 		bonuss.add(new GunBonus(0.0,0.0,10,10,Nico));
-		bonuss.add(new LevelEnd(50.0, 0.0, 10, 10, Nico));
+		bonuss.add(new LevelEnd(500.0, 0.0, 10, 10, Nico));
 	}
 	
 	
@@ -244,6 +244,10 @@ public class World extends BasicGameState {
 		return false;
 		
 		
+	}
+	
+	public static void setPlayer(Player p){
+		Nico = p;
 	}
 	
 	

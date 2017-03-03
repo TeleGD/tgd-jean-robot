@@ -128,13 +128,13 @@ public class ToppingDecorator implements Player{
 	}
 
 	@Override
-	public void setAccY(int i) {
+	public void setAccY(double i) {
 		tempPlayer.setAccY(i);
 		
 	}
 
 	@Override
-	public void setSpeedY(int i) {
+	public void setSpeedY(double i) {
 		tempPlayer.setSpeedY(i);
 		
 	}
@@ -156,5 +156,7 @@ public class ToppingDecorator implements Player{
 		tempPlayer.addScore(s);
 		
 	}
+
+
 
 }

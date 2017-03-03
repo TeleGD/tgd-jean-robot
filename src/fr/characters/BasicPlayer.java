@@ -80,7 +80,6 @@ public class BasicPlayer extends Movable implements Player {
 		moveX(delta);
 		moveY(delta);
 		
-		
 		compt++;
 		compt=compt%6;
 		if(compt==0)chooseImg();

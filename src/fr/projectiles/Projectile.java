@@ -98,7 +98,6 @@ public class Projectile extends Movable implements Rectangle{
 	 */
 	public void collPlayer(Player player) {
 		int colPlayer = fr.util.Collisions.colPlayerProjectile(player,this);
-		System.out.println("coll = "+colPlayer);
 		if (colPlayer != 0){
 			World.getPlayer().lifelost();
 			this.destructed = true;

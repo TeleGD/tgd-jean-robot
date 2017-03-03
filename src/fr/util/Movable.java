@@ -80,7 +80,13 @@ public class Movable extends Entity{
 		speedY=a;
 	}
 
+	public void setWidth(double w){
+		this.width = w;
+	}
 	
+	public void setHeight(double h){
+		this.height = h;
+	}
 	
 	
 }

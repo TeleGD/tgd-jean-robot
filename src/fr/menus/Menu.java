@@ -38,7 +38,7 @@ import fr.util.FontUtils;
  */
 public abstract class Menu extends BasicGameState {
 	
-	private static final String CONFIRM_TEXT="PRESS ENTER";
+	
 	
 	private String titrePrincipal="";
 	private String titreSecondaire="";
@@ -57,7 +57,7 @@ public abstract class Menu extends BasicGameState {
 	protected StateBasedGame game;
 	protected long time;
 
-	private TrueTypeFont fontConfirmText;
+	protected TrueTypeFont fontConfirmText;
 
 	private int indexItemPlusGrand;
 
@@ -87,10 +87,10 @@ public abstract class Menu extends BasicGameState {
 		g.setColor(Color.white);
 		g.drawRect(Game.longueur/2-300, Game.hauteur/2-130, 600,37);
 
-		g.drawRect(Game.longueur/2-300, Game.hauteur-200, 600,37);
+		//g.drawRect(Game.longueur/2-300, Game.hauteur-200, 600,37);
 		
-		g.setFont(fontConfirmText);
-		g.drawString(CONFIRM_TEXT, Game.longueur/2-fontConfirmText.getWidth(CONFIRM_TEXT)/2, 530);
+		//g.setFont(fontConfirmText);
+		//g.drawString(CONFIRM_TEXT, Game.longueur/2-fontConfirmText.getWidth(CONFIRM_TEXT)/2, 530);
 
 	}
 

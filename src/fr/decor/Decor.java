@@ -120,7 +120,6 @@ public class Decor extends BasicGameState {
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-		//TODO
 		//translation de la caméra (fixé sur le personnage)
 		g.translate(container.getWidth() / 2 - characterPosX, container.getHeight() / 2 - characterPosY);
 		

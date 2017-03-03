@@ -8,11 +8,14 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import fr.menus.CreditMenu;
+import fr.menus.FinishMenu;
 import fr.menus.Mainmenu;
 import fr.menus.MenuEditor;
 import fr.menus.MenuFinPartie;
 import fr.menus.MenuLevelEditor;
 import fr.menus.MenuSortie;
+import fr.menus.WelcomeMenu;
 import fr.game.World;
 import fr.jerome.Editor;
 
@@ -48,6 +51,7 @@ public class Game extends StateBasedGame {
 	@Override
 	public void initStatesList(GameContainer container) throws SlickException {
 		long time=System.currentTimeMillis();
+		addState(new WelcomeMenu());
 		//System.out.println("time MenuMain="+(System.currentTimeMillis()-time));
 		addState(new Mainmenu());
 		//System.out.println("time MenuMain="+(System.currentTimeMillis()-time));
@@ -63,9 +67,11 @@ public class Game extends StateBasedGame {
 		//System.out.println("time MenuLevelEditor="+(System.currentTimeMillis()-time));
 		addState(new Editor());
 		//System.out.println("time Editor="+(System.currentTimeMillis()-time));
+		addState(new CreditMenu());
+		addState(new FinishMenu());
 	    
 	    
-	    this.enterState(Mainmenu.ID);
+	    this.enterState(WelcomeMenu.ID);
 	}
 
 

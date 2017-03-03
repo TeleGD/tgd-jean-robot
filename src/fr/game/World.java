@@ -23,6 +23,7 @@ import fr.characters.Gun;
 import fr.characters.Player;
 import fr.characters.enemies.BasicEnnemy;
 import fr.characters.enemies.Enemy1;
+import fr.characters.enemies.EnemyVolant;
 import fr.characters.enemies.Ennemy;
 import fr.characters.enemies.EnnemyShooter;
 import fr.decor.*;
@@ -61,8 +62,6 @@ public class World extends BasicGameState {
 		
 		chargerNiveau("niveau");
 		
-		//enemies.add(new Enemy1(new BasicEnnemy(plateforms.get(0))));
-		
 		
 	}
 
@@ -71,7 +70,11 @@ public class World extends BasicGameState {
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {
 		decor.render(arg0,arg1,arg2);
-		Nico.render(arg0, arg1, arg2);
+		
+		for(Bonus b : bonuss)
+		{
+			b.render(arg0, arg1, arg2);
+		}
 		for (int i=0; i<plateforms.size();i++){
 			plateforms.get(i).render(arg0, arg1, arg2);
 			
@@ -82,10 +85,7 @@ public class World extends BasicGameState {
 		for(Projectile p : projectiles){
 			p.render(arg0, arg1, arg2);
 		}
-		for(Bonus b : bonuss)
-		{
-			b.render(arg0, arg1, arg2);
-		}
+		Nico.render(arg0, arg1, arg2);
 	}
 
 	@Override
@@ -235,10 +235,8 @@ public class World extends BasicGameState {
 			br.close();
 			return true;
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;

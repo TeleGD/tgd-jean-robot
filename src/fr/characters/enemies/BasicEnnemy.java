@@ -35,7 +35,7 @@ public class BasicEnnemy extends Movable implements Ennemy{
 		*/
 		
 		public BasicEnnemy(Plateform plat) {
-			super(plat.getX()+plat.getWidth()/2,plat.getY()-32,64,32);
+			super(plat.getX()+plat.getWidth()/2-32,plat.getY()-32,64,32);
 			this.initialPlat=plat;
 			this.speedX = 0;
 			this.speedY = 0;

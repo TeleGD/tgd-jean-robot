@@ -7,6 +7,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import fr.characters.Player;
 import fr.decor.Plateform;
+import fr.game.World;
 
 public class EnnemyToppingDecorator implements Ennemy{
 
@@ -86,8 +87,15 @@ public class EnnemyToppingDecorator implements Ennemy{
 		return tempEnnemy.getnewY();
 	}
 
-	@Override
-	public void collPlayer(Player player) {
+	public void collPlayer(Player player)  {
+		colPlayer=fr.util.Collisions.colPlayerEnnemy(player,tempEnnemy);
+		if (colPlayer == 1|| colPlayer == 3 || colPlayer == 4){
+			World.getPlayer().lifelost();
+			}else if (colPlayer == 2){
+				tempEnnemy.looseLife();
+				player.setY(tempEnnemy.getY()-player.getHeight());
+				player.jump();
+			}
 	}
 
 	@Override

@@ -65,7 +65,9 @@ public class BasicPlayer extends Movable implements Player {
 		g.setColor(Color.red);
 		g.drawImage(currentImage, (float)x, (float)y);
 		g.drawString(""+life+" vies", (float)x, (float)y-40);
-		g.drawString("score = " + score, (float)x+500, (float)y-300);		
+		g.drawString("score = " + score, (float)x+500, (float)y-300);	
+		g.drawString("x = " + x, (float)x+500, (float)y);
+		g.drawString("y = " + y, (float)x+500, (float)y+20);	
 	}
 
 	@Override

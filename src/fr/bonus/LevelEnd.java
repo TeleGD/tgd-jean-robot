@@ -3,8 +3,11 @@ package fr.bonus;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import fr.characters.Player;
+import fr.menus.FinishMenu;
 import fr.util.Collisions;
 
 public class LevelEnd extends Bonus {
@@ -30,8 +33,7 @@ public class LevelEnd extends Bonus {
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		if(Collisions.intersect(this,player) && !destructed)
 		{
-			player.loose(game);
-			this.destructed=true;
+			game.enterState(FinishMenu.ID,new FadeOutTransition(),new FadeInTransition());
 		}
 		
 	}

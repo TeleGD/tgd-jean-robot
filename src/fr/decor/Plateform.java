@@ -78,7 +78,7 @@ public class Plateform extends Entity implements Rectangle {
 	}
 
 	public void collPlayer(Player player){
-		if(fr.util.Collisions.colPlayerPlateform(player,this)==2){
+		if(fr.util.Collisions.colPlayerPlateform(player,this)==2 && player.getSpeedY()>0){
 			player.setY(this.getY() - player.getHeight());
 			player.setAccY(0);
 			player.setSpeedY(0);

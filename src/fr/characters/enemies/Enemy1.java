@@ -24,14 +24,5 @@ public class Enemy1 extends EnnemyToppingDecorator implements Ennemy{
 		tempEnnemy.update(container, game, delta);
 	}
 	
-	public void collPlayer(Player player)  {
-		colPlayer=fr.util.Collisions.colPlayerEnnemy(player,tempEnnemy);
-		if (colPlayer == 1|| colPlayer == 3 || colPlayer == 4){
-			World.getPlayer().lifelost();
-			}else if (colPlayer == 2){
-				tempEnnemy.looseLife();
-				player.setY(tempEnnemy.getY()-player.getHeight());
-				player.jump();
-			}
-	}
+	
 }

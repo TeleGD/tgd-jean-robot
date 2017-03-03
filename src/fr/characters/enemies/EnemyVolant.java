@@ -11,13 +11,12 @@ public class EnemyVolant extends EnnemyToppingDecorator implements Ennemy{
 	
 	public double maxHeight;
 	public double minHeight;
-	public boolean monte = true;
 
-	public EnemyVolant(BasicEnnemy newEnnemy) {
+	public EnemyVolant(Ennemy newEnnemy) {
 		super(newEnnemy);
 		tempEnnemy.setSpeedY(0.1);
-		tempEnnemy.setY(tempEnnemy.getY()-20);
-		this.maxHeight=tempEnnemy.getY()-120;
+		tempEnnemy.setY(tempEnnemy.getInitPlat().getY()-150);
+		this.maxHeight=tempEnnemy.getInitPlat().getY()-150;
 		this.minHeight=tempEnnemy.getY();
 	}
 
@@ -25,29 +24,13 @@ public class EnemyVolant extends EnnemyToppingDecorator implements Ennemy{
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		
 		//si trop haut
-		if(tempEnnemy.getY()<this.maxHeight+1)
-			 monte = false;
+		if(tempEnnemy.getY()<this.maxHeight-40)
+			tempEnnemy.setSpeedY(0.1);
 		//si trop bas
-		if(tempEnnemy.getY()>this.minHeight-1)
-			 monte = true;
-		
-		if(monte)
-			tempEnnemy.setSpeedY(Math.sin((this.getY()-maxHeight)/maxHeight)/4);
-		else
-			tempEnnemy.setSpeedY(Math.sin((minHeight-this.getY())/maxHeight)/-4);
-		
-		
+		if(tempEnnemy.getY()>this.minHeight+40)
+			tempEnnemy.setSpeedY(-0.1);
 		tempEnnemy.update(container, game, delta);
 	}
 	
-	public void collPlayer(Player player)  {
-		colPlayer=fr.util.Collisions.colPlayerEnnemy(player,tempEnnemy);
-		if (colPlayer == 1|| colPlayer == 3 || colPlayer == 4){
-			World.getPlayer().lifelost();
-			}else if (colPlayer == 2){
-				tempEnnemy.looseLife();
-				player.setY(tempEnnemy.getY()-player.getHeight());
-				player.jump();
-			}
-	}
+	
 }

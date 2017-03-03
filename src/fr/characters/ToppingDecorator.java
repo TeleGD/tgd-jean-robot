@@ -127,17 +127,6 @@ public class ToppingDecorator implements Player{
 		return tempPlayer.getDirerction();
 	}
 
-	@Override
-	public void setAccY(int i) {
-		tempPlayer.setAccY(i);
-		
-	}
-
-	@Override
-	public void setSpeedY(int i) {
-		tempPlayer.setSpeedY(i);
-		
-	}
 
 	@Override
 	public void setInCol(boolean b) {
@@ -154,6 +143,18 @@ public class ToppingDecorator implements Player{
 	@Override
 	public void addScore(int s) {
 		tempPlayer.addScore(s);
+		
+	}
+
+	@Override
+	public void setAccY(double i) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setSpeedY(double i) {
+		// TODO Auto-generated method stub
 		
 	}
 

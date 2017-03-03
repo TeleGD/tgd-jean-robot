@@ -23,12 +23,14 @@ import fr.characters.Gun;
 import fr.characters.Player;
 import fr.characters.enemies.BasicEnnemy;
 import fr.characters.enemies.Enemy1;
+import fr.characters.enemies.EnemyVolant;
 import fr.characters.enemies.Ennemy;
 import fr.characters.enemies.EnnemyShooter;
 import fr.decor.*;
 import fr.projectiles.Projectile;
 import fr.bonus.Bonus;
 import fr.bonus.GunBonus;
+import fr.bonus.LevelEnd;
 import fr.bonus.BatBonus;
 
 public class World extends BasicGameState {
@@ -60,8 +62,6 @@ public class World extends BasicGameState {
 		
 		chargerNiveau("niveau");
 		
-		//enemies.add(new Enemy1(new BasicEnnemy(plateforms.get(0))));
-		
 		
 	}
 
@@ -70,7 +70,11 @@ public class World extends BasicGameState {
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {
 		decor.render(arg0,arg1,arg2);
-		Nico.render(arg0, arg1, arg2);
+		
+		for(Bonus b : bonuss)
+		{
+			b.render(arg0, arg1, arg2);
+		}
 		for (int i=0; i<plateforms.size();i++){
 			plateforms.get(i).render(arg0, arg1, arg2);
 			
@@ -81,10 +85,7 @@ public class World extends BasicGameState {
 		for(Projectile p : projectiles){
 			p.render(arg0, arg1, arg2);
 		}
-		for(Bonus b : bonuss)
-		{
-			b.render(arg0, arg1, arg2);
-		}
+		Nico.render(arg0, arg1, arg2);
 	}
 
 	@Override
@@ -158,10 +159,12 @@ public class World extends BasicGameState {
 			System.out.println("niveau 1 non charge");
 			plateforms.add(new Plateform(4,4,10,1));
 		}
-		enemies.add(new BasicEnnemy(plateforms.get(0)));
-		enemies.add(new Enemy1(new EnnemyShooter(new BasicEnnemy(plateforms.get(0)))));
-		bonuss.add(new BatBonus(50.0,0.0,10,10,Nico));
-		bonuss.add(new GunBonus(0.0,0.0,10,10,Nico));
+		enemies.add(new EnnemyShooter(new BasicEnnemy(plateforms.get(3))));
+		enemies.add(new Enemy1(new BasicEnnemy(plateforms.get(6))));
+		enemies.add(new Enemy1(new BasicEnnemy(plateforms.get(5))));
+		enemies.add(new EnemyVolant(new Enemy1(new BasicEnnemy(plateforms.get(8)))));
+		
+		bonuss.add(new LevelEnd(3900,-100,10,1000,Nico));
 	}
 	
 	
@@ -233,10 +236,8 @@ public class World extends BasicGameState {
 			br.close();
 			return true;
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;

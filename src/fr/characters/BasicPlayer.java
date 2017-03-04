@@ -82,7 +82,6 @@ public class BasicPlayer extends Movable implements Player {
 		moveX(delta);
 		moveY(delta);
 		
-		
 		compt++;
 		compt=compt%6;
 		if(compt==0)chooseImg();
@@ -355,7 +354,12 @@ public class BasicPlayer extends Movable implements Player {
 	}
 	
 	public void addScore(int s){
-		this.score += s;
+		if (-s > score){
+			score = 0;
+		}
+		else{
+			this.score += s;
+		}
 	}
 	
 	/**

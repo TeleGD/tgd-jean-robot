@@ -147,24 +147,21 @@ public class World extends BasicGameState {
 	}
 
 	public static void reset(){
-		Nico = new Bat(new BasicPlayer());
+		Nico = new BasicPlayer();
 		plateforms= new ArrayList<Plateform>();
 		bonuss=new ArrayList<Bonus>();
 		enemies=new ArrayList<Ennemy>();
 		score = 0;
-		plateforms.add(new Plateform(1,4, 10, 1));
+		//plateforms.add(new Plateform(1,4, 10, 1));
 		
 		boolean chargerOk=chargerNiveau("niveau");
 		if(!chargerOk){
 			System.out.println("niveau 1 non charge");
 			plateforms.add(new Plateform(4,4,10,1));
 		}
-		enemies.add(new EnnemyShooter(new BasicEnnemy(plateforms.get(3))));
-		enemies.add(new Enemy1(new BasicEnnemy(plateforms.get(6))));
-		enemies.add(new Enemy1(new BasicEnnemy(plateforms.get(5))));
-		enemies.add(new EnemyVolant(new Enemy1(new BasicEnnemy(plateforms.get(8)))));
-		
-		bonuss.add(new LevelEnd(3900,-100,10,1000,Nico));
+		//enemies.add(new Enemy1(new EnnemyShooter(new BasicEnnemy(plateforms.get(3)))));
+		//bonuss.add(new BatBonus(50.0,0.0,10,10,Nico));
+		//bonuss.add(new GunBonus(0.0,0.0,10,10,Nico));
 	}
 	
 	
@@ -218,6 +215,7 @@ public class World extends BasicGameState {
 			BufferedReader br=new BufferedReader(new FileReader(REPERTOIRE_NIVEAU+File.separator+niveau));
 			String ligne;
 			while((ligne=br.readLine())!=null){
+				//Def des plateformes
 				if(ligne.startsWith("Plateform")){
 					Plateform p=new Plateform(ligne);
 					plateforms.add(p);
@@ -227,11 +225,45 @@ public class World extends BasicGameState {
 					DeathBloc p =new DeathBloc(ligne);
 					plateforms.add(p);
 				}
-				
 				else if(ligne.startsWith("ElevatorTrap")){
 					ElevatorTrap p= new ElevatorTrap(ligne);
 					plateforms.add(p);
 				}
+				//Def des ennemies
+				else if(ligne.startsWith("EnnemyShooter")){
+					String[] ligne2 = ligne.split(" ");
+					int i = Integer.parseInt(ligne2[1]);
+					enemies.add(new Enemy1(new EnnemyShooter(new BasicEnnemy(plateforms.get(i-1)))));
+				}
+				//Def des bonus
+				else if(ligne.startsWith("LevelEnd")){
+					String[] ligne2 = ligne.split(" ");
+					bonuss.add(new LevelEnd(
+							Double.parseDouble(ligne2[1]), 
+							Double.parseDouble(ligne2[2]),
+							Double.parseDouble(ligne2[3]), 
+							Double.parseDouble(ligne2[4]),
+							Nico));
+				}
+				else if (ligne.startsWith("BatBonus")){
+					String[] ligne2 = ligne.split(" ");
+					bonuss.add(new BatBonus(
+							Double.parseDouble(ligne2[1]),
+							Double.parseDouble(ligne2[2]),
+							Double.parseDouble(ligne2[3]),
+							Double.parseDouble(ligne2[4]),
+							Nico));					
+				}
+				else if (ligne.startsWith("GunBonus")){
+					String[] ligne2 = ligne.split(" ");
+					bonuss.add(new GunBonus(
+							Double.parseDouble(ligne2[1]),
+							Double.parseDouble(ligne2[2]),
+							Double.parseDouble(ligne2[3]),
+							Double.parseDouble(ligne2[4]),
+							Nico));
+				}
+				
 			}
 			br.close();
 			return true;
@@ -243,6 +275,10 @@ public class World extends BasicGameState {
 		return false;
 		
 		
+	}
+	
+	public static void setPlayer(Player p){
+		Nico = p;
 	}
 	
 	

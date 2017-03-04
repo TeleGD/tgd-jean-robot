@@ -129,32 +129,26 @@ public class ToppingDecorator implements Player{
 
 
 	@Override
+	public void setAccY(double i) {
+		tempPlayer.setAccY(i);
+	}
+	
 	public void setInCol(boolean b) {
-		tempPlayer.setInCol(b);
-		
+		tempPlayer.setInCol(b);	
 	}
 
 	@Override
+	public void setSpeedY(double i) {
+		tempPlayer.setSpeedY(i);
+	}	
+		
 	public void setposJump(boolean b) {
 		tempPlayer.setposJump(b);
-		
 	}
 
 	@Override
 	public void addScore(int s) {
 		tempPlayer.addScore(s);
-		
-	}
-
-	@Override
-	public void setAccY(double i) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setSpeedY(double i) {
-		// TODO Auto-generated method stub
 		
 	}
 

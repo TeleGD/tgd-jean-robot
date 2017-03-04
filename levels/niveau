@@ -1,7 +1,7 @@
-// PLATEFORMES
+Plateform 0;200; 320; 32
 Plateform 480.0;256.0;96.0;32.0
 Plateform 704.0;256.0;96.0;32.0
-Plateform 960.0;256.0;96.0;32.0
+Plateform 960.0;256.0;200.0;32.0
 Plateform 864.0;256.0;96.0;32.0
 Plateform 1120.0;256.0;320.0;32.0
 Plateform 1536.0;256.0;320.0;32.0
@@ -9,10 +9,7 @@ Plateform 1952.0;224.0;320.0;32.0
 Plateform 2400.0;224.0;352.0;32.0
 Plateform 2848.0;224.0;256.0;32.0
 Plateform 3168.0;128.0;256.0;32.0
-Plateform 3488.0;352.0;384.0;32.0
-Plateform 480.0;256.0;96.0;32.0
-Plateform 704.0;256.0;96.0;32.0
-Plateform 960.0;256.0;96.0;32.0
-Plateform 864.0;256.0;96.0;32.0
-Plateform 1120.0;256.0;320.0;32.0
-Plateform 1536.0;256.0;320.0;32.0
+EnnemyShooter 6
+//EnnemyShooter 8
+LevelEnd 3300 28 20 120
+BatBonus 200 180 10 10

@@ -5,6 +5,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+
+import fr.characters.Bat;
 import fr.characters.Player;
 import fr.util.Collisions;
 
@@ -24,8 +26,7 @@ public class BatBonus extends Bonus {
 	
 	@Override
 	public void comportment(Player player) {
-		
-		
+		fr.game.World.setPlayer(new Bat(player));	
 	}
 
 	@Override

@@ -172,7 +172,7 @@ public class BasicPlayer extends Movable implements Player {
 	public void keyReleased(int key, char c) {
 
 		switch (key) {
-		case Input.KEY_NUMPAD1:
+		/*case Input.KEY_NUMPAD1:
 			pad1 = false;
 			leftright=false;
 			break;
@@ -200,8 +200,18 @@ public class BasicPlayer extends Movable implements Player {
 		case Input.KEY_NUMPAD9:
 			pad9 = false;
 			leftright=true;
+			break;*/
+		case Input.KEY_UP:
+			pad8=false;
 			break;
-
+		case Input.KEY_RIGHT:
+			pad6=false;
+			leftright=true;
+			break;
+		case Input.KEY_LEFT:
+			pad4=false;
+			leftright=false;
+			break;
 		}
 			
 		
@@ -211,7 +221,7 @@ public class BasicPlayer extends Movable implements Player {
 		switch (key) {
 		
 		//mouvement
-		case Input.KEY_NUMPAD1:
+		/*case Input.KEY_NUMPAD1:
 			pad1 = true;
 			break;
 		case Input.KEY_NUMPAD2:
@@ -233,7 +243,16 @@ public class BasicPlayer extends Movable implements Player {
 			break;
 		case Input.KEY_NUMPAD9:
 			pad9 = true;
-			break;	
+			break;*/
+		case Input.KEY_UP:
+			pad8=true;
+			break;
+		case Input.KEY_RIGHT:
+			pad6=true;
+			break;
+		case Input.KEY_LEFT:
+			pad4=true;
+			break;
 				
 		//actions
 		case Input.KEY_Y:

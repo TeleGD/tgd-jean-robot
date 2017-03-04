@@ -19,7 +19,7 @@ public class MenuSortie extends BasicGameState{
 	
 	GameContainer container;
 	StateBasedGame game;
-	private Image image;
+	//private Image image;
 	public static int ID = 3;
 	private TrueTypeFont font;
 	private static final String textOut="Thank you and see you later !";
@@ -30,15 +30,15 @@ public class MenuSortie extends BasicGameState{
 		this.container = container;
 		this.game = game;
 
-		image =new Image("bin/Images/imagefin.png");  
+		//image =new Image("bin/Images/imagefin.png");  
 		font=FontUtils.chargerFont("font/PressStart2P.ttf", Font.PLAIN, 15, false);
 	}
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics g) throws SlickException {
-		g.drawImage(image, Game.longueur/2-image.getWidth()/2, Game.hauteur/2-image.getHeight()/2);
+		//g.drawImage(image, Game.longueur/2-image.getWidth()/2, Game.hauteur/2-image.getHeight()/2);
 		g.setFont(font);
-		g.drawString(textOut, Game.longueur/2-font.getWidth(textOut)/2,Game.hauteur/2+image.getHeight()/2+40);
+		g.drawString(textOut, Game.longueur/2-font.getWidth(textOut)/2,Game.hauteur/2+40);
 
 	}
 

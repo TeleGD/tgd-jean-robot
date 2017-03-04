@@ -150,7 +150,8 @@ public abstract class Menu extends BasicGameState {
 	public void keyPressed(int key, char c) {
 		//time=System.currentTimeMillis();
 		switch (key) {
-		case Input.KEY_NUMPAD2:
+		//case Input.KEY_NUMPAD2:
+		case Input.KEY_DOWN:
 			if (selection < items.length - 1)
 				selection++;
 			else
@@ -158,7 +159,8 @@ public abstract class Menu extends BasicGameState {
 			
 			onOptionItemFocusedChanged(selection);
 			break;
-		case Input.KEY_NUMPAD8:
+		//case Input.KEY_NUMPAD8:
+		case Input.KEY_UP:
 			if (selection > 0)
 				selection--;
 			else

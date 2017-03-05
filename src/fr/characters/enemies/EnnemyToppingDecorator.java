@@ -33,7 +33,7 @@ public class EnnemyToppingDecorator implements Ennemy{
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		tempEnnemy.render(container, game, g);
-		}
+	}
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
@@ -114,18 +114,41 @@ public class EnnemyToppingDecorator implements Ennemy{
 	}
 	
 	@Override
+	public void setX(double d) {
+		tempEnnemy.setX(d);
+	}
+	
+	@Override
 	public void setY(double d) {
 		tempEnnemy.setY(d);
 	}
 
-	@Override
-	public Plateform getInitPlat() {
-		return tempEnnemy.getInitPlat();
-	}
 
 	@Override
 	public int getScore() {
-		// TODO Auto-generated method stub
 		return tempEnnemy.getScore();
 	}
+
+	@Override
+	public boolean containsPoint(int x, int y) {
+		return tempEnnemy.getX()<=x &&  x<=tempEnnemy.getX()+tempEnnemy.getWidth() && tempEnnemy.getY()<=y && y<=tempEnnemy.getY()+tempEnnemy.getHeight();
+	}
+
+	@Override
+	public Ennemy copy() {
+		BasicEnnemy enemy=new BasicEnnemy(tempEnnemy.getX(),tempEnnemy.getY());
+		enemy.setWidth(tempEnnemy.getWidth());
+		enemy.setHeight(tempEnnemy.getHeight());
+		enemy.setDestructed(tempEnnemy.isDestructed());
+		enemy.setLife(tempEnnemy.getLife());
+
+		return enemy;
+	}
+
+	@Override
+	public String parseString() {
+		return tempEnnemy.parseString();
+	}
+
+	
 }

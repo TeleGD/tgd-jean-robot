@@ -152,4 +152,9 @@ public class ToppingDecorator implements Player{
 		
 	}
 
+	@Override
+	public boolean containsPoint(int x, int y) {
+		return false;
+	}
+
 }

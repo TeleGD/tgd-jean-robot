@@ -15,7 +15,6 @@ public class DeathBloc extends Plateform {
 		super(indexX, indexY, sizeX, sizeY);
 	}
 	
-	//test
 	//construteur appele pour charger de niveau.
 	public DeathBloc(String ligne) 
 	{
@@ -30,12 +29,11 @@ public class DeathBloc extends Plateform {
 	
 	@Override
 	public String parseString() {
-		return "DeathBloc "+getX()+ ";"+ getY()+";"+getWidth()+";"+getHeight();
+		return "DeathBloc :  "+getX()+ ";"+ getY()+";"+getWidth()+";"+getHeight();
 	}
 	
 	@Override
 	public void collPlayer(Player player){
-
 		if(fr.util.Collisions.colPlayerPlateform(player,this)!=0){
 			player.setY(this.getY() - player.getHeight());
 			player.setAccY(0);

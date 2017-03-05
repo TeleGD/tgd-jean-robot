@@ -13,7 +13,9 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 import fr.Behavior.BeCollision;
 import fr.Behavior.CanBounce;
 import fr.characters.enemies.Ennemy;
+import fr.decor.Decor;
 import fr.decor.Plateform;
+import fr.game.World;
 import fr.menus.MenuFinPartie;
 import fr.projectiles.Projectile;
 import fr.util.Movable;
@@ -24,7 +26,6 @@ public class BasicPlayer extends Movable implements Player {
 	private boolean pad1,pad3,pad4,pad6,pad7,pad8,pad9,leftright;
 	private boolean inCol;
 	private int life;
-	private long timeOfDeath;
 	protected boolean leftclick=false;
 	protected BeCollision coli = new CanBounce();
 	protected int[][] tv;
@@ -32,7 +33,7 @@ public class BasicPlayer extends Movable implements Player {
 	private int score;
 	private double jumpPower = -1.2;
 	private double gravity= 0.05;
-	public int lifeLostScore = 1000; //constante pour gérer le score
+	public int lifeLostScore = 1000; //constante pour gÃ©rer le score
 	protected int direction ; // 1 = droite, -1 = gauche
 	
 	//variables d'image
@@ -49,7 +50,6 @@ public class BasicPlayer extends Movable implements Player {
 		this.speedX = 0;
 		this.speedY = 0;
 		this.accelY = 0;
-		this.timeOfDeath = -3000;
 		this.life=3;
 		this.posjump=false;
 		this.compt =0;
@@ -62,6 +62,7 @@ public class BasicPlayer extends Movable implements Player {
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
+		
 		g.setColor(Color.red);
 		g.drawImage(currentImage, (float)x, (float)y);
 		g.drawString(""+life+" vies", (float)x, (float)y-40);
@@ -76,6 +77,7 @@ public class BasicPlayer extends Movable implements Player {
 		this.newY = y + speedY * delta;
 		this.speedY += accelY;
 		
+		//verifie les collisions et avance en consequence
 		horizontalMove2();
 		verticalMove2(game);
 		
@@ -83,7 +85,7 @@ public class BasicPlayer extends Movable implements Player {
 		moveY(delta);
 		
 		compt++;
-		compt=compt%6;
+		compt=compt%5;
 		if(compt==0)chooseImg();
 		
 		if (speedX > 0)
@@ -124,7 +126,7 @@ public class BasicPlayer extends Movable implements Player {
 	private void verticalMove2(StateBasedGame game) {
 		posjump = false;
 		inCol=false;
-		for (Plateform p : fr.game.World.getPlateforms()){
+		for (Plateform p : Decor.getPlateforms()){
 			p.collPlayer(this);
 		}
 		for (Ennemy e : fr.game.World.getEnemies()){
@@ -280,9 +282,8 @@ public class BasicPlayer extends Movable implements Player {
 	public void lifelost() {
 		this.life -= 1;
 		addScore(-lifeLostScore); //
-		this.timeOfDeath = System.currentTimeMillis();
 		if (life == 0) {
-			fr.game.World.game.enterState(MenuFinPartie.ID, new FadeOutTransition(),
+			World.game.enterState(MenuFinPartie.ID, new FadeOutTransition(),
 					new FadeInTransition());
 		}
 	}
@@ -306,7 +307,6 @@ public class BasicPlayer extends Movable implements Player {
 		this.speedY = 0;
 		this.accelY = 0;
 		this.accelX = 0;
-		this.timeOfDeath = -3000;
 		this.life=3;
 		this.gravity=0.5;
 		this.speed = 5;
@@ -363,7 +363,7 @@ public class BasicPlayer extends Movable implements Player {
 	}
 	
 	/**
-	 * @param path : le path de l'image avec le début de son nom, par exemple "img/Player/herobotWALK/jeanrobot_marche"
+	 * @param path : le path de l'image avec le dï¿½but de son nom, par exemple "img/Player/herobotWALK/jeanrobot_marche"
 	 */
 	public void setImages(String path)
 	{

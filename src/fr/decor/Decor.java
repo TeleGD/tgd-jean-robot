@@ -1,194 +1,164 @@
 package fr.decor;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Random;
-import java.util.Vector;//ajouté
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
-import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.util.ResourceLoader;
-import java.util.Random;
 
-import fr.util.Rectangle;
+import fr.game.Game;
+import fr.game.World;
+import fr.util.Movable;
 
-public class Decor extends BasicGameState {
-	
-	public enum Direction {HAUT,DROITE,BAS,GAUCHE};
-	
-	private ArrayList<Plateform> plateforms = null;
-	private int characterPosX;
-	private int characterPosY;
-	private Direction cameraDirection;
-	private boolean cameraMove;
-	private Image plateformTexture;
+public class Decor extends Movable {
+	// pourcentage en X de l'ecran a partir du moment ou la camera bouge pour
+	// recadrer le personnage
+	private static final double X_BORNE_SUP = 67 / 100.0; // MAX_X
+	private static final double X_BORNE_INF = 33 / 100.0; // MIN_X
+	private static final double X_BORNE_SUP_IDEALE = 60 / 100.0; // MAX_X
+																	// lorsque
+																	// personnage
+																	// immobile
+	private static final double X_BORNE_INF_IDEALE = 40 / 100.0; // MIN Y
+																	// lorsque
+																	// personnage
+																	// immobile
+
+	// pourcentage en X de l'ecran a partir du moment ou la camera bouge pour
+	// recadrer le personnage
+	private static final double Y_BORNE_SUP = 67 / 100.0; // MAX_Y
+	private static final double Y_BORNE_INF = 33 / 100.0; // MIN_Y
+	private static final double Y_BORNE_SUP_IDEALE = 60 / 100.0; // MAX_Y
+																	// lorsque
+																	// personnage
+																	// immobile
+	private static final double Y_BORNE_INF_IDEALE = 40 / 100.0; // MIN_Y
+																	// lorsque
+																	// personnage
+																	// immobile
+
 	private Background background;
-	private static Plateform plateform;
-	
-	private int negativeLimit;
-	private int positiveLimit;
-	
-	
-	
-	public Decor(String plateformTexturePath, String backgroundTexturePath) throws SlickException
-	{
-		plateforms = new ArrayList<Plateform>();	//ensemble des plateformes crées
-		characterPosX=200;	//variable servant pour la caméra
-		characterPosY=0;	//variable servant pour la caméra
-		cameraDirection = Direction.HAUT;	//Direction du défilement de caméra
-		cameraMove = false;		// caméra en train de bouger dans cameraDirection
-		plateformTexture = new Image(plateformTexturePath);	// chargement image pour plateforme
-		background = new Background(characterPosX, characterPosY, new Image(backgroundTexturePath));
-		
-	}
-	
-	public void createPlateform(int posX, int posY, int sizeX, int sizeY)
-	{
-		//ajout d'une plateforme
-		plateforms.add(new Plateform(sizeX, sizeY , posX , posY));
-	}
-	
-	public ArrayList<Plateform> getObstacles()
-	{
-		return plateforms;
-	}
-	
-	public void updateCharacterPosition(int posX, int posY)
-	{
-		characterPosX = posX;
-		characterPosY = posY;
-	}
-	
-	/*public void generatePlateform(float charPosX)
-	{
-		Random rand = new Random();
-		Vector<Integer> positions = new Vector<Integer>();
-		Vector<Integer> sizes = new Vector<Integer>();
-		
-		for (int i = 0; i < 10; ++i)
-		{
-			boolean ok = false;
-			
-			while (!ok)
-			{
-				int posX = rand.nextInt(25) * 32 + (int)charPosX;
-				int posY = rand.nextInt(16) * 32;
-				int sizeX = rand.nextInt(8) + 3;
-				int sizeY = rand.nextInt(2) + 1;
-				
-				for (int j = 0; j < positions.size()/2; ++j)
-				{
-					if (Math.abs(posX - positions.get(j * 2)) < (sizeX + sizes.get(j * 2))*32 / 2 &&
-							Math.abs(posY - positions.get(j * 2 + 1)) < (sizeY + sizes.get(j * 2 + 1))*32 / 2)
-					{
-						ok = true;
-						break;
-					}
-				}
-				
-				if (!ok)
-				{
-					positions.add(posX);
-					positions.add(posY);
-					sizes.add(sizeX);
-					sizes.add(sizeY);
-					createPlateform(posX, posY , sizeX, sizeY);
-					ok = true;
-				}
-			}
-		}
-	}*/
-	
-	@Override
-	public void init(GameContainer container, StateBasedGame game) throws SlickException {
-		
-		//TODO
-		
-		negativeLimit = -1;
-		positiveLimit = 1;
-		
+	private static ArrayList<Plateform> plateforms;
+
+	public Decor(String backgroundTexturePath) throws SlickException {
+		super(0, 0, Game.longueur, Game.hauteur);
+
+		background = new Background(new Image(backgroundTexturePath));
+		plateforms = new ArrayList<Plateform>();
+
+		this.speedX = 0;
+		this.speedY = 0;
 	}
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-		//translation de la caméra (fixé sur le personnage)
-		g.translate(container.getWidth() / 2 - characterPosX, container.getHeight() / 2 - characterPosY);
-		
-		//rendu du fond d'écran
+		// translation de la camÃ©ra (fixÃ© sur le personnage)
+		g.translate((float) x, (float) y);
+
+		// rendu du fond d'Ã©cran
 		background.render(container, game, g);
-		
-		//rendu des plateformes
-		for(int i=0;i<plateforms.size();i++)
+
+		renderPlateforms(container, game, g);
+	}
+
+	// rendu des plateformes
+	private void renderPlateforms(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
+		for (int i = 0; i < plateforms.size(); i++) {
 			plateforms.get(i).render(container, game, g);
+		}
 	}
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-		//TODO
-		float speed = 1f;
-		/*if (cameraMove)
-		{
-			//modif de la position de la caméra
-			switch (cameraDirection) {
-		        case HAUT: characterPosY-=delta*speed;    break;
-		        case GAUCHE: characterPosX-=delta*speed;  break;
-		        case BAS:  characterPosY+=delta*speed; break;
-		        case DROITE: characterPosX+=delta*speed; break;
-		    }
-		}*/
-		//maj du fond d'écran
-		background.setPosition(characterPosX, characterPosY);
-		
-		/*if (characterPosX > positiveLimit * background.getImage().getHeight())
-		{
-			positiveLimit++;
-			generatePlateform(800 * positiveLimit);
+
+		if (World.getPlayer().getSpeedX() > 0) {
+			// si le player avance vers la droite
+			if (World.getPlayer().getX() > -x + width * X_BORNE_SUP) {
+				// si le player depasse les deux tiers de l'Ã©cran
+				speedX = -World.getPlayer().getSpeedX();
+			} else
+				speedX = 0;
+
+		} else if (World.getPlayer().getSpeedX() < 0) {
+			// si le player avance vers la gauche
+			if (World.getPlayer().getX() < -x + width * X_BORNE_INF) {
+				// si le player avant le tier de l'Ã©cran et qu'il recule
+				speedX = -World.getPlayer().getSpeedX();
+			} else
+				speedX = 0;
+		} else {
+			if (World.getPlayer().getX() > -x + width * X_BORNE_SUP_IDEALE)
+				speedX = -0.2;
+			else if (World.getPlayer().getX() < -x + width * X_BORNE_INF_IDEALE)
+				speedX = 0.2;
+			else
+				speedX = 0;
 		}
-		else if (characterPosX < (negativeLimit + 1) * background.getImage().getHeight())
-		{
-			negativeLimit--;
-			generatePlateform(800 * negativeLimit);
-		}*/
-	}
-	
-	public void keyReleased(int key, char c) {
-		//TODO
-		//annulation de la caméra
-		switch (key) {
-        case Input.KEY_UP: cameraMove=false;    break;
-        case Input.KEY_LEFT: cameraMove=false; break;
-        case Input.KEY_DOWN:  cameraMove=false; break;
-        case Input.KEY_RIGHT: cameraMove=false; break;
-    }
+
+		if (World.getPlayer().getSpeedY() > 0) {
+			// si le player va vers le bas
+			if (World.getPlayer().getY() > -y + height * Y_BORNE_SUP) {
+				// si le player depasse les deux tiers de l'Ã©cran
+				speedY = -World.getPlayer().getSpeedY();
+			} else
+				speedY = 0;
+
+		} else if (World.getPlayer().getSpeedY() < 0) {
+			// si le player avance vers la gauche
+			if (World.getPlayer().getY() < -y + height * Y_BORNE_INF) {
+				// si le player avant le tier de l'Ã©cran et qu'il recule
+				speedY = -World.getPlayer().getSpeedY();
+			} else
+				speedY = 0;
+		} else {
+			if (World.getPlayer().getY() > -y + height * Y_BORNE_SUP_IDEALE)
+				speedY = -0.2;
+			else if (World.getPlayer().getY() < -y + height * Y_BORNE_INF_IDEALE)
+				speedY = 0.2;
+			else
+				speedY = 0;
+		}
+
+		moveX(delta);
+		moveY(delta);
+
+		if (x >= 0) {
+			if (World.getPlayer().getX() < 0)
+				World.getPlayer().setX(0);
+			x = 0;
+		}
+
+		updatePlateforms(container, game, delta);
+		background.setY(-y);
+		background.update(container, game, delta);
 	}
 
-
-	public void keyPressed(int key, char c) {
-		//TODO
-		//caméra en fonction des touches
-		float speed = 1f;
-		switch (key) {
-	        case Input.KEY_UP: cameraDirection=Direction.HAUT; cameraMove=true;    break;
-	        case Input.KEY_LEFT: cameraDirection=Direction.GAUCHE; cameraMove=true; break;
-	        case Input.KEY_DOWN:  cameraDirection=Direction.BAS;cameraMove=true; break;
-	        case Input.KEY_RIGHT: cameraDirection=Direction.DROITE;cameraMove=true; break;
-	    }
+	private void updatePlateforms(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+		for (int i = 0; i < plateforms.size(); i++) {
+			plateforms.get(i).update(container, game, delta);
+		}
 	}
 
-	@Override
-	public int getID() {
-		return 0;
+	public static void addPlateform(Plateform p) {
+		plateforms.add(p);
 	}
 
-	
-	
+	public static void removePlateform(Plateform p) {
+		plateforms.remove(p);
+	}
+
+	public static Plateform getPlateform(int index) {
+		return plateforms.get(index);
+	}
+
+	public static ArrayList<Plateform> getPlateforms() {
+		return plateforms;
+	}
+
+	public static void setPlateforms(ArrayList<Plateform> plateforms) {
+		Decor.plateforms=plateforms;
+	}
+
 }

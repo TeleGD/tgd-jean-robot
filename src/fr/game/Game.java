@@ -19,6 +19,14 @@ import fr.menus.WelcomeMenu;
 import fr.game.World;
 import fr.jerome.Editor;
 
+/**
+ * Petit rappel :
+ * 
+ *  Slick2D charge toutes les classes heritant de basicStateGame au demarrage.
+ *  Ne surchager donc pas le constructeur de tache lourde pour la RAM et le CPU (font, image, ...)
+ *  Pour ne faire une execution qu'au lancement de la vue overrider la methode enter au lieu de init (qui elle est appelée au démarrage de l'execution)
+ *
+ */
 
 public class Game extends StateBasedGame {
 
@@ -43,7 +51,6 @@ public class Game extends StateBasedGame {
 	public Game() {
 		super("blabla");
 		
-		
 	}
 
 		
@@ -52,7 +59,7 @@ public class Game extends StateBasedGame {
 	public void initStatesList(GameContainer container) throws SlickException {
 		long time=System.currentTimeMillis();
 		addState(new WelcomeMenu());
-		//System.out.println("time MenuMain="+(System.currentTimeMillis()-time));
+		//System.out.println("time WelcomMain="+(System.currentTimeMillis()-time));
 		addState(new Mainmenu());
 		//System.out.println("time MenuMain="+(System.currentTimeMillis()-time));
 		addState(new World());

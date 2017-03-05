@@ -11,19 +11,27 @@ public class Movable extends Entity{
 	
 	// Variables**********************************************
 	protected double speedX,speedY;
+	protected double accelX,accelY;
 	protected double newX,newY;
 	protected boolean posjump;//Jump possible?
 	protected int dir=0; //-1:vers la gauche,0:ne bouge pas,1:vers la droite
 	
 	
-	
-	public Movable (double x,double y,double width,double height){
-		this.x=x;
-		this.y=y;
-		this.width=width;
-		this.height=height;
+	public Movable(double x, double y, double width, double height) {
+		super(x,y,width,height);
 	}
 	
+	//Constructeur qui construit l'objet a partir d'une string;
+	public Movable(String ligne) {
+		super(ligne);
+		String[] split=ligne.split(";");
+		speedX=Double.parseDouble(split[4]);
+		speedY=Double.parseDouble(split[5]);
+
+	}
+
+	
+
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 	}
@@ -86,6 +94,10 @@ public class Movable extends Entity{
 	
 	public void setHeight(double h){
 		this.height = h;
+	}
+
+	public String parseString() {
+		return super.parseString()+";"+speedX+";"+speedY;
 	}
 	
 	

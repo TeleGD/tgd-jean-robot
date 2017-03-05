@@ -1,47 +1,41 @@
 package fr.menus;
 
-import java.io.File;
-import java.util.ArrayList;
-
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import fr.jerome.Editor;
+import fr.util.LevelUtils;
 
 public class MenuLevelEditor extends Menu {
 
 	public static final int ID = 6;
 	
-	public MenuLevelEditor(){
-		super();
-		super.setTitrePrincipal("EDITOR MENU");
-		super.setTitreSecondaire("Quel niveau souhaitez-vous modifier ?");
-		
-		
-		String[] niveaux=getAllLevelsCreated();
-		String[] choix=new String[niveaux.length+1];
-		for(int i=0;i<niveaux.length;i++){
-			choix[i]=niveaux[i];
-		}
-		choix[niveaux.length]="Menu Précédent";
-		super.setItems(choix);
-		
-		super.setEnableClignote(true);
-	}
 	
 
-	private String[] getAllLevelsCreated() {
-		ArrayList<String> niveaux=new ArrayList<String>();
-		String[] fileName=new File("levels/").list();
-		for(int i=0;i<fileName.length;i++)
-		{
-			if(!fileName[i].startsWith("."))niveaux.add(fileName[i]);
-		}
-		
-		return niveaux.toArray(new String[niveaux.size()]);
+	
+
+	@Override
+	public void enter(GameContainer container, StateBasedGame game) throws SlickException {
+	    super.enter(container, game);
+	    
+	    super.setTitrePrincipal("EDITOR MENU");
+	 	super.setTitreSecondaire("Quel niveau souhaitez-vous modifier ?");
+	 	super.setEnableClignote(true);
+
+	 	
+	 	String[] niveaux=LevelUtils.getAllCreatedLevels();
+	 	String[] choix=new String[niveaux.length+1];
+	 	for(int i=0;i<niveaux.length;i++){
+	 		choix[i]=niveaux[i];
+	 	}
+	 	choix[niveaux.length]="Menu Précédent";
+	 	
+	 	super.setItems(choix);
 	}
-
-
+	
 	@Override
 	public int getID() {
 		return ID;
@@ -51,7 +45,7 @@ public class MenuLevelEditor extends Menu {
 	public void onOptionItemSelected(int position) {
 	   if(position<getItems().length-1) {
 			Editor.reset();
-			Editor.loadLevel(getItems()[position]);
+			Editor.setLevel(LevelUtils.loadLevel(getItems()[position]));
 			game.enterState(Editor.ID, new FadeOutTransition(),new FadeInTransition());
 	   }else if(position==getItems().length-1){
 		   game.enterState(MenuEditor.ID, new FadeOutTransition(),new FadeInTransition());	
@@ -60,7 +54,6 @@ public class MenuLevelEditor extends Menu {
 
 	@Override
 	public void onOptionItemFocusedChanged(int position) {
-		// TODO Auto-generated method stub
 		
 	}
 

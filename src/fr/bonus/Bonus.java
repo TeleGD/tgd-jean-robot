@@ -14,7 +14,6 @@ public abstract class Bonus extends Entity implements BeCollision{
 	
 	protected int duration;
 	protected double tempsActivation;
-	protected Player player;
 	
 	public int getDuration(){
 		return duration;

@@ -1,7 +1,8 @@
 package fr.characters.enemies;
 
 import fr.characters.Player;
-import fr.decor.Plateform;
+import fr.game.Game;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -12,38 +13,37 @@ import fr.util.Movable;
 
 public class BasicEnnemy extends Movable implements Ennemy{
 		
-		int bas = 600;
-		int score  ;
+	private int score  ;
+	
+	private int life;
+	// une vie par exemple
+	
+	private boolean destructed = false;//true si l'ennemi est mort et doit etre supprime
+	
+	//Pour attacher l'ennemi a une plateforme (histoire de reperer sa position par rapport a elle)
+	
+	
+	public BasicEnnemy(double x,double y) {
+		super(x,y,Game.DENSITE_X,Game.DENSITE_Y);
+		this.speedX = 0;
+		this.speedY = 0;
+		this.life=1;
+		this.destructed = false;
+		this.score = 50;
+	}
 		
-		private int life;
-		// une vie par exemple)
 		
-		private boolean destructed = false;//true si l'ennemi est mort et doit etre supprime
+	//Constructeur appelé par le chargeur de niveau 
+	public BasicEnnemy(String ligne) {
+		super(ligne);
 		
-		//Pour attacher l'ennemi a une plateforme (histoire de reperer sa position par rapport a elle)
-		private Plateform initialPlat;
-		
-		/*
-		public BasicEnnemy(double x,double y) {
-			super(x,y,32,32);
-			this.speedX = 0;
-			this.speedY = 0;
-			this.life=1;
-			this.destructed = false;
-			this.score = 50;
-		}
-		*/
-		
-		public BasicEnnemy(Plateform plat) {
-			super(plat.getX()+plat.getWidth()/2-32,plat.getY()-32,64,32);
-			this.initialPlat=plat;
-			this.speedX = 0;
-			this.speedY = 0;
-			this.life=1;
-			this.destructed = false;
-			this.score = 50;
-		}
-		
+		String[] split=ligne.split(";");
+		life=Integer.parseInt(split[6]);
+		score=Integer.parseInt(split[7]);
+	}
+
+
+
 	public int getLife() {
 		return life;
 	}
@@ -57,19 +57,13 @@ public class BasicEnnemy extends Movable implements Ennemy{
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		this.newY = y + speedY * delta;
 		this.newX = x + speedX * delta;
+		
 		moveY(delta);
 		moveX(delta);
+		
+		
 	}
 	
-	private boolean isTooLow() { //renvoie true si la personne touche le bas de l'ecran
-		if (speedY < 0) {
-			return false;
-		}
-		if (newY + height < 720) {
-			return false;
-		}
-		return true;
-	}
 
 	public boolean isDestructed() {
 		return destructed;
@@ -97,9 +91,33 @@ public class BasicEnnemy extends Movable implements Ennemy{
 	public void collPlayer(Player player) {
 	}
 
-	@Override
-	public Plateform getInitPlat() {
-		return this.initialPlat;
+
+
+	public void setLife(int life) {
+		this.life=life;
 	}
+
+
+
+	@Override
+	public Ennemy copy() {
+
+		BasicEnnemy enemy=new BasicEnnemy(getX(),getY());
+		enemy.setWidth(getWidth());
+		enemy.setHeight(getHeight());
+		enemy.setDestructed(isDestructed());
+		enemy.setLife(getLife());	
+		enemy.setScore(getScore());	
+
+		return enemy;
+	}
+
+
+
+	@Override
+	public String parseString() {
+		return "BasicEnnemy :  "+super.parseString()+";"+life+";"+score;
+	}
+
 	
 }

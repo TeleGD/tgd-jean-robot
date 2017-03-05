@@ -1,18 +1,16 @@
 package fr.menus;
 
-import java.awt.FontFormatException;
-import java.io.IOException;
-
 import java.awt.Font;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.util.ResourceLoader;
 
 import fr.game.Game;
 import fr.util.FontUtils;
@@ -22,7 +20,7 @@ import fr.util.FontUtils;
  * 
  * Pour faire un menu c'est simple,
  * il suffit de faire une classe qui herite de celle la et de 
- * reseiner via les setters, les params TitrePrincipal, titreSecondaire
+ * reseigner via les setters, les params TitrePrincipal, titreSecondaire
  * et les items. Et C'est tout
  * Vous recevrez l'index de l'item selectionné dans la méthode
  * onOptionItemSelected.
@@ -34,8 +32,12 @@ import fr.util.FontUtils;
 		super.setEnableClignote(true);
 		super.setCouleurClignote(Color.red);
 		super.setTempsClignote(400);
+		
+		NOUVEAUTE: vous pouvez aussi ajouter une image d'arriere plan en faisant
+		super.setBackgroundImage(new Image("path/to/image"));
  *
  */
+
 public abstract class Menu extends BasicGameState {
 	
 	
@@ -60,14 +62,20 @@ public abstract class Menu extends BasicGameState {
 	protected TrueTypeFont fontConfirmText;
 
 	private int indexItemPlusGrand;
+	private Image backgroundImage;
 
-	public Menu(){
-		setFontTitrePrincipal("font/PressStart2P.ttf",Font.BOLD,40,false);
-		setFontTitreSecondaire("Kalinga",Font.BOLD,24,true);
-		setFontItem("Kalinga",Font.BOLD,14,true);
-		
-		fontConfirmText=FontUtils.chargerFont("font/PressStart2P.ttf",Font.PLAIN,20,false);
+	
+	@Override
+	public void enter(GameContainer container, StateBasedGame game) throws SlickException {
+	     super.enter(container, game);
+	     
+	     setFontTitrePrincipal("font/PressStart2P.ttf",Font.BOLD,40,false);
+		 setFontTitreSecondaire("Kalinga",Font.BOLD,24,true);
+		 setFontItem("Kalinga",Font.BOLD,14,true);			
+		 fontConfirmText=FontUtils.loadCustomFont("PressStart2P.ttf",Font.PLAIN,20);
 	}
+
+	
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
 		time=System.currentTimeMillis();
@@ -78,19 +86,15 @@ public abstract class Menu extends BasicGameState {
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics g) throws SlickException {
+		if(backgroundImage!=null)g.drawImage(backgroundImage,0,0);
 		
 		renderTitrePrincipal(arg0,arg1,g);
 		renderTitreSecondaire(arg0,arg1,g);
 		renderMenusItems(arg0,arg1,g);
 		renderSelectionItem(arg0,arg1,g,selection);
 		
-		g.setColor(Color.white);
-		g.drawRect(Game.longueur/2-300, Game.hauteur/2-130, 600,37);
-
-		//g.drawRect(Game.longueur/2-300, Game.hauteur-200, 600,37);
 		
-		//g.setFont(fontConfirmText);
-		//g.drawString(CONFIRM_TEXT, Game.longueur/2-fontConfirmText.getWidth(CONFIRM_TEXT)/2, 530);
+	
 
 	}
 
@@ -118,8 +122,13 @@ public abstract class Menu extends BasicGameState {
 	}
 
 	public void renderTitreSecondaire(GameContainer arg0, StateBasedGame arg1, Graphics g) {
+		if(titreSecondaire.length()==0)return;
+		
 		g.setFont(fontTitreSecondaire);
 		g.drawString(titreSecondaire, Game.longueur/2-fontTitreSecondaire.getWidth(titreSecondaire)/2, 232);		
+
+		g.setColor(Color.white);
+		g.drawRect(Game.longueur/2-300, Game.hauteur/2-130, 600,37);
 	}
 
 	public void renderMenusItems(GameContainer arg0, StateBasedGame arg1, Graphics g) {
@@ -156,7 +165,7 @@ public abstract class Menu extends BasicGameState {
 				selection++;
 			else
 				selection = 0;
-			
+			time=System.currentTimeMillis();
 			onOptionItemFocusedChanged(selection);
 			break;
 		//case Input.KEY_NUMPAD8:
@@ -165,7 +174,7 @@ public abstract class Menu extends BasicGameState {
 				selection--;
 			else
 				selection = items.length - 1;
-			
+			time=System.currentTimeMillis();
 			onOptionItemFocusedChanged(selection);
 			break;
 		case Input.KEY_ENTER:
@@ -179,7 +188,10 @@ public abstract class Menu extends BasicGameState {
 	}
 
 
+	//cette methode est appelé quand un item du menu est focused
 	public abstract void onOptionItemFocusedChanged(int position);
+	
+	//cette methode est appelé quand un item du menu est cliqué
 	public abstract void onOptionItemSelected(int position);
 	
 	public String getTitrePrincipal() {
@@ -214,14 +226,14 @@ public abstract class Menu extends BasicGameState {
 	}
 
 	public void setFontTitrePrincipal(String name, int type, int size, boolean isSystemFont) {
-		fontTitrePrincipal=FontUtils.chargerFont(name,type,size,isSystemFont);
+		fontTitrePrincipal=FontUtils.loadFont(name,type,size,isSystemFont);
 	}
 	
 	public void setFontTitreSecondaire(String name, int type, int size, boolean isSystemFont) {
-		fontTitreSecondaire=FontUtils.chargerFont(name,type,size,isSystemFont);	
+		fontTitreSecondaire=FontUtils.loadFont(name,type,size,isSystemFont);	
 	}
 	public void setFontItem(String name, int type, int size, boolean isSystemFont) {
-		fontItem=FontUtils.chargerFont(name,type,size,isSystemFont);
+		fontItem=FontUtils.loadFont(name,type,size,isSystemFont);
 		
 	}
 
@@ -236,6 +248,9 @@ public abstract class Menu extends BasicGameState {
 	
 	public void setCouleurClignote(Color coul){
 		this.couleurClignote=coul;
+	}
+	public void setBackgroundImage(Image image) {
+		this.backgroundImage=image;
 	}
 
 	

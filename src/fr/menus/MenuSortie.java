@@ -31,7 +31,7 @@ public class MenuSortie extends BasicGameState{
 		this.game = game;
 
 		//image =new Image("bin/Images/imagefin.png");  
-		font=FontUtils.chargerFont("font/PressStart2P.ttf", Font.PLAIN, 15, false);
+		font=FontUtils.loadCustomFont("PressStart2P.ttf", Font.PLAIN, 15);
 	}
 
 	@Override

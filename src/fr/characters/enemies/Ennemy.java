@@ -14,6 +14,8 @@ public interface Ennemy extends Character{
 	public void setSpeedX(double d);
 	public void setSpeedY(double d);
 	public void setY(double d);
-	public Plateform getInitPlat();
+	public void setX(double d);
 	public int getScore();
+	public Ennemy copy();
+	public String parseString();
 }

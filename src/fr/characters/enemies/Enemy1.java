@@ -9,18 +9,19 @@ import fr.game.World;
 
 public class Enemy1 extends EnnemyToppingDecorator implements Ennemy{
 
+	private double absoluteSpeed=0.1; //vitesse de l'ennemy;
+	
 	public Enemy1(Ennemy newEnnemy) {
 		super(newEnnemy);
-		tempEnnemy.setSpeedX(0.5);
+		tempEnnemy.setSpeedX(absoluteSpeed);
 	}
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-		
-		if((tempEnnemy.getX()<tempEnnemy.getInitPlat().getX()+tempEnnemy.getInitPlat().getWidth()/6) && (tempEnnemy.getSpeedX()<0))
-			tempEnnemy.setSpeedX(0.1);
-		if((tempEnnemy.getX()>(tempEnnemy.getInitPlat().getX()+tempEnnemy.getInitPlat().getWidth()-tempEnnemy.getInitPlat().getWidth()/6)-tempEnnemy.getWidth()) && (tempEnnemy.getSpeedX()>0))
-			tempEnnemy.setSpeedX(-0.1);
+		if((tempEnnemy.getX()<tempEnnemy.getX()+tempEnnemy.getWidth()/6) && (tempEnnemy.getSpeedX()<0))
+			tempEnnemy.setSpeedX(absoluteSpeed);
+		if((tempEnnemy.getX()>(tempEnnemy.getX()+tempEnnemy.getWidth()-tempEnnemy.getWidth()/6)-tempEnnemy.getWidth()) && (tempEnnemy.getSpeedX()>0))
+			tempEnnemy.setSpeedX(-absoluteSpeed);
 		tempEnnemy.update(container, game, delta);
 	}
 	

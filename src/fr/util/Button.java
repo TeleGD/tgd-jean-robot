@@ -12,6 +12,10 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.ResourceLoader;
 
+/*
+ * Button est une classe permettant de generer un bouton.
+ * avec un titre une couleur, une police, bien précise
+ */
 
 public class Button extends Entity{
 	
@@ -25,8 +29,7 @@ public class Button extends Entity{
 	private OnClickListener onClickListener;
 	
 	public Button(String titre, int x, int y) {
-		this.x=x;
-		this.y=y;
+		super(x,y,0,0);
 		this.titre=titre;
 		Font titre1Font = new Font("Arial", Font.BOLD, 14);
 		font = new TrueTypeFont(titre1Font, false);

@@ -11,39 +11,41 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import fr.game.Game;
-import fr.game.World;
 
 public class WelcomeMenu extends Menu{
 
-	
 	public static int ID = -25;	
 	
 	private static final String CONFIRM_TEXT="PRESS ENTER";
+	private boolean PRESS_ENTERED;
+	
+	public WelcomeMenu() throws SlickException{
+		super.setBackgroundImage(new Image("img/accueil.png"));
+	}
 	
 	@Override
-	public void onOptionItemFocusedChanged(int position){
-		time=System.currentTimeMillis();
-	}
+	public void onOptionItemFocusedChanged(int position){}
 	
 	@Override
 	public void onOptionItemSelected(int position) {
-			game.enterState(Mainmenu.ID, new FadeOutTransition(),
-					new FadeInTransition());
+		game.enterState(Mainmenu.ID, new FadeOutTransition(),new FadeInTransition());
 	}
 	
 	@Override
-	public int getID() {
-		return ID;
-	}
+	public void enter(GameContainer container, StateBasedGame game) throws SlickException {
+	     super.enter(container, game);
+	 }
+	
 	
 	@Override
-	public void render(GameContainer arg0, StateBasedGame arg1, Graphics g) throws SlickException {
-		g.drawImage(new Image("img/accueil.png"), 0, 0);
+	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
+		super.render(container, game, g);
 		g.setColor(Color.black);
-
 		g.drawRect(Game.longueur/2-300,25, 600,37);
 		
-		
+		if(PRESS_ENTERED)
+			g.setColor(Color.red);
+
 		g.setFont(fontConfirmText);
 		g.drawString(CONFIRM_TEXT, Game.longueur/2-fontConfirmText.getWidth(CONFIRM_TEXT)/2,35);
 
@@ -51,11 +53,25 @@ public class WelcomeMenu extends Menu{
 	
 	@Override
 	public void keyPressed(int key, char c) {
-
 		if(key == Input.KEY_ENTER)
-			onOptionItemSelected(0);
+			PRESS_ENTERED=true;
+
 		if(key== Input.KEY_ESCAPE)
 			System.exit(0);
 	}
+	
+	@Override
+	public void keyReleased(int key, char c){
+		if(key == Input.KEY_ENTER){
+			PRESS_ENTERED=false;
+			this.onOptionItemSelected(0);
+		}
+	}
+	
+	@Override
+	public int getID(){
+		return ID;
+	}
 
+	
 }

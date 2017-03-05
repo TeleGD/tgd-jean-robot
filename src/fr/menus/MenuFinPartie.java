@@ -1,10 +1,8 @@
 package fr.menus;
 
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
@@ -12,17 +10,13 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 public class MenuFinPartie extends Menu {
 	
 	public static int ID=4;
-	public MenuFinPartie(){
-		super.setTitrePrincipal("GAME OVER");
-		
-	}
 	
-
 	@Override
-	public void init(GameContainer container, StateBasedGame game) throws SlickException {
-		System.out.println("score mis a jour");
-		this.game=game;
-		super.setTitreSecondaire("Ton score n'est que de "+fr.game.World.getScore());
+	public void enter(GameContainer container, StateBasedGame game) throws SlickException {
+	    super.enter(container, game);
+		
+	    super.setTitreSecondaire("Ton score n'est que de "+fr.game.World.getScore());
+		super.setTitrePrincipal("GAME OVER");
 	}
 
 	@Override

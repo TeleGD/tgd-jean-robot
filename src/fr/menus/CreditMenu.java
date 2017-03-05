@@ -14,8 +14,8 @@ import fr.game.Game;
 
 public class CreditMenu extends Menu{
 
-	private String graphics = "Graphics:\n\nMartin Sertier\nJulien Michaux\nClémence Picquet";
-	private String code= "Development:\n\nJulien Domptail\nAurélien Benoit\nArthur Canal\nJérôme Gauzin\nGuillaume Teset\n";
+	private String graphics = "Graphics:\n\nMartin Sertier\nJulien Michaux\nClÃ©mence Picquet";
+	private String code= "Development:\n\nJulien Domptail\nAurÃ©lien Benoit\nArthur Canal\nJÃ©rÃ´me Gauzins\nGuillaume Teset\n";
 	private String head= "Project Manager;\n\nNicolas Bernardes";
 
 

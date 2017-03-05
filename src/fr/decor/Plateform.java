@@ -37,21 +37,12 @@ public class Plateform extends Entity implements Rectangle {
 	 * @param sizeY : hauteur en echelon de 32 pix de la plateforme
 	 */
 	public Plateform(int indexX, int indexY, int sizeX, int sizeY) {
-		this.x = indexX*Game.DENSITE_X;
-		this.y = indexY*Game.DENSITE_Y;
-		this.width = sizeX*Game.DENSITE_X;
-		this.height = sizeY*Game.DENSITE_Y;
-		
-		
-		
+		super(indexX*Game.DENSITE_X,indexY*Game.DENSITE_Y,sizeX*Game.DENSITE_X,sizeY*Game.DENSITE_Y);
 	}
+	
 	//construteur appele pour charger de niveau.
 	public Plateform(String ligne) {
-		String[] s=ligne.substring(ligne.indexOf(" ")+1).split(";");
-		x=Double.parseDouble(s[0]);
-		y=Double.parseDouble(s[1]);
-		width=Double.parseDouble(s[2]);
-		height=Double.parseDouble(s[3]);
+		super(ligne);
 	}
 
 	// Fonction de jeu*********************************************
@@ -88,7 +79,7 @@ public class Plateform extends Entity implements Rectangle {
 	}
 	
 	public String parseString() {
-		return "Plateform "+getX()+ ";"+ getY()+";"+getWidth()+";"+getHeight();
+		return "Plateform :  "+super.parseString();
 	}
 
 	public Plateform copy() {

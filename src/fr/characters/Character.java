@@ -11,10 +11,8 @@ public interface Character extends Rectangle{
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException;
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException;
-	double getSpeedX();
-	double getSpeedY();
-	double getX();
-	double getY();
-	double getnewX();
-	double getnewY();
+	public double getSpeedX();
+	public double getSpeedY();
+	public double getnewX();
+	public double getnewY();
 }

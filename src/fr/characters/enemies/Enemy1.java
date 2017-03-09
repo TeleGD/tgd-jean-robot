@@ -12,6 +12,7 @@ public class Enemy1 extends EnnemyToppingDecorator implements Ennemy{
 	public Enemy1(Ennemy newEnnemy) {
 		super(newEnnemy);
 		tempEnnemy.setSpeedX(0.5);
+		this.setImages("img/Ennemy/croquebot");;
 	}
 
 	@Override

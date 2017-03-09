@@ -16,4 +16,5 @@ public interface Ennemy extends Character{
 	public void setY(double d);
 	public Plateform getInitPlat();
 	public int getScore();
+	public void setImages(String path);
 }

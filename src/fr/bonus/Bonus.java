@@ -5,12 +5,11 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import fr.Behavior.BeCollision;
 import fr.util.*;
 import fr.characters.Player;
 
 
-public abstract class Bonus extends Entity implements BeCollision{
+public abstract class Bonus extends Entity {
 	
 	protected int duration;
 	protected double tempsActivation;

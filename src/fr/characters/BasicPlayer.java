@@ -10,8 +10,6 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
-import fr.Behavior.BeCollision;
-import fr.Behavior.CanBounce;
 import fr.characters.enemies.Ennemy;
 import fr.decor.Plateform;
 import fr.menus.MenuFinPartie;
@@ -26,7 +24,6 @@ public class BasicPlayer extends Movable implements Player {
 	private int life;
 	private long timeOfDeath;
 	protected boolean leftclick=false;
-	protected BeCollision coli = new CanBounce();
 	protected int[][] tv;
 	protected double speed; 
 	private int score;

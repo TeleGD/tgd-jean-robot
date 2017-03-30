@@ -140,11 +140,7 @@ public abstract class Menu extends BasicGameState {
 	
 	}
 
-	@Override
-	public int getID() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	public abstract int getID();
 	
 	@Override
 	public void keyPressed(int key, char c) {

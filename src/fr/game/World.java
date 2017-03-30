@@ -8,23 +8,19 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.lwjgl.input.Controllers;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import fr.characters.BasicPlayer;
 import fr.characters.Bat;
-import fr.characters.Gun;
 import fr.characters.Player;
 import fr.characters.enemies.BasicEnnemy;
 import fr.characters.enemies.Enemy1;
-import fr.characters.enemies.EnemyVolant;
 import fr.characters.enemies.Ennemy;
 import fr.characters.enemies.EnnemyShooter;
 import fr.decor.*;
@@ -44,31 +40,24 @@ public class World extends BasicGameState {
 	private static ArrayList<Projectile> projectiles = null;
 	private static ArrayList<Bonus> bonuss = null;
 	public static StateBasedGame game;
-	private static Plateform plateform;
 	private static int score; //entier corespondant au score
-	private Decor decor;
+	private static Decor decor;
 	public static Music Mbackground;
 	
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
 		game = arg1;
-		Nico = new Bat(new BasicPlayer());
-		plateforms= new ArrayList<Plateform>();
-		enemies=new ArrayList<Ennemy>();
-		projectiles = new ArrayList<Projectile>();
-		bonuss = new ArrayList<Bonus>();
-		score = 0;
-		decor = new Decor("img/brick.png","img/background.png");
-		decor.init(arg0,arg1);
-		Mbackground = new Music("music/oui.ogg");
-		Mbackground.setVolume(100);
-		chargerNiveau("niveau");
-		
-		
 	}
 
 	
 
+	@Override
+	public void enter(GameContainer arg0, StateBasedGame arg1) throws SlickException {
+		reset();
+		Mbackground = new Music("music/oui.ogg");
+		Mbackground.loop();
+	}
+	
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {
 		decor.render(arg0,arg1,arg2);
@@ -92,8 +81,9 @@ public class World extends BasicGameState {
 
 	@Override
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException {
+		Mbackground.getPosition();
+		
 		Nico.update(arg0, arg1, arg2);
-		decor.updateCharacterPosition((int)Nico.getX(), (int)Nico.getY());
 		decor.update(arg0,arg1,arg2);
 		for (int i=0; i<plateforms.size();i++){
 			plateforms.get(i).update(arg0, arg1, arg2);
@@ -149,13 +139,19 @@ public class World extends BasicGameState {
 	}
 
 	public static void reset(){
-		Nico = new BasicPlayer();
+		Nico=new Bat(new BasicPlayer());
 		plateforms= new ArrayList<Plateform>();
 		bonuss=new ArrayList<Bonus>();
 		enemies=new ArrayList<Ennemy>();
-		score = 0;
-		//plateforms.add(new Plateform(1,4, 10, 1));
+		projectiles = new ArrayList<Projectile>();
+		try {
+			decor = new Decor("img/brick.png","img/background.png");
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+		chargerNiveau("niveau");
 		
+		score = 0;
 		boolean chargerOk=chargerNiveau("niveau");
 		if(!chargerOk){
 			System.out.println("niveau 1 non charge");
@@ -163,10 +159,8 @@ public class World extends BasicGameState {
 		}
 		enemies.add(new Enemy1(new EnnemyShooter(new BasicEnnemy(plateforms.get(5)))));
 		enemies.add(new Enemy1(new BasicEnnemy(plateforms.get(3))));
-		//bonuss.add(new BatBonus(50.0,0.0,10,10,Nico));
-		//bonuss.add(new GunBonus(0.0,0.0,10,10,Nico));
-		Mbackground.loop();
-		//Mbackground.play();
+		
+		
 	}
 	
 	
@@ -285,7 +279,6 @@ public class World extends BasicGameState {
 	public static void setPlayer(Player p){
 		Nico = p;
 	}
-	
 	
 
 }

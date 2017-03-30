@@ -56,5 +56,12 @@ public class Mainmenu extends Menu {
 		 
 		}
 	}
+	
+	
+	@Override
+	public int getID() {
+		// TODO Auto-generated method stub
+		return ID;
+	}
 
 }

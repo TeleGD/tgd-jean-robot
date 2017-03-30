@@ -162,6 +162,7 @@ public class World extends BasicGameState {
 			plateforms.add(new Plateform(4,4,10,1));
 		}
 		enemies.add(new Enemy1(new EnnemyShooter(new BasicEnnemy(plateforms.get(5)))));
+		enemies.add(new Enemy1(new BasicEnnemy(plateforms.get(3))));
 		//bonuss.add(new BatBonus(50.0,0.0,10,10,Nico));
 		//bonuss.add(new GunBonus(0.0,0.0,10,10,Nico));
 		Mbackground.loop();

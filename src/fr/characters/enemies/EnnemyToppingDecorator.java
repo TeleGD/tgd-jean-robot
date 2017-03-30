@@ -128,4 +128,10 @@ public class EnnemyToppingDecorator implements Ennemy{
 		// TODO Auto-generated method stub
 		return tempEnnemy.getScore();
 	}
+
+	@Override
+	public void setImages(String path) {
+		// TODO Auto-generated method stub
+		tempEnnemy.setImages(path);
+	}
 }

@@ -5,6 +5,7 @@ import fr.decor.Plateform;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -13,7 +14,13 @@ import fr.util.Movable;
 public class BasicEnnemy extends Movable implements Ennemy{
 		
 		int bas = 600;
-		int score  ;
+		private int score;
+		protected int direction ; // 1 = droite, -1 = gauche
+		//variables d'image
+		private Image[] imageDroite=new Image[4];
+		private Image[] imageGauche=new Image[4];
+		private Image currentImage;
+		private int currentIndexImage,compt;
 		
 		private int life;
 		// une vie par exemple)
@@ -42,6 +49,12 @@ public class BasicEnnemy extends Movable implements Ennemy{
 			this.life=1;
 			this.destructed = false;
 			this.score = 50;
+			try {
+				this.currentImage=new Image("img/Ennemy/croquebot1.png");
+			} catch (SlickException e) {
+				System.out.println("image croquebot non chargée");
+				e.printStackTrace();
+			}
 		}
 		
 	public int getLife() {
@@ -51,7 +64,7 @@ public class BasicEnnemy extends Movable implements Ennemy{
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		g.setColor(Color.black);
-		g.fillRect((float)x, (float)y, (float)width, (float)height);
+		g.drawImage(currentImage, (float)x, (float)y);
 	}
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
@@ -59,6 +72,64 @@ public class BasicEnnemy extends Movable implements Ennemy{
 		this.newX = x + speedX * delta;
 		moveY(delta);
 		moveX(delta);
+		
+		compt++;
+		compt=compt%6;
+		if(compt==0)chooseImg();
+		
+		if (speedX > 0)
+		{
+			direction = 1;
+		}
+		else
+		{
+			if (speedX < 0)
+			{
+				direction = -1;
+			}
+		}
+	}
+	
+	private void chooseImg(){
+		if (speedX>0){
+			currentIndexImage++;
+			if(currentIndexImage==4){
+				currentImage=imageDroite[1];
+				currentIndexImage=-1;
+			}
+			else{
+				currentImage=imageDroite[currentIndexImage];
+			}
+
+		}
+		if (speedX<0){
+			currentIndexImage++;
+			if(currentIndexImage==4){
+				currentImage=imageGauche[1];
+				currentIndexImage=-1;
+			}
+			else{
+				currentImage=imageGauche[currentIndexImage];
+			}
+		}
+	}
+	
+	/**
+	 * @param path : le path de l'image avec le début de son nom, par exemple "img/Player/herobotWALK/jeanrobot_marche"
+	 */
+	public void setImages(String path)
+	{
+		try{
+			for (int i=0; i<imageDroite.length; i++){
+				imageDroite[i] = new Image(path + (i+1) + ".png");
+			}
+			for (int i=0; i<imageGauche.length; i++){
+				imageGauche[i] = new Image(path + (i+1) + "g" + ".png");
+			}
+			currentImage=imageDroite[currentIndexImage];
+		}catch (Exception e){
+			System.out.println("Attention les images ne peuvent etre chargees correctement, le path etant : " + path);
+		}
 	}
 	
 	private boolean isTooLow() { //renvoie true si la personne touche le bas de l'ecran
@@ -102,4 +173,9 @@ public class BasicEnnemy extends Movable implements Ennemy{
 		return this.initialPlat;
 	}
 	
+
+	public int getDirection()
+	{
+		return this.direction;
+	}
 }

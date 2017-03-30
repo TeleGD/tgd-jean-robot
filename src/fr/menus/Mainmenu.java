@@ -29,11 +29,6 @@ public class Mainmenu extends Menu {
 	}
 
 	@Override
-	public int getID() {
-		return ID;
-	}
-	
-	@Override
 	public void onOptionItemFocusedChanged(int position){
 		time=System.currentTimeMillis();
 	}

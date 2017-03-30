@@ -13,6 +13,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -46,7 +47,7 @@ public class World extends BasicGameState {
 	private static Plateform plateform;
 	private static int score; //entier corespondant au score
 	private Decor decor;
-	
+	public static Music Mbackground;
 	
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
@@ -59,7 +60,8 @@ public class World extends BasicGameState {
 		score = 0;
 		decor = new Decor("img/brick.png","img/background.png");
 		decor.init(arg0,arg1);
-		
+		Mbackground = new Music("music/oui.ogg");
+		Mbackground.setVolume(100);
 		chargerNiveau("niveau");
 		
 		
@@ -159,9 +161,11 @@ public class World extends BasicGameState {
 			System.out.println("niveau 1 non charge");
 			plateforms.add(new Plateform(4,4,10,1));
 		}
-		//enemies.add(new Enemy1(new EnnemyShooter(new BasicEnnemy(plateforms.get(3)))));
+		enemies.add(new Enemy1(new EnnemyShooter(new BasicEnnemy(plateforms.get(5)))));
 		//bonuss.add(new BatBonus(50.0,0.0,10,10,Nico));
 		//bonuss.add(new GunBonus(0.0,0.0,10,10,Nico));
+		Mbackground.loop();
+		//Mbackground.play();
 	}
 	
 	

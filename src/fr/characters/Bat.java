@@ -38,7 +38,6 @@ public class Bat extends ToppingDecorator implements Player{
 
 	public void keyReleased(int key, char c) 
 	{
-		System.out.println("Ca marche");
 		super.keyReleased(key, c);
 		if (key == Input.KEY_A)
 		{

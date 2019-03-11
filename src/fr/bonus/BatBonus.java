@@ -25,7 +25,7 @@ public class BatBonus extends Bonus {
 	}
 
 	@Override
-	public void comportment(Player playerr) {
+	public void comportment(Player player) {
 		fr.game.World.setPlayer(new Bat(player));
 	}
 

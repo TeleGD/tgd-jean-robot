@@ -3,10 +3,8 @@ package fr.game;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.InputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -17,7 +15,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.util.ResourceLoader;
 
 import fr.characters.BasicPlayer;
 import fr.characters.Bat;
@@ -57,20 +54,8 @@ public class World extends BasicGameState {
 	@Override
 	public void enter(GameContainer arg0, StateBasedGame arg1) throws SlickException {
 		reset();
-		String filename = "/music/oui.ogg";
-		InputStream stream = null;
-		try {
-			stream = new FileInputStream(System.class.getResource(filename).getPath());
-		} catch (Exception error) {}
-		if (stream == null) {
-			try {
-				stream = ResourceLoader.getResourceAsStream (filename.replaceAll("/+", "/").substring(1).replace("/", File.separator));
-			} catch (Exception error) {}
-		}
-		if (stream != null) {
-			Mbackground = new Music(stream, filename);
-			Mbackground.loop();
-		}
+		Mbackground = new Music("music/1.ogg");
+		Mbackground.loop();
 	}
 
 	@Override

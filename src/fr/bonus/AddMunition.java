@@ -25,7 +25,7 @@ public class AddMunition extends Bonus{
 
 
 	@Override
-	public void comportment(Player playerr) {
+	public void comportment(Player player) {
 		// TODO Auto-generated method stub
 
 	}

@@ -3,8 +3,10 @@ package fr.game;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.InputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -15,6 +17,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.util.ResourceLoader;
 
 import fr.characters.BasicPlayer;
 import fr.characters.Bat;
@@ -43,32 +46,44 @@ public class World extends BasicGameState {
 	private static int score; //entier corespondant au score
 	private static Decor decor;
 	public static Music Mbackground;
-	
+
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
 		game = arg1;
 	}
 
-	
+
 
 	@Override
 	public void enter(GameContainer arg0, StateBasedGame arg1) throws SlickException {
 		reset();
-		Mbackground = new Music("music/oui.ogg");
-		Mbackground.loop();
+		String filename = "/music/oui.ogg";
+		InputStream stream = null;
+		try {
+			stream = new FileInputStream(System.class.getResource(filename).getPath());
+		} catch (Exception error) {}
+		if (stream == null) {
+			try {
+				stream = ResourceLoader.getResourceAsStream (filename.replaceAll("/+", "/").substring(1).replace("/", File.separator));
+			} catch (Exception error) {}
+		}
+		if (stream != null) {
+			Mbackground = new Music(stream, filename);
+			Mbackground.loop();
+		}
 	}
-	
+
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {
 		decor.render(arg0,arg1,arg2);
-		
+
 		for(Bonus b : bonuss)
 		{
 			b.render(arg0, arg1, arg2);
 		}
 		for (int i=0; i<plateforms.size();i++){
 			plateforms.get(i).render(arg0, arg1, arg2);
-			
+
 		}
 		for (int i=0; i<enemies.size();i++){
 			enemies.get(i).render(arg0, arg1, arg2);
@@ -81,8 +96,8 @@ public class World extends BasicGameState {
 
 	@Override
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException {
-		Mbackground.getPosition();
-		
+		// Mbackground.getPosition();
+
 		Nico.update(arg0, arg1, arg2);
 		decor.update(arg0,arg1,arg2);
 		for (int i=0; i<plateforms.size();i++){
@@ -99,7 +114,7 @@ public class World extends BasicGameState {
 				i++;
 			}
 		}
-		
+
 		i = 0;
 		while (i < projectiles.size()){
 			projectiles.get(i).update(arg0, arg1, arg2);
@@ -110,7 +125,7 @@ public class World extends BasicGameState {
 				i++;
 			}
 		}
-		
+
 		for(Bonus b : bonuss)
 		{
 			b.update(arg0, arg1, arg2);
@@ -150,7 +165,7 @@ public class World extends BasicGameState {
 			e.printStackTrace();
 		}
 		chargerNiveau("niveau");
-		
+
 		score = 0;
 		boolean chargerOk=chargerNiveau("niveau");
 		if(!chargerOk){
@@ -159,11 +174,11 @@ public class World extends BasicGameState {
 		}
 		enemies.add(new Enemy1(new EnnemyShooter(new BasicEnnemy(plateforms.get(5)))));
 		enemies.add(new Enemy1(new BasicEnnemy(plateforms.get(3))));
-		
-		
+
+
 	}
-	
-	
+
+
 	//Getters*******************************************************************************
 	public static Player getPlayer(){
 		return Nico;
@@ -174,11 +189,11 @@ public class World extends BasicGameState {
 	public static ArrayList<Plateform> getPlateforms(){
 		return plateforms;
 	}
-	
+
 	public static ArrayList<Projectile> getProjectiles(){
 		return projectiles;
 	}
-	
+
 	public static ArrayList<Bonus> getBonus(){
 		return bonuss;
 	}
@@ -187,23 +202,23 @@ public class World extends BasicGameState {
 		// C'est pour le menu de fin de partie surtout
 		return score;
 	}
-	
+
 	//Setters*******************************************************************************
-	
+
 	public void setScore(int i) {
 		score = i;
 	}
-	
+
 	public static void addProjectile(Projectile p){
 		if(p!=null) projectiles.add(p);
 	}
-	
+
 	//Modified*******************************************************************************
 	public void plus50score()
 	{
 		score += 50;
 	}
-	
+
 	private static boolean chargerNiveau(String niveau) {
 		File f=new File(niveau);
 		if(f.exists()){
@@ -238,9 +253,9 @@ public class World extends BasicGameState {
 				else if(ligne.startsWith("LevelEnd")){
 					String[] ligne2 = ligne.split(" ");
 					bonuss.add(new LevelEnd(
-							Double.parseDouble(ligne2[1]), 
+							Double.parseDouble(ligne2[1]),
 							Double.parseDouble(ligne2[2]),
-							Double.parseDouble(ligne2[3]), 
+							Double.parseDouble(ligne2[3]),
 							Double.parseDouble(ligne2[4]),
 							Nico));
 				}
@@ -251,7 +266,7 @@ public class World extends BasicGameState {
 							Double.parseDouble(ligne2[2]),
 							Double.parseDouble(ligne2[3]),
 							Double.parseDouble(ligne2[4]),
-							Nico));					
+							Nico));
 				}
 				else if (ligne.startsWith("GunBonus")){
 					String[] ligne2 = ligne.split(" ");
@@ -262,7 +277,7 @@ public class World extends BasicGameState {
 							Double.parseDouble(ligne2[4]),
 							Nico));
 				}
-				
+
 			}
 			br.close();
 			return true;
@@ -272,13 +287,13 @@ public class World extends BasicGameState {
 			e.printStackTrace();
 		}
 		return false;
-		
-		
+
+
 	}
-	
+
 	public static void setPlayer(Player p){
 		Nico = p;
 	}
-	
+
 
 }

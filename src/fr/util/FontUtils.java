@@ -9,7 +9,7 @@ import org.newdawn.slick.util.ResourceLoader;
 
 public class FontUtils {
 
-	
+
 	public static TrueTypeFont chargerFont(String name, int type, int size, boolean isSystemFont) {
 		if(isSystemFont){
 			Font fontTemp = new Font(name, type, size);
@@ -23,10 +23,10 @@ public class FontUtils {
 			}
 
 			return new TrueTypeFont(fontTemp.deriveFont(java.awt.Font.PLAIN, size),false);
-		
+
 		}
 
-		
+
 	}
 
 }

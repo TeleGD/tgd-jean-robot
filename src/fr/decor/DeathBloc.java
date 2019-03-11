@@ -14,25 +14,25 @@ public class DeathBloc extends Plateform {
 	public DeathBloc(int indexX, int indexY, int sizeX, int sizeY) {
 		super(indexX, indexY, sizeX, sizeY);
 	}
-	
+
 	//test
 	//construteur appele pour charger de niveau.
-	public DeathBloc(String ligne) 
+	public DeathBloc(String ligne)
 	{
 		super(ligne);
 	}
-	
+
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		g.setColor(Color.red);
 		g.fillRect((float) x, (float) y, (float) width, (float) height);
 	}
-	
+
 	@Override
 	public String parseString() {
 		return "DeathBloc "+getX()+ ";"+ getY()+";"+getWidth()+";"+getHeight();
 	}
-	
+
 	@Override
 	public void collPlayer(Player player){
 
@@ -45,7 +45,7 @@ public class DeathBloc extends Plateform {
 			player.lifelost();
 		}
 	}
-	
+
 	@Override
 	public Plateform copy() {
 		DeathBloc p=new DeathBloc((int)x/Game.DENSITE_X,(int)y/Game.DENSITE_Y,(int)x/Game.DENSITE_X,(int) (y/Game.DENSITE_Y));

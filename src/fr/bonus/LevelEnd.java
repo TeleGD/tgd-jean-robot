@@ -13,7 +13,7 @@ import fr.util.Collisions;
 public class LevelEnd extends Bonus {
 
 	private boolean destructed;
-	
+
 	public LevelEnd(double x,double y,double width,double height,Player player)
 	{
 		this.x =x;
@@ -23,8 +23,8 @@ public class LevelEnd extends Bonus {
 		this.player=player;
 		destructed = false;
 	}
-	
-	
+
+
 	@Override
 	public void comportment(Player player){
 	}
@@ -35,7 +35,7 @@ public class LevelEnd extends Bonus {
 		{
 			game.enterState(FinishMenu.ID,new FadeOutTransition(),new FadeInTransition());
 		}
-		
+
 	}
-	
+
 }

@@ -13,14 +13,14 @@ import fr.util.Rectangle;
 
 public class Projectile extends Movable implements Rectangle{
 // Base projectile : straight trajectory.
-	
-	
+
+
 	private boolean destructed;
 	private boolean allied;
 	protected Image sprite;
 	protected int angle;
 	protected double speed;
-	
+
 	public Projectile(double x, double y, double speedX, double speedY){
 		super(x,y,3,3);
 		this.speedX = speedX;
@@ -30,9 +30,9 @@ public class Projectile extends Movable implements Rectangle{
 		destructed = false;
 		angle = 0;
 		setAllied(false);
-		
+
 	}
-	
+
 	public Projectile(double x, double y, double speedX, double speedY, boolean allied){
 		super(x,y,3,3);
 		this.speedX = speedX;
@@ -44,7 +44,7 @@ public class Projectile extends Movable implements Rectangle{
 		destructed = false;
 		angle = 0;
 	}
-	
+
 	public Projectile(double x,double y, double speed, int angle, boolean allied){
 		super(x,y,3,3);
 		this.speedX = speed*Math.cos(angle);
@@ -56,7 +56,7 @@ public class Projectile extends Movable implements Rectangle{
 		this.angle = angle;
 		sprite.rotate(angle);
 	}
-	
+
 	private void loadImage(String path){
 		try {
 			sprite=new Image(path);
@@ -75,11 +75,11 @@ public class Projectile extends Movable implements Rectangle{
 		moveX(delta);
 		moveY(delta);
 	}
-	
+
 	public void destruct(){
 		this.destructed = true;
 	}
-	
+
 	public boolean isDestructed(){
 		return destructed;
 	}
@@ -93,7 +93,7 @@ public class Projectile extends Movable implements Rectangle{
 	}
 
 	/**
-	 * Est appellée pendant l'update de player
+	 * Est appellÃ©e pendant l'update de player
 	 * @param Le player actuel
 	 */
 	public void collPlayer(Player player) {

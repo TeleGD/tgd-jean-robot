@@ -17,7 +17,7 @@ public class EnnemyShooter extends EnnemyToppingDecorator implements Ennemy{
 	private int timeBetweenShoot;
 	private int timeToShoot;
 	private Image sprite;
-	
+
 	public EnnemyShooter(BasicEnnemy newEnnemy) {
 		super(newEnnemy);
 		try {
@@ -29,9 +29,9 @@ public class EnnemyShooter extends EnnemyToppingDecorator implements Ennemy{
 		this.timeBetweenShoot=50;
 		this.leftShoot=true;
 		this.rightShoot=false;
-		
+
 	}
-	
+
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		this.timeToShoot+=1;
@@ -41,7 +41,7 @@ public class EnnemyShooter extends EnnemyToppingDecorator implements Ennemy{
 			{
 				Projectile p =new Projectile(this.getX(),this.getY(),0.5,0,false);
 				World.getProjectiles().add(p);
-				
+
 			}
 			else if(this.leftShoot)
 			{
@@ -52,14 +52,14 @@ public class EnnemyShooter extends EnnemyToppingDecorator implements Ennemy{
 		}
 		tempEnnemy.update(container, game, delta);
 		}
-	
+
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		g.drawImage(sprite,(float)this.getX(),(float)this.getY());
 	}
-	
-	
-	
+
+
+
 	public int getScore(){
 		return tempEnnemy.getScore() + 50;
 	}

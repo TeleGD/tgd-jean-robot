@@ -8,7 +8,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import fr.util.Rectangle;
 
 public interface Character extends Rectangle{
-	
+
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException;
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException;
 	double getSpeedX();

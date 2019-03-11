@@ -8,7 +8,7 @@ import fr.characters.Player;
 import fr.game.World;
 
 public class EnemyVolant extends EnnemyToppingDecorator implements Ennemy{
-	
+
 	public double maxHeight;
 	public double minHeight;
 
@@ -22,7 +22,7 @@ public class EnemyVolant extends EnnemyToppingDecorator implements Ennemy{
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-		
+
 		//si trop haut
 		if(tempEnnemy.getY()<this.maxHeight-40)
 			tempEnnemy.setSpeedY(0.1);
@@ -31,6 +31,6 @@ public class EnemyVolant extends EnnemyToppingDecorator implements Ennemy{
 			tempEnnemy.setSpeedY(-0.1);
 		tempEnnemy.update(container, game, delta);
 	}
-	
-	
+
+
 }

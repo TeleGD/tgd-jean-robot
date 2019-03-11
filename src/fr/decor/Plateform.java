@@ -30,7 +30,7 @@ public class Plateform extends Entity implements Rectangle {
 
 	// Constructeur***********************************************
 	/**
-	 * 
+	 *
 	 * @param indexX  : indice du placement de la plateforme horizontal 0->0 1->32px 2->64px,...
 	 * @param indexY  : indice du placement de la plateforme vertical 0->0 1->32px 2->64px,...
 	 * @param sizeX : largeur en echelon de 32 pix de la plateforme
@@ -41,9 +41,9 @@ public class Plateform extends Entity implements Rectangle {
 		this.y = indexY*Game.DENSITE_Y;
 		this.width = sizeX*Game.DENSITE_X;
 		this.height = sizeY*Game.DENSITE_Y;
-		
-		
-		
+
+
+
 	}
 	//construteur appele pour charger de niveau.
 	public Plateform(String ligne) {
@@ -55,8 +55,8 @@ public class Plateform extends Entity implements Rectangle {
 	}
 
 	// Fonction de jeu*********************************************
-	
-	
+
+
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
@@ -67,7 +67,7 @@ public class Plateform extends Entity implements Rectangle {
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 	}
-	
+
 
 	public double getnewX() {
 		return x;
@@ -86,7 +86,7 @@ public class Plateform extends Entity implements Rectangle {
 			player.setposJump(true);
 		}
 	}
-	
+
 	public String parseString() {
 		return "Plateform "+getX()+ ";"+ getY()+";"+getWidth()+";"+getHeight();
 	}
@@ -98,7 +98,7 @@ public class Plateform extends Entity implements Rectangle {
 		return p;
 	}
 
-	
+
 
 
 }

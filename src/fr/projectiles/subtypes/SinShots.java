@@ -11,14 +11,14 @@ import fr.util.Rectangle;
 public class SinShots extends Projectile implements Rectangle {
 // Ce projectile avance selon l'angle donne
 // en oscillant (avec une periode de p).
-	
+
 	private int amplitude;// Amplitude du sinus. (1 marche bien)
 	private int period;// Periode du sinus. (16 marche bien)
 	private double altX;// X alternatif (dans le repere tourne de angle)
 	private double altY;// Y alternatif
 	private double distance;// Distance par rapport au point de tir.
-	private double speed;	
-	
+	private double speed;
+
 	public SinShots(double x, double y, double speed, int angle, int period, int amplitude, boolean allied){
 		super(x, y, speed, angle, allied);
 		altX = 0;
@@ -27,11 +27,11 @@ public class SinShots extends Projectile implements Rectangle {
 		this.period = period;
 		this.amplitude = amplitude;
 	}
-	
+
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		g.drawImage(sprite,(float)x,(float)y);
 	}
-	
+
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		speed = Math.sqrt(Math.pow(speedY, 2)+Math.pow(speedX, 2));
 		distance += speed*delta;

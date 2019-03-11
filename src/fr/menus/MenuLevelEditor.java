@@ -11,13 +11,13 @@ import fr.jerome.Editor;
 public class MenuLevelEditor extends Menu {
 
 	public static final int ID = 6;
-	
+
 	public MenuLevelEditor(){
 		super();
 		super.setTitrePrincipal("EDITOR MENU");
 		super.setTitreSecondaire("Quel niveau souhaitez-vous modifier ?");
-		
-		
+
+
 		String[] niveaux=getAllLevelsCreated();
 		String[] choix=new String[niveaux.length+1];
 		for(int i=0;i<niveaux.length;i++){
@@ -25,10 +25,10 @@ public class MenuLevelEditor extends Menu {
 		}
 		choix[niveaux.length]="Menu Précédent";
 		super.setItems(choix);
-		
+
 		super.setEnableClignote(true);
 	}
-	
+
 
 	private String[] getAllLevelsCreated() {
 		ArrayList<String> niveaux=new ArrayList<String>();
@@ -37,7 +37,7 @@ public class MenuLevelEditor extends Menu {
 		{
 			if(!fileName[i].startsWith("."))niveaux.add(fileName[i]);
 		}
-		
+
 		return niveaux.toArray(new String[niveaux.size()]);
 	}
 
@@ -46,7 +46,7 @@ public class MenuLevelEditor extends Menu {
 	public int getID() {
 		return ID;
 	}
-	
+
 	@Override
 	public void onOptionItemSelected(int position) {
 	   if(position<getItems().length-1) {
@@ -54,15 +54,15 @@ public class MenuLevelEditor extends Menu {
 			Editor.loadLevel(getItems()[position]);
 			game.enterState(Editor.ID, new FadeOutTransition(),new FadeInTransition());
 	   }else if(position==getItems().length-1){
-		   game.enterState(MenuEditor.ID, new FadeOutTransition(),new FadeInTransition());	
-	  }		
+		   game.enterState(MenuEditor.ID, new FadeOutTransition(),new FadeInTransition());
+	  }
 	}
 
 	@Override
 	public void onOptionItemFocusedChanged(int position) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	
+
 }

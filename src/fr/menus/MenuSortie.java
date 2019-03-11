@@ -16,21 +16,21 @@ import fr.util.FontUtils;
 
 public class MenuSortie extends BasicGameState{
 
-	
+
 	GameContainer container;
 	StateBasedGame game;
 	//private Image image;
 	public static int ID = 3;
 	private TrueTypeFont font;
 	private static final String textOut="Thank you and see you later !";
-	
+
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		this.container = container;
 		this.game = game;
 
-		//image =new Image("bin/Images/imagefin.png");  
+		//image =new Image("bin/Images/imagefin.png");
 		font=FontUtils.chargerFont("font/PressStart2P.ttf", Font.PLAIN, 15, false);
 	}
 
@@ -44,14 +44,14 @@ public class MenuSortie extends BasicGameState{
 
 	@Override
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException {
-		
+
 	}
 
 	@Override
 	public int getID() {
 		return ID;
 	}
-	
+
 	@Override
 	public void keyPressed(int key, char c) {
 		switch (key) {
@@ -61,5 +61,5 @@ public class MenuSortie extends BasicGameState{
 			break;
 		}
 	}
-	
+
 }

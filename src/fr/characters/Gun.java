@@ -7,30 +7,30 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class Gun extends ToppingDecorator implements Player{
-//La classe qui va être utilisée tant que le joueur a le pistolet
-	
+//La classe qui va Ãªtre utilisÃ©e tant que le joueur a le pistolet
+
 	public Gun(Player newPlayer) {
 		super(newPlayer);
 		tempPlayer.setImages("img/Player/herobotWALK/gun/marcheGun");
 	}
-	
+
 	@Override
 	public int getType() {
 		return this.tempPlayer.getType()+1;
 	}
-	
+
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 			super.render(container, game, g);
-			
+
 	}
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		super.update(container, game, delta);
 	}
-	
+
 	public void keyReleased(int key, char c) {
 		super.keyReleased(key, c);
 	}

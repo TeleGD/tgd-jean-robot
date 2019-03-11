@@ -10,13 +10,13 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
 public class MenuFinPartie extends Menu {
-	
+
 	public static int ID=4;
 	public MenuFinPartie(){
 		super.setTitrePrincipal("GAME OVER");
-		
+
 	}
-	
+
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
@@ -29,7 +29,7 @@ public class MenuFinPartie extends Menu {
 	public int getID() {
 		return ID;
 	}
-	
+
 	@Override
 	public void keyPressed(int key, char c) {
 		switch (key) {
@@ -46,13 +46,13 @@ public class MenuFinPartie extends Menu {
 	@Override
 	public void onOptionItemFocusedChanged(int position) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onOptionItemSelected(int position) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

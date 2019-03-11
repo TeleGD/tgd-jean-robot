@@ -26,7 +26,7 @@ public class Game extends StateBasedGame {
 	public static final int hauteur=720;
 	public static final int DENSITE_X = 32;
 	public static final int DENSITE_Y = 32;
-	
+
 	public static void main(String[] args) throws SlickException {
 		//System.setProperty("org.lwjgl.librarypath", new File("natives").getAbsolutePath());
 		AppGameContainer app = new AppGameContainer(new Game(),longueur,hauteur,false);
@@ -36,17 +36,17 @@ public class Game extends StateBasedGame {
 		app.start();
 	}
 
-	
+
 
 
 
 	public Game() {
 		super("blabla");
-		
-		
+
+
 	}
 
-		
+
 
 	@Override
 	public void initStatesList(GameContainer container) throws SlickException {
@@ -69,8 +69,8 @@ public class Game extends StateBasedGame {
 		//System.out.println("time Editor="+(System.currentTimeMillis()-time));
 		addState(new CreditMenu());
 		addState(new FinishMenu());
-	    
-	    
+
+
 	    this.enterState(WelcomeMenu.ID);
 	}
 

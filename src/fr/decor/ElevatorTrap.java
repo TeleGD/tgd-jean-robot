@@ -11,7 +11,7 @@ import fr.game.Game;
 import fr.util.Collisions;
 
 public class ElevatorTrap extends Plateform {
-	
+
 	double vitesse=3;
 	boolean mvmnt;
 	private int timeToFall;
@@ -20,21 +20,21 @@ public class ElevatorTrap extends Plateform {
 	public ElevatorTrap(int indexX, int indexY, int sizeX, int sizeY){
 		super(indexX,indexY,sizeX,sizeY);
 	}
-	
+
 	public ElevatorTrap(String ligne) {
 		super(ligne);
 		String[] s=ligne.substring(ligne.indexOf(" ")+1).split(";");
 		vitesse = Double.parseDouble(s[4]);
 		mvmnt = Boolean.parseBoolean(s[5]);
 	}
-	
-	
+
+
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		g.setColor(Color.magenta);
 		g.fillRect((float) x, (float) y, (float) width, (float) height);
 	}
-	
+
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		if(isInCollision){
@@ -51,7 +51,7 @@ public class ElevatorTrap extends Plateform {
 			this.setY(this.getVitesse()+(this.getY()));
 		}
 	}
-	
+
 	@Override
 	public void collPlayer(Player player){
 		if(fr.util.Collisions.colPlayerPlateform(player,this)==2&&!falling){
@@ -62,13 +62,13 @@ public class ElevatorTrap extends Plateform {
 			player.setInCol(true);
 			player.setposJump(true);
 		}
-			
+
 
 	}
-	
+
 	private boolean activate(){
 		Player player = fr.game.World.getPlayer();
-		return false;	
+		return false;
 	}
 
 	public double getVitesse() {
@@ -86,7 +86,7 @@ public class ElevatorTrap extends Plateform {
 	public void setMvmnt(boolean mvmnt) {
 		this.mvmnt = mvmnt;
 	}
-	
+
 	@Override
 	public String parseString() {
 		return "ElevatorTrap "+getX()+ ";"+ getY()+";"+getWidth()+";"+getHeight()+";"+vitesse+";"+mvmnt;

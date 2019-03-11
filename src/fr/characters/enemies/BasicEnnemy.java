@@ -12,7 +12,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import fr.util.Movable;
 
 public class BasicEnnemy extends Movable implements Ennemy{
-		
+
 		int bas = 600;
 		private int score;
 		protected int direction ; // 1 = droite, -1 = gauche
@@ -21,15 +21,15 @@ public class BasicEnnemy extends Movable implements Ennemy{
 		private Image[] imageGauche=new Image[4];
 		private Image currentImage;
 		private int currentIndexImage,compt;
-		
+
 		private int life;
 		// une vie par exemple)
-		
+
 		private boolean destructed = false;//true si l'ennemi est mort et doit etre supprime
-		
+
 		//Pour attacher l'ennemi a une plateforme (histoire de reperer sa position par rapport a elle)
 		private Plateform initialPlat;
-		
+
 		/*
 		public BasicEnnemy(double x,double y) {
 			super(x,y,32,32);
@@ -40,7 +40,7 @@ public class BasicEnnemy extends Movable implements Ennemy{
 			this.score = 50;
 		}
 		*/
-		
+
 		public BasicEnnemy(Plateform plat) {
 			super(plat.getX()+plat.getWidth()/2-32,plat.getY()-32,64,32);
 			this.initialPlat=plat;
@@ -56,11 +56,11 @@ public class BasicEnnemy extends Movable implements Ennemy{
 				e.printStackTrace();
 			}
 		}
-		
+
 	public int getLife() {
 		return life;
 	}
-	
+
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		g.setColor(Color.black);
@@ -72,11 +72,11 @@ public class BasicEnnemy extends Movable implements Ennemy{
 		this.newX = x + speedX * delta;
 		moveY(delta);
 		moveX(delta);
-		
+
 		compt++;
 		compt=compt%6;
 		if(compt==0)chooseImg();
-		
+
 		if (speedX > 0)
 		{
 			direction = 1;
@@ -89,7 +89,7 @@ public class BasicEnnemy extends Movable implements Ennemy{
 			}
 		}
 	}
-	
+
 	private void chooseImg(){
 		if (speedX>0){
 			currentIndexImage++;
@@ -113,7 +113,7 @@ public class BasicEnnemy extends Movable implements Ennemy{
 			}
 		}
 	}
-	
+
 	/**
 	 * @param path : le path de l'image avec le début de son nom, par exemple "img/Player/herobotWALK/jeanrobot_marche"
 	 */
@@ -131,7 +131,7 @@ public class BasicEnnemy extends Movable implements Ennemy{
 			System.out.println("Attention les images ne peuvent etre chargees correctement, le path etant : " + path);
 		}
 	}
-	
+
 	private boolean isTooLow() { //renvoie true si la personne touche le bas de l'ecran
 		if (speedY < 0) {
 			return false;
@@ -155,11 +155,11 @@ public class BasicEnnemy extends Movable implements Ennemy{
 		if (this.life<=0)
 				this.destructed=true;
 	}
-	
+
 	public void setScore(int s){
 		this.score = s;
 	}
-	
+
 	public int getScore(){
 		return this.score;
 	}
@@ -172,7 +172,7 @@ public class BasicEnnemy extends Movable implements Ennemy{
 	public Plateform getInitPlat() {
 		return this.initialPlat;
 	}
-	
+
 
 	public int getDirection()
 	{

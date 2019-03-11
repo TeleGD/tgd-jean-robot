@@ -38,7 +38,7 @@ import fr.util.Button.OnClickListener;
 public class Editor extends BasicGameState{
 
 	private static final int vitesseMenu=10;
-	
+
 	public static final int ID = 1;
 
 	private static final String REPERTOIRE_LEVELS = "levels";
@@ -53,10 +53,10 @@ public class Editor extends BasicGameState{
 	private static boolean menuLocked=true;
 	private static int tailleMenu=(int) (Game.hauteur*0.2f);
 	private static int yMenu=Game.hauteur-tailleMenu;
-	
+
 	//Faudra voir pour le constructeur des plateformes (Nico)
 	private Plateform[] plateformsMenu={new Plateform(5,1,3,1),new DeathBloc(5,2,3,1),new ElevatorTrap(5,3,3,1)};
-	
+
 	//private Enemy enemyMenu=new Enemy();
 	private AddMunition addMunitionMenu=new AddMunition();
 	private DecreaseAmmo decreaseAmmoMenu=new DecreaseAmmo();
@@ -69,15 +69,15 @@ public class Editor extends BasicGameState{
 	private InvisiblePlayer invisiblePlayerMenu=new InvisiblePlayer();
 	private TeleportBonusLevel teleportBonusLevelMenu=new TeleportBonusLevel();
 	private Paralyse paralyseMenu=new Paralyse();
-	
+
 	private static GameContainer container;
 	private static StateBasedGame game;
 	private static long time;
 
 	private static boolean gridEnabled=true;
-	
+
 	private Plateform plateformEnCours;
-	
+
 	//pour le titre de l'editeur
 	private static boolean showTitle=true;
 	private TrueTypeFont fontTitle;
@@ -97,12 +97,12 @@ public class Editor extends BasicGameState{
 
 	private int direction=1;
 	private int directionY=1;
-	
+
 	private int decalage=0;
 	private int decalageY=0;
 
 
-	
+
 	public Editor(){
 		Font titreFont;
 		try {
@@ -113,26 +113,26 @@ public class Editor extends BasicGameState{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		for(int i=0;i<plateformsMenu.length;i++){
 
 			plateformsMenu[i].setY(yMenu+10+40*i);
 			plateformsMenu[i].setX(Game.longueur*0.2);
 		}
-		
-		
+
+
 		enregistrer.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClicked(Button b) {
 				enregistrer("niveau",0);
-				
+
 			}});
 	}
-	
+
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-		
+
 		if(gridEnabled)renderGrid(container,game,g);
 
 		for(int i=0;i<plateforms.size();i++){
@@ -153,22 +153,22 @@ public class Editor extends BasicGameState{
 		renderFleches(container,game,g);
 		renderMenu(container,game,g);
 		enregistrer.render(container, game, g);
-		
+
 		if(showTitle){
 			g.setFont(fontTitle);
 			g.setColor(Color.white);
 			g.drawString(title,(int)((Game.longueur-fontTitle.getWidth(title))/2),(int)((Game.hauteur-fontTitle.getHeight(title))/2));
 		}
-		
+
 	}
-	
-	
+
+
 	private void renderFleches(GameContainer container, StateBasedGame game, Graphics g) {
 		g.setColor(Color.white);
 
 		g.setAntiAlias(true);
 		g.setLineWidth(10);
-		
+
 		if(flecheForwardVisible){
 			Path path = new Path(Game.longueur-35,2*Game.hauteur/5);
 			path.lineTo(Game.longueur-10,Game.hauteur/2+1);
@@ -177,18 +177,18 @@ public class Editor extends BasicGameState{
 
 			g.draw(path);
 		}
-		
+
 
 		if(flecheBackVisible){
 			Path path2 = new Path(35,2*Game.hauteur/5);
 			path2.lineTo(10,Game.hauteur/2+1);
 			path2.lineTo(10,Game.hauteur/2-1);
 			path2.lineTo(35,3*Game.hauteur/5);
-			
+
 			g.draw(path2);
 
 		}
-		
+
 		if(flecheUpVisible){
 			Path path2 = new Path(6*Game.longueur/11,35);
 			path2.lineTo(Game.longueur/2+1,10);
@@ -199,7 +199,7 @@ public class Editor extends BasicGameState{
 
 		}
 		g.setLineWidth(1);
-		
+
 	}
 
 	public void renderGrid(GameContainer container, StateBasedGame game, Graphics g) {
@@ -217,14 +217,14 @@ public class Editor extends BasicGameState{
 	}
 
 
-	public void renderMenu(GameContainer container, StateBasedGame game, Graphics g) throws SlickException 
+	public void renderMenu(GameContainer container, StateBasedGame game, Graphics g) throws SlickException
 	{
-		
+
 		g.setColor(Color.white);
 		g.drawRect(0, yMenu, Game.longueur-1, 5);
 		g.setColor(Color.darkGray);
 		g.fillRect(0, yMenu+6, Game.longueur,(Game.hauteur-yMenu)-5);
-		
+
 		for(int i=0;i<plateformsMenu.length;i++){
 			plateformsMenu[i].render(container, game, g);
 		}
@@ -244,10 +244,10 @@ public class Editor extends BasicGameState{
 			g.setColor(Color.red);
 			g.drawRect((float)plateformEnCours.getX()-decalage%Game.DENSITE_Y,(float)plateformEnCours.getY()-decalageY%Game.DENSITE_Y,(float)plateformEnCours.getWidth(),(float)plateformEnCours.getHeight());
 		}
-		
+
 		renderOptions(container,game,g);
 	}
-	
+
 	public void renderOptions(GameContainer container, StateBasedGame game, Graphics g) {
 		if(menuLocked){
 			g.setColor(Color.orange);
@@ -256,8 +256,8 @@ public class Editor extends BasicGameState{
 		else{
 			g.setColor(Color.white);
 			g.drawString("Press L to lock",15,yMenu+15);
-		}	
-		
+		}
+
 		if(gridEnabled){
 			g.setColor(Color.orange);
 			g.drawString("Press G to disable grid",15,yMenu+30);
@@ -266,7 +266,7 @@ public class Editor extends BasicGameState{
 			g.setColor(Color.white);
 			g.drawString("Press G for 32x32 grid",15,yMenu+30);
 		}
-		
+
 
 		g.setColor(Color.white);
 		g.drawString("Press Z to undo",15,yMenu+60);
@@ -274,11 +274,11 @@ public class Editor extends BasicGameState{
 		g.drawString("Press J to Height--",15,yMenu+90);
 		g.drawString("Press H to Width--",15,yMenu+105);
 		g.drawString("Press K to Width++",15,yMenu+120);
-		
+
 		g.drawString("("+decalage+"px ,"+decalageY+"px )",Game.longueur-150,yMenu+60);
 		g.drawString("("+decalage/Game.DENSITE_X+"bloc ,"+decalageY/Game.DENSITE_Y+"bloc )",Game.longueur-150,yMenu+75);
 
-		
+
 	}
 
 
@@ -290,10 +290,10 @@ public class Editor extends BasicGameState{
 			menuLocked=!menuLocked;
 			if(menuLocked)ouvrirMenu=true;
 			else fermerMenu=false;
-			
+
 		}else if(key==Input.KEY_G){
 			gridEnabled=!gridEnabled;
-		
+
 		}else if(key==Input.KEY_ESCAPE){
 			game.enterState(MenuEditor.ID, new FadeOutTransition(),
 					new FadeInTransition());
@@ -317,10 +317,10 @@ public class Editor extends BasicGameState{
 			if(plateforms.size()>0){
 				plateforms.remove(plateforms.size()-1);
 			}
-			
+
 		}
-		
-	    
+
+
 	}
 
 	@Override
@@ -334,7 +334,7 @@ public class Editor extends BasicGameState{
 			flecheUpVisible=false;
 
 		}
-		
+
 		if(fermerMenu && !menuRentre && !menuLocked){
 			if(yMenu<Game.hauteur)yMenu+=vitesseMenu;
 			else{
@@ -342,7 +342,7 @@ public class Editor extends BasicGameState{
 				menuRentre=true;
 			}
 		}
-		
+
 		if(ouvrirMenu && menuRentre){
 			if(yMenu>Game.hauteur-tailleMenu)yMenu-=vitesseMenu;
 			else{
@@ -350,7 +350,7 @@ public class Editor extends BasicGameState{
 				menuRentre=false;
 			}
 		}
-		
+
 		for(int i=0;i<plateforms.size();i++){
 			plateforms.get(i).update(container, game, delta);
 		}
@@ -370,7 +370,7 @@ public class Editor extends BasicGameState{
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
 		game=arg1;
 		container=arg0;
-		
+
 	}
 
 	public void mouseDragged(int oldx,int  oldy, int newx,int  newy){
@@ -380,41 +380,41 @@ public class Editor extends BasicGameState{
 		}
 
 		System.out.println("oldX="+oldx+"  newx="+newx);
-		
+
 		mouseMoved(oldx,oldy,newx,newy);
 		mouseReleased(0,newx,newy);
-		
-		
+
+
 	}
 	public void mouseMoved(int oldx,int  oldy, int newx,int  newy){
 		enregistrer.mouseMoved(newx,newy);
-		
-		
+
+
 		decalXEnCours=false;
 		decalYEnCours=false;
 
 		if(newy<Game.hauteur-tailleMenu && !menuRentre){
 			fermerMenu=true;
 		}
-			
+
 		if(newy>Game.hauteur-50 && menuRentre){
 			ouvrirMenu=true;
 		}
 		if(plateformEnCours!=null && !isTherePlatform(newx,newy)){
 			plateformEnCours.setPosition((int)((newx-plateformEnCours.getWidth()/2)/Game.DENSITE_X),(int) ((newy-plateformEnCours.getHeight()/2)/Game.DENSITE_Y));
 		}
-		
+
 		if(newx>Game.longueur-50){
 			flecheForwardVisible=true;
 			time=0;
-			
+
 			decalXEnCours=true;
 			direction=1*(newx-(Game.longueur-50))/2;
 		}
 		if(newx<50){
 			flecheBackVisible=true;
 			time=0;
-			
+
 			decalXEnCours=true;
 			direction=-1*(50-newx)/2;
 		}
@@ -426,24 +426,24 @@ public class Editor extends BasicGameState{
 			decalYEnCours=true;
 			directionY=-1*(50-newy)/2;
 		}
-		
+
 		if(newy>Game.hauteur-50){
 			flecheDownVisible=true;
 			time=0;
-			
+
 			decalYEnCours=true;
 			directionY=1*(newy-(Game.hauteur-50))/2;
 		}
-		
+
 	}
-	private boolean isTherePlatform(int newx, int newy) {	
-		
+	private boolean isTherePlatform(int newx, int newy) {
+
 		newx=(int)((newx-plateformEnCours.getWidth()/2)/Game.DENSITE_X)*Game.DENSITE_X;
 		newy=(int)((newy-plateformEnCours.getHeight()/2)/Game.DENSITE_Y)*Game.DENSITE_Y;
-		
+
 		int width=(int) plateformEnCours.getWidth();
 		int height=(int) plateformEnCours.getHeight();
-		
+
 		for(int i=0;i<plateforms.size();i++){
 			for(int k=0;k<width/Game.DENSITE_X;k++){
 				for(int l=0;l<height/Game.DENSITE_Y;l++){
@@ -456,7 +456,7 @@ public class Editor extends BasicGameState{
 							}
 				}
 			}
-			
+
 		}
 		return false;
 	}
@@ -470,7 +470,7 @@ public class Editor extends BasicGameState{
 			plateformEnCours=null;
 			return;
 		}
-		
+
 		boolean changePlateforme=false;
 		for(Plateform p:plateformsMenu){
 			if(p.containsPoint(x, y)){
@@ -478,22 +478,22 @@ public class Editor extends BasicGameState{
 				changePlateforme=true;
 			}
 		}
-		
+
 		if(!changePlateforme && plateformEnCours!=null){
 			createPlateforme();
 		}
-		
-		
-		
+
+
+
 	}
-	
+
 	private void createPlateforme() {
 		double oldX=plateformEnCours.getX();
 		plateformEnCours.setPosition((int)((plateformEnCours.getX()+decalage)/Game.DENSITE_X),(int) ((plateformEnCours.getY()+decalageY)/Game.DENSITE_Y));
 		plateforms.add(plateformEnCours);
-		
+
 		plateformEnCours=plateformEnCours.copy();
-		plateformEnCours.setX(oldX);		
+		plateformEnCours.setX(oldX);
 	}
 
 	@Override
@@ -502,7 +502,7 @@ public class Editor extends BasicGameState{
 		showTitle=false;
 	}
 
-	
+
 
 	public static void reset(){
 		time=0;
@@ -512,23 +512,23 @@ public class Editor extends BasicGameState{
 		ouvrirMenu=false;
 		fermerMenu=false;
 		yMenu=Game.hauteur-tailleMenu;
-		
+
 	}
 	@Override
 	public int getID() {
 		// TODO Auto-generated method stub
 		return ID;
 	}
-	
+
 	public boolean enregistrer(String nom,int version){
 
 		File f=new File(REPERTOIRE_LEVELS+File.separator+nom);
-		
+
 		try {
 			BufferedWriter bw=new BufferedWriter(new FileWriter(f));
 			bw.write("// PLATEFORMES");
 			bw.newLine();
-			
+
 			for(int i=0;i<plateforms.size();i++){
 				bw.write(plateforms.get(i).parseString());
 				bw.newLine();
@@ -556,7 +556,7 @@ public class Editor extends BasicGameState{
 					DeathBloc p =new DeathBloc(ligne);
 					plateforms.add(p);
 				}
-				
+
 				else if(ligne.startsWith("ElevatorTrap")){
 					ElevatorTrap p= new ElevatorTrap(ligne);
 					plateforms.add(p);

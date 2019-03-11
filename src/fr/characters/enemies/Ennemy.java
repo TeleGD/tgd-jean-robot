@@ -5,7 +5,7 @@ import fr.characters.Player;
 import fr.decor.Plateform;;
 
 public interface Ennemy extends Character{
-	
+
 	public boolean isDestructed();
 	public void setDestructed(boolean destructed);
 	public int getLife();

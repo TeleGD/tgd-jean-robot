@@ -18,9 +18,9 @@ public class Decor {
 	private Image plateformTexture;
 	private Background background;
 	private Camera cam;
-	
+
 	public Decor(String plateformTexturePath, String backgroundTexturePath) throws SlickException	{
-		plateforms = new ArrayList<Plateform>();	//ensemble des plateformes crées
+		plateforms = new ArrayList<Plateform>();	//ensemble des plateformes crÃ©es
 		plateformTexture = new Image(plateformTexturePath);	// chargement image pour plateforme
 		background = new Background(0, 0, new Image(backgroundTexturePath));
 		cam=new Camera ();
@@ -34,22 +34,22 @@ public class Decor {
 		return plateforms;
 	}
 
-	
+
 
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-		//translation de la caméra (fixé sur le personnage)
+		//translation de la camÃ©ra (fixÃ© sur le personnage)
 		g.translate(-(float)cam.getX(),0);
-		
-		
-		
-		//rendu du fond d'écran
+
+
+
+		//rendu du fond d'Ã©cran
 		background.render(container, game, g);
 
 		//rendu des plateformes
 		for(int i=0;i<plateforms.size();i++)
 			plateforms.get(i).render(container, game, g);
-		
-		
+
+
 		cam.render(container, game, g);
 	}
 

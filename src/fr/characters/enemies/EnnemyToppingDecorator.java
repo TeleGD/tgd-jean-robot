@@ -11,15 +11,15 @@ import fr.game.World;
 
 public class EnnemyToppingDecorator implements Ennemy{
 
-	protected Ennemy tempEnnemy; 
+	protected Ennemy tempEnnemy;
 	protected int colPlayer;
-	
+
 	public EnnemyToppingDecorator(Ennemy newEnnemy){
 		this.tempEnnemy=newEnnemy;
 		this.colPlayer=0;
 
 	}
-	
+
 	@Override
 	public boolean isDestructed() {
 		return tempEnnemy.isDestructed();
@@ -50,18 +50,18 @@ public class EnnemyToppingDecorator implements Ennemy{
 		return this.tempEnnemy.getWidth();
 	}
 
-	
+
 	@Override
 	public double getHeight(){
 		return this.tempEnnemy.getHeight();
 	}
-	
+
 	@Override
 	public double getX(){
 		return this.tempEnnemy.getX();
 	}
 
-	
+
 	@Override
 	public double getY(){
 		return this.tempEnnemy.getY();
@@ -112,7 +112,7 @@ public class EnnemyToppingDecorator implements Ennemy{
 	public void setSpeedY(double d) {
 		tempEnnemy.setSpeedY(d);
 	}
-	
+
 	@Override
 	public void setY(double d) {
 		tempEnnemy.setY(d);

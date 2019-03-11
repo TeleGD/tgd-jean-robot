@@ -15,24 +15,24 @@ import fr.projectiles.Projectile;
 
 public class Mainmenu extends Menu {
 
-	public static int ID = 2;	
+	public static int ID = 2;
 
 	public Mainmenu(){
-		
+
 		super.setTitrePrincipal("TELE-ARCADE DESIGN");
 		super.setTitreSecondaire("Menu Principal");
-		super.setItems("Jouer","Editeur","Crédits","Quitter");
+		super.setItems("Jouer","Editeur","CrÃ©dits","Quitter");
 		super.setEnableClignote(true);
 		super.setCouleurClignote(Color.red);
 		super.setTempsClignote(400);
-		
+
 	}
 
 	@Override
 	public void onOptionItemFocusedChanged(int position){
 		time=System.currentTimeMillis();
 	}
-	
+
 	@Override
 	public void onOptionItemSelected(int position) {
 		switch (position) {
@@ -53,11 +53,11 @@ public class Mainmenu extends Menu {
 			game.enterState(MenuSortie.ID, new FadeOutTransition(),
 					new FadeInTransition());
 			break;
-		 
+
 		}
 	}
-	
-	
+
+
 	@Override
 	public int getID() {
 		// TODO Auto-generated method stub

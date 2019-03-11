@@ -10,7 +10,7 @@ import fr.util.Movable;
 public class ToppingDecorator implements Player{
 
 	protected Player tempPlayer;
-	
+
 	public ToppingDecorator(Player newPlayer){
 		tempPlayer=newPlayer;
 	}
@@ -48,7 +48,7 @@ public class ToppingDecorator implements Player{
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		tempPlayer.render(container, game, g);
-		
+
 	}
 
 	@Override
@@ -115,12 +115,12 @@ public class ToppingDecorator implements Player{
 	public void setX(double x) {
 		tempPlayer.setX(x);
 	}
-	
+
 	@Override
 	public void setImages(String path){
 		tempPlayer.setImages(path);
 	}
-	
+
 	@Override
 	public int getDirerction()
 	{
@@ -132,16 +132,16 @@ public class ToppingDecorator implements Player{
 	public void setAccY(double i) {
 		tempPlayer.setAccY(i);
 	}
-	
+
 	public void setInCol(boolean b) {
-		tempPlayer.setInCol(b);	
+		tempPlayer.setInCol(b);
 	}
 
 	@Override
 	public void setSpeedY(double i) {
 		tempPlayer.setSpeedY(i);
-	}	
-		
+	}
+
 	public void setposJump(boolean b) {
 		tempPlayer.setposJump(b);
 	}
@@ -149,7 +149,7 @@ public class ToppingDecorator implements Player{
 	@Override
 	public void addScore(int s) {
 		tempPlayer.addScore(s);
-		
+
 	}
 
 }

@@ -7,6 +7,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import fr.characters.BasicPlayer;
+import fr.characters.Player;
 
 public class IncreaseSpeed extends Bonus{
 
@@ -14,21 +15,22 @@ public class IncreaseSpeed extends Bonus{
 	/**
 	 * augmente la vitesse sur l'axe des x
 	 */
-	public void comportment(BasicPlayer player) {
+	public void comportment(Player player) {
+		BasicPlayer basicPlayer = (BasicPlayer) player;
 		this.tempsActivation = System.currentTimeMillis();
-		player.setSpeedX(player.getSpeedX()*2);
+		basicPlayer.setSpeedX(basicPlayer.getSpeedX()*2);
 		// TODO verriefier si le wait est juste pour la fonction ou pour tout le jeu
 		while (this.tempsActivation+this.duration>System.currentTimeMillis()){
 			//la boucle permet d'attendre la durée duration
 		}
-		player.setSpeedX(player.getSpeedX()/2);
+		basicPlayer.setSpeedX(basicPlayer.getSpeedX()/2);
 	}
-	
+
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	
+
 }

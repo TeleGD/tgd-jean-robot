@@ -4,10 +4,10 @@
 - ElectroCoy
 - Guillaume Teset (@gteset)
 - Jérôme Gauzins (@jeromegauzins)
-- Julien Domptail
+- Julien Domptail (@Murllem)
 - Julien Michaux
 - JSNerd12345 (@JSNerd12345)
 - leterrierM (@leterrierM)
-- Martin Sertier
+- Martin Sertier (@Tech-Chirac)
 - Nicolas Bernardes (@nicorb)
 - Stéphane Rimlinger (@srimlinger)

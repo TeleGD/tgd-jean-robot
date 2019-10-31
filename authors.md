@@ -10,5 +10,5 @@
 - leterrierM (@leterrierM)
 - Martin Sertier (@Tech-Chirac)
 - Nicolas Bernardes (@nicorb)
-- Stefan Morel--Doridat (@stephanVonCarstein)
+- Stefan Morel--Doridat (@stefanVonCarstein)
 - Stéphane Rimlinger (@srimlinger)

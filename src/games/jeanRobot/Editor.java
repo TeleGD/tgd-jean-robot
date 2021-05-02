@@ -1,14 +1,9 @@
 package games.jeanRobot;
-import games.jeanRobot.bonus.*;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -24,6 +19,7 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 import app.AppFont;
 import app.AppLoader;
 
+import games.jeanRobot.bonus.*;
 import games.jeanRobot.characters.enemies.*;
 import games.jeanRobot.decor.DeathBloc;
 import games.jeanRobot.decor.ElevatorTrap;
@@ -38,7 +34,6 @@ public class Editor extends BasicGameState{
 
 	private static final int vitesseMenu=10;
 
-	private static final String REPERTOIRE_LEVELS = "levels";
 	private ArrayList<Bonus> bonus=new ArrayList<Bonus>();
 	private static ArrayList<Plateform> plateforms=new ArrayList<Plateform>();
 	private ArrayList<BasicEnnemy> enemys=new ArrayList<BasicEnnemy>();
@@ -115,7 +110,7 @@ public class Editor extends BasicGameState{
 
 			@Override
 			public void onClicked(Button b) {
-				enregistrer("niveau",0);
+				enregistrer("niveau2",0);
 
 			}});
 	}
@@ -510,55 +505,57 @@ public class Editor extends BasicGameState{
 	}
 
 	public boolean enregistrer(String nom,int version){
-
-		File f=new File(REPERTOIRE_LEVELS+File.separator+nom);
-
+		String levels = AppLoader.restoreData("/jeanRobot/levels.txt");
+		BufferedReader reader = new BufferedReader(new StringReader(levels));
+		List<String> items = new ArrayList<String>();
+		String line;
 		try {
-			BufferedWriter bw=new BufferedWriter(new FileWriter(f));
-			bw.write("// PLATEFORMES");
-			bw.newLine();
-
-			for(int i=0;i<plateforms.size();i++){
-				bw.write(plateforms.get(i).parseString());
-				bw.newLine();
+			while ((line = reader.readLine()) != null) {
+				items.add(line);
 			}
-			bw.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			reader.close();
+		} catch (Exception error) {}
+		int i = 0;
+		int li = items.size();
+		while (i < li && items.get(i).compareTo(nom) < 0) {
+			++i;
 		}
+		if (i == li || !items.get(i).equals(nom)) {
+			items.add(i, nom);
+		}
+		AppLoader.saveData("/jeanRobot/levels.txt", String.join("\n", items));
+		List<String> textLines = new ArrayList<String>();
+		textLines.add("// PLATEFORMES");
+		for (Plateform plateform: plateforms) {
+			textLines.add(plateform.parseString());
+		}
+		AppLoader.saveData("/jeanRobot/levels/" + nom + ".txt", String.join("\n", textLines));
 		return true;
 	}
 
 	public static void loadLevel(String niveau) {
-		File f=new File(niveau);
+		System.out.println(niveau);
+		String level = AppLoader.restoreData("/jeanRobot/levels/" + niveau + ".txt");
+		BufferedReader reader = new BufferedReader(new StringReader(level));
+		String line;
 		try {
-			BufferedReader br=new BufferedReader(new FileReader("res"+File.separator+"data"+File.separator+"jeanRobot"+File.separator+"levels"+File.separator+niveau));
-			String ligne;
-			while((ligne=br.readLine())!=null){
-				if(ligne.startsWith("Plateform")){
-					Plateform p=new Plateform(ligne);
+			while ((line = reader.readLine()) != null) {
+				if(line.startsWith("Plateform")){
+					Plateform p=new Plateform(line);
 					plateforms.add(p);
 				}
-				else if(ligne.startsWith("DeathBloc"))
+				else if(line.startsWith("DeathBloc"))
 				{
-					DeathBloc p =new DeathBloc(ligne);
+					DeathBloc p =new DeathBloc(line);
 					plateforms.add(p);
 				}
-
-				else if(ligne.startsWith("ElevatorTrap")){
-					ElevatorTrap p= new ElevatorTrap(ligne);
+				else if(line.startsWith("ElevatorTrap")){
+					ElevatorTrap p= new ElevatorTrap(line);
 					plateforms.add(p);
 				}
 			}
-			br.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			reader.close();
+		} catch (Exception error) {}
 	}
 
 }

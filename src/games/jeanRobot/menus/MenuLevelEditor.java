@@ -1,10 +1,14 @@
 package games.jeanRobot.menus;
 
-import java.io.File;
+import java.io.BufferedReader;
+import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
+
+import app.AppLoader;
 
 import games.jeanRobot.Editor;
 
@@ -30,14 +34,17 @@ public class MenuLevelEditor extends Menu {
 	}
 
 	private String[] getAllLevelsCreated() {
-		ArrayList<String> niveaux=new ArrayList<String>();
-		String[] fileName=new File("res"+File.separator+"data"+File.separator+"jeanRobot"+File.separator+"levels").list();
-		for(int i=0;i<fileName.length;i++)
-		{
-			if(!fileName[i].startsWith("."))niveaux.add(fileName[i]);
-		}
-
-		return niveaux.toArray(new String[niveaux.size()]);
+		String levels = AppLoader.restoreData("/jeanRobot/levels.txt");
+		BufferedReader reader = new BufferedReader(new StringReader(levels));
+		List<String> items = new ArrayList<String>();
+		String line;
+		try {
+			while ((line = reader.readLine()) != null) {
+				items.add(line);
+			}
+			reader.close();
+		} catch (Exception error) {}
+		return items.toArray(new String[0]);
 	}
 
 

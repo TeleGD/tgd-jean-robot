@@ -1,14 +1,14 @@
 - Arthur Canal (@canalarthur)
 - Aurélien Benoit (@BenAur)
 - Clémence Picquet (@FlamantRose)
-- ElectroCoy
 - Guillaume Teset (@gteset)
 - Jérôme Gauzins (@jeromegauzins)
 - Julien Domptail (@Murllem)
 - Julien Michaux (@MichauxJulien)
-- JSNerd12345 (@JSNerd12345)
-- Moran Letterier (@leterrierM)
 - Martin Sertier (@Tech-Chirac)
+- Moran Leterrier (@leterrierM)
 - Nicolas Bernardes (@nicorb)
 - Stefan Morel--Doridat (@stefanVonCarstein)
 - Stéphane Rimlinger (@srimlinger)
+- ElectroCoy
+- (@JSNerd12345)

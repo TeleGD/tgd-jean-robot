@@ -1,11 +1,7 @@
 package games.jeanRobot;
 
-
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 
 import org.newdawn.slick.GameContainer;
@@ -255,75 +251,63 @@ public class World extends BasicGameState {
 	}
 
 	private static boolean chargerNiveau(String niveau) {
-		File f=new File(niveau);
-		if(f.exists()){
-			System.out.println("Le niveau "+niveau+" n'existe pas dans le repertoire "+REPERTOIRE_NIVEAU);
-			return false;
-		}
+		String level = AppLoader.loadData("/data/jeanRobot/levels/" + niveau + ".txt");
+		BufferedReader reader = new BufferedReader(new StringReader(level));
+		String line;
 		try {
-			BufferedReader br=new BufferedReader(new FileReader("res"+File.separator+"data"+File.separator+"jeanRobot"+File.separator+REPERTOIRE_NIVEAU+File.separator+niveau));
-			String ligne;
-			while((ligne=br.readLine())!=null){
+			while((line = reader.readLine()) != null){
 				//Def des plateformes
-				if(ligne.startsWith("Plateform")){
-					Plateform p=new Plateform(ligne);
+				if(line.startsWith("Plateform")){
+					Plateform p=new Plateform(line);
 					plateforms.add(p);
 				}
-				else if(ligne.startsWith("DeathBloc"))
+				else if(line.startsWith("DeathBloc"))
 				{
-					DeathBloc p =new DeathBloc(ligne);
+					DeathBloc p =new DeathBloc(line);
 					plateforms.add(p);
 				}
-				else if(ligne.startsWith("ElevatorTrap")){
-					ElevatorTrap p= new ElevatorTrap(ligne);
+				else if(line.startsWith("ElevatorTrap")){
+					ElevatorTrap p= new ElevatorTrap(line);
 					plateforms.add(p);
 				}
 				//Def des ennemies
-				else if(ligne.startsWith("EnnemyShooter")){
-					String[] ligne2 = ligne.split(" ");
+				else if(line.startsWith("EnnemyShooter")){
+					String[] ligne2 = line.split(" ");
 					int i = Integer.parseInt(ligne2[1]);
 					enemies.add(new Enemy1(new EnnemyShooter(new BasicEnnemy(plateforms.get(i-1)))));
 				}
 				//Def des bonus
-				else if(ligne.startsWith("LevelEnd")){
-					String[] ligne2 = ligne.split(" ");
+				else if(line.startsWith("LevelEnd")){
+					String[] words = line.split(" ");
 					bonuss.add(new LevelEnd(
-							Double.parseDouble(ligne2[1]),
-							Double.parseDouble(ligne2[2]),
-							Double.parseDouble(ligne2[3]),
-							Double.parseDouble(ligne2[4]),
+							Double.parseDouble(words[1]),
+							Double.parseDouble(words[2]),
+							Double.parseDouble(words[3]),
+							Double.parseDouble(words[4]),
 							Nico));
 				}
-				else if (ligne.startsWith("BatBonus")){
-					String[] ligne2 = ligne.split(" ");
+				else if (line.startsWith("BatBonus")){
+					String[] words = line.split(" ");
 					bonuss.add(new BatBonus(
-							Double.parseDouble(ligne2[1]),
-							Double.parseDouble(ligne2[2]),
-							Double.parseDouble(ligne2[3]),
-							Double.parseDouble(ligne2[4]),
+							Double.parseDouble(words[1]),
+							Double.parseDouble(words[2]),
+							Double.parseDouble(words[3]),
+							Double.parseDouble(words[4]),
 							Nico));
 				}
-				else if (ligne.startsWith("GunBonus")){
-					String[] ligne2 = ligne.split(" ");
+				else if (line.startsWith("GunBonus")){
+					String[] words = line.split(" ");
 					bonuss.add(new GunBonus(
-							Double.parseDouble(ligne2[1]),
-							Double.parseDouble(ligne2[2]),
-							Double.parseDouble(ligne2[3]),
-							Double.parseDouble(ligne2[4]),
+							Double.parseDouble(words[1]),
+							Double.parseDouble(words[2]),
+							Double.parseDouble(words[3]),
+							Double.parseDouble(words[4]),
 							Nico));
 				}
-
 			}
-			br.close();
-			return true;
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			reader.close();
+		} catch (Exception error) {}
 		return false;
-
-
 	}
 
 	public static void setPlayer(Player p){

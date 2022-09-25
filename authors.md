@@ -8,7 +8,7 @@
 - Martin Sertier (@Tech-Chirac)
 - Moran Leterrier (@leterrierM)
 - Nicolas Bernardes (@nicorb)
+- Pierre-Arnaud Blanc (@JSNerd12345)
 - Stefan Morel--Doridat (@stefanVonCarstein)
 - Stéphane Rimlinger (@srimlinger)
 - ElectroCoy
-- (@JSNerd12345)
